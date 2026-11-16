@@ -31,11 +31,8 @@
         </div>
       </div>
       <div class="flex items-center gap-2">
-        <button id="studentHomeBtn" onclick="switchView('student')" class="px-3 py-1.5 rounded-lg text-sm font-semibold bg-blue-900/50 text-blue-300 border border-blue-800">
-          صفحة الطلاب
-        </button>
-        <button id="adminAccessBtn" onclick="openAdminLogin()" class="px-3 py-1.5 rounded-lg text-sm font-semibold bg-slate-800 text-slate-300 hover:text-white border border-slate-700">
-          🔒 دخول المدير
+        <button id="studentHomeBtn" onclick="goToStudentCleanURL()" class="px-3 py-1.5 rounded-lg text-sm font-semibold bg-blue-900/50 text-blue-300 border border-blue-800">
+          الرئيسية
         </button>
       </div>
     </div>
@@ -44,8 +41,28 @@
   <!-- المحتوى الرئيسي -->
   <main class="flex-1 max-w-5xl w-full mx-auto px-4 py-6">
 
-    <!-- 1. واجهة الطلاب الرئيسية (الافتراضية للجميع) -->
-    <section id="studentView">
+    <!-- 0. شاشة تسجيل دخول الطلاب بكلمة مرور -->
+    <section id="studentLoginScreen" class="max-w-md mx-auto mt-8">
+      <div class="card rounded-2xl p-6 text-center shadow-xl border-slate-700">
+        <div class="w-14 h-14 rounded-2xl bg-orange-600/20 border border-orange-500/40 text-orange-400 flex items-center justify-center mx-auto mb-4 text-2xl font-extrabold">
+          🔒
+        </div>
+        <h2 class="text-xl font-extrabold text-white mb-1">بوابة دخول الطلاب</h2>
+        <p class="text-xs text-slate-400 mb-5">أدخل رمز الدخول الخاص بالطلاب للوصول إلى الاختبارات الطبية</p>
+        <form onsubmit="verifyStudentPassword(event)" class="space-y-3 text-right">
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">رمز دخول الطلاب</label>
+            <input id="studentPassInput" type="password" required placeholder="أدخل رمز الدخول..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white text-center tracking-widest focus:outline-none focus:border-orange-500" />
+          </div>
+          <button type="submit" class="btn-primary w-full py-2.5 rounded-xl font-bold text-sm shadow-lg">
+            دخول إلى الاختبارات ←
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- 1. واجهة الطلاب الرئيسية (تظهر بعد إدخال كلمة سر الطلاب) -->
+    <section id="studentView" class="hidden">
       <div id="examSetupCard" class="card rounded-2xl p-6 mb-6">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-700 pb-4 mb-5">
           <div>
@@ -96,10 +113,8 @@
           </div>
         </div>
 
-        <!-- خريطة التنقل بين الأسئلة -->
         <div id="navGrid" class="card rounded-xl p-3 mb-4 flex flex-wrap gap-1.5"></div>
 
-        <!-- بطاقة السؤال -->
         <div class="card rounded-2xl p-6 mb-4">
           <p id="questionCategoryBadge" class="text-xs text-orange-400 font-bold mb-2"></p>
           <h3 id="questionText" class="text-xl font-bold text-white leading-relaxed mb-6"></h3>
@@ -130,16 +145,46 @@
       </div>
     </section>
 
-    <!-- 2. لوحة تحكم المدير (مخفية تماماً ومحمية بكلمة مرور) -->
+    <!-- 2. لوحة تحكم المدير (تفتح فقط عبر ?admin=1 وكلمة المرور) -->
     <section id="adminView" class="hidden">
+      <!-- بطاقة الربط المباشر وتغيير كلمة سر الطلاب -->
+      <div class="card rounded-2xl p-5 mb-6 border-blue-500/40 bg-slate-900/70 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h3 class="text-base font-extrabold text-blue-400">⚡ إعدادات النشر السريع ورمز الطلاب</h3>
+            <p class="text-xs text-slate-400">اربط مفتاح GitHub مرة واحدة، وتحكم في رمز دخول الطلاب من هنا.</p>
+          </div>
+          <button onclick="copyStudentLink()" class="px-3 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold">
+            🔗 نسخ رابط الطلاب + الرمز
+          </button>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">مفتاح GitHub Token (للنشر المباشر)</label>
+            <div class="flex gap-2">
+              <input id="ghTokenInput" type="password" placeholder="ghp_..." class="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white text-xs" />
+              <button onclick="saveGithubToken()" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs font-bold text-white">
+                حفظ
+              </button>
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">رمز دخول الطلاب الحالي (يُحفظ عند النشر)</label>
+            <input id="adminStudentPassEdit" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-orange-400 font-bold text-xs" />
+          </div>
+        </div>
+      </div>
+
+      <!-- نموذج إضافة الأسئلة -->
       <div class="card rounded-2xl p-6 mb-6 border-orange-500/40">
         <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-700 pb-4 mb-5">
           <div>
             <h2 class="text-xl font-extrabold text-orange-400">لوحة تحكم المدير (إدارة الأسئلة)</h2>
-            <p class="text-xs text-slate-400 mt-1">أضف الأسئلة هنا ثم اضغط "نسخ الكود المحدّث" لحفظها في GitHub ليراها جميع الطلاب.</p>
+            <p class="text-xs text-slate-400 mt-1">أضف أسئلتك ثم اضغط "نشر التعديلات للطلاب فوراً".</p>
           </div>
           <button onclick="logoutAdmin()" class="px-4 py-2 rounded-xl bg-red-900/50 text-red-200 border border-red-700 text-sm font-bold">
-            تسجيل خروج المدير
+            خروج إلى صفحة الطلاب
           </button>
         </div>
 
@@ -179,10 +224,11 @@
 
           <div class="flex flex-wrap gap-3 pt-2">
             <button type="submit" class="btn-primary px-6 py-2.5 rounded-xl font-bold text-sm">+ إضافة السؤال للقائمة</button>
-            <button type="button" onclick="exportUpdatedHTML()" class="px-6 py-2.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-700 text-white">
-              📋 نسخ الكود المحدّث للنشر على GitHub
+            <button type="button" id="publishBtn" onclick="publishDirectlyToGitHub()" class="px-6 py-2.5 rounded-xl font-bold text-sm bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg">
+              🚀 نشر التعديلات للطلاب فوراً
             </button>
           </div>
+          <p id="publishStatus" class="text-xs font-semibold text-slate-300 mt-1"></p>
         </form>
       </div>
 
@@ -195,23 +241,27 @@
   </main>
 
   <!-- نافذة كلمة مرور المدير -->
-  <div id="passwordModal" class="hidden fixed inset-0 bg-black/75 flex items-center justify-center z-50 p-4">
+  <div id="passwordModal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
     <div class="card rounded-2xl p-6 max-w-sm w-full">
       <h3 class="text-lg font-bold text-white mb-2">منطقة مخصصة للمدير فقط</h3>
       <p class="text-xs text-slate-400 mb-4">أدخل كلمة المرور للوصول إلى لوحة إدارة الأسئلة:</p>
       <input id="adminPassInput" type="password" placeholder="كلمة المرور" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-white mb-4" />
       <div class="flex gap-2">
         <button onclick="verifyAdminPassword()" class="btn-primary flex-1 py-2 rounded-xl font-bold text-sm">دخول</button>
-        <button onclick="closePasswordModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-sm">إلغاء</button>
+        <button onclick="goToStudentCleanURL()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-sm">العودة للطلاب</button>
       </div>
     </div>
   </div>
 
   <script>
-    // كلمة مرور المدير الافتراضية (يمكنك تغييرها من هنا)
+    // كلمات المرور وإعدادات المستودع
     const ADMIN_PASSWORD = "malek2026";
+    let STUDENT_PASSWORD = "med2026";
+    const GITHUB_OWNER = "nassarmalek833-ctrl";
+    const GITHUB_REPO = "Malek-Medical-Student-";
+    const GITHUB_FILE_PATH = "index.html";
 
-    // قاعدة بيانات الأسئلة المدمجة (تظهر لجميع الطلاب تلقائياً)
+    // قاعدة بيانات الأسئلة المنشورة للطلاب
     const DEFAULT_QUESTIONS = [
       {
         model: "General Medicine - Model 1",
@@ -229,7 +279,7 @@
       }
     ];
 
-    let questions = JSON.parse(localStorage.getItem("malek_med_questions")) || [...DEFAULT_QUESTIONS];
+    let questions = [...DEFAULT_QUESTIONS];
     let isAdminAuthenticated = false;
     let activeQuestions = [];
     let currentIdx = 0;
@@ -240,42 +290,61 @@
     let isPaused = false;
     let currentMode = "practice";
 
-    // التأكد عند فتح الرابط أنه يفتح على صفحة الطلاب دائماً
+    // التوجيه عند فتح الصفحة
     window.addEventListener("DOMContentLoaded", () => {
-      switchView("student");
-      populateModels();
+      const params = new URLSearchParams(window.location.search);
+      const isAdminRoute = params.get("admin") === "1";
+
+      if (isAdminRoute) {
+        document.getElementById("studentLoginScreen").classList.add("hidden");
+        const savedDraft = localStorage.getItem("malek_admin_draft_questions");
+        if (savedDraft) questions = JSON.parse(savedDraft);
+        const savedToken = localStorage.getItem("malek_gh_token");
+        if (savedToken) document.getElementById("ghTokenInput").value = savedToken;
+        document.getElementById("adminStudentPassEdit").value = STUDENT_PASSWORD;
+        document.getElementById("passwordModal").classList.remove("hidden");
+      } else {
+        questions = [...DEFAULT_QUESTIONS];
+        if (sessionStorage.getItem("malek_student_unlocked") === STUDENT_PASSWORD) {
+          unlockStudentPortal();
+        } else {
+          document.getElementById("studentLoginScreen").classList.remove("hidden");
+          document.getElementById("studentView").classList.add("hidden");
+        }
+      }
     });
 
-    function switchView(view) {
-      if (view === "admin" && !isAdminAuthenticated) {
-        openAdminLogin();
-        return;
+    function verifyStudentPassword(e) {
+      e.preventDefault();
+      const entered = document.getElementById("studentPassInput").value.trim();
+      if (entered === STUDENT_PASSWORD) {
+        sessionStorage.setItem("malek_student_unlocked", STUDENT_PASSWORD);
+        unlockStudentPortal();
+      } else {
+        alert("رمز الدخول غير صحيح! تأكد من الرمز وحاول مرة أخرى.");
       }
-      document.getElementById("studentView").classList.toggle("hidden", view !== "student");
-      document.getElementById("adminView").classList.toggle("hidden", view !== "admin");
-      if (view === "admin") renderAdminList();
-      if (view === "student") populateModels();
     }
 
-    function openAdminLogin() {
-      if (isAdminAuthenticated) {
-        switchView("admin");
-        return;
-      }
-      document.getElementById("adminPassInput").value = "";
-      document.getElementById("passwordModal").classList.remove("hidden");
+    function unlockStudentPortal() {
+      document.getElementById("studentLoginScreen").classList.add("hidden");
+      document.getElementById("adminView").classList.add("hidden");
+      document.getElementById("studentView").classList.remove("hidden");
+      populateModels();
     }
 
-    function closePasswordModal() {
-      document.getElementById("passwordModal").classList.add("hidden");
+    function goToStudentCleanURL() {
+      window.location.href = window.location.origin + window.location.pathname;
     }
 
     function verifyAdminPassword() {
       const entered = document.getElementById("adminPassInput").value;
       if (entered === ADMIN_PASSWORD) {
         isAdminAuthenticated = true;
-        closePasswordModal();
-        switchView("admin");
+        document.getElementById("passwordModal").classList.add("hidden");
+        document.getElementById("studentLoginScreen").classList.add("hidden");
+        document.getElementById("studentView").classList.add("hidden");
+        document.getElementById("adminView").classList.remove("hidden");
+        renderAdminList();
       } else {
         alert("كلمة المرور غير صحيحة!");
       }
@@ -283,7 +352,93 @@
 
     function logoutAdmin() {
       isAdminAuthenticated = false;
-      switchView("student");
+      goToStudentCleanURL();
+    }
+
+    function copyStudentLink() {
+      const cleanUrl = window.location.origin + window.location.pathname;
+      const currentStudentPass = document.getElementById("adminStudentPassEdit").value.trim() || STUDENT_PASSWORD;
+      const shareText = `رابط منصة مالك الطبية للاختبارات:\n${cleanUrl}\nرمز دخول الطلاب: ${currentStudentPass}`;
+      navigator.clipboard.writeText(shareText).then(() => {
+        alert("تم نسخ الرابط مع رمز الدخول جاهزاً للمشاركة:\n\n" + shareText);
+      });
+    }
+
+    function saveGithubToken() {
+      const token = document.getElementById("ghTokenInput").value.trim();
+      if (!token) return alert("يرجى إدخال المفتاح أولاً.");
+      localStorage.setItem("malek_gh_token", token);
+      alert("تم حفظ المفتاح في متصفحك بنجاح!");
+    }
+
+    // النشر المباشر إلى GitHub API (يحدّث الأسئلة + رمز دخول الطلاب)
+    async function publishDirectlyToGitHub() {
+      const token = localStorage.getItem("malek_gh_token") || document.getElementById("ghTokenInput").value.trim();
+      if (!token) {
+        alert("يرجى لصق مفتاح GitHub Token في الخانة بالأعلى أولاً ثم الضغط على النشر.");
+        return;
+      }
+
+      const newStudentPass = document.getElementById("adminStudentPassEdit").value.trim() || STUDENT_PASSWORD;
+      const btn = document.getElementById("publishBtn");
+      const status = document.getElementById("publishStatus");
+      btn.disabled = true;
+      btn.textContent = "⏳ جاري النشر للطلاب...";
+      status.textContent = "جاري الاتصال بالمستودع وتحديث الأسئلة ورمز الدخول...";
+
+      try {
+        const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_FILE_PATH}`;
+        const getRes = await fetch(apiUrl, {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Accept": "application/vnd.github.v3+json"
+          }
+        });
+
+        if (!getRes.ok) throw new Error("تأكد من صحة مفتاح GitHub Token وصلاحياته (repo).");
+        const fileData = await getRes.json();
+
+        const currentContent = decodeURIComponent(escape(atob(fileData.content.replace(/\n/g, ""))));
+        let updatedContent = currentContent.replace(
+          /const DEFAULT_QUESTIONS = \[[\s\S]*?\];/,
+          `const DEFAULT_QUESTIONS = ${JSON.stringify(questions, null, 2)};`
+        );
+        updatedContent = updatedContent.replace(
+          /let STUDENT_PASSWORD = ".*?";/,
+          `let STUDENT_PASSWORD = ${JSON.stringify(newStudentPass)};`
+        );
+
+        const encodedContent = btoa(unescape(encodeURIComponent(updatedContent)));
+
+        const putRes = await fetch(apiUrl, {
+          method: "PUT",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Accept": "application/vnd.github.v3+json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            message: "Update exam questions and student password from Malek LMS",
+            content: encodedContent,
+            sha: fileData.sha
+          })
+        });
+
+        if (!putRes.ok) throw new Error("فشل رفع التحديثات إلى GitHub.");
+
+        STUDENT_PASSWORD = newStudentPass;
+        localStorage.removeItem("malek_admin_draft_questions");
+        status.className = "text-xs font-bold text-emerald-400 mt-2";
+        status.textContent = "✅ تم النشر بنجاح! ستظهر التحديثات لجميع الطلاب خلال 30 ثانية.";
+        alert("تم نشر التعديلات بنجاح! الأسئلة ورمز الدخول محدّثان الآن على رابط الطلاب.");
+      } catch (err) {
+        status.className = "text-xs font-bold text-red-400 mt-2";
+        status.textContent = "❌ خطأ: " + err.message;
+        alert("حدث خطأ أثناء النشر: " + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "🚀 نشر التعديلات للطلاب فوراً";
+      }
     }
 
     function populateModels() {
@@ -468,15 +623,15 @@
         explanation: document.getElementById("qExp").value.trim()
       };
       questions.push(newQ);
-      localStorage.setItem("malek_med_questions", JSON.stringify(questions));
+      localStorage.setItem("malek_admin_draft_questions", JSON.stringify(questions));
       e.target.reset();
       renderAdminList();
-      alert("تمت إضافة السؤال بنجاح!");
+      alert("تمت إضافة السؤال للقائمة! اضغط الآن على 'نشر التعديلات للطلاب فوراً' ليظهر للجميع.");
     }
 
     function deleteQuestion(idx) {
       questions.splice(idx, 1);
-      localStorage.setItem("malek_med_questions", JSON.stringify(questions));
+      localStorage.setItem("malek_admin_draft_questions", JSON.stringify(questions));
       renderAdminList();
     }
 
@@ -491,17 +646,6 @@
           <button onclick="deleteQuestion(${i})" class="text-xs px-2.5 py-1 rounded bg-red-900/60 text-red-200 hover:bg-red-800 shrink-0">حذف</button>
         </div>
       `).join("");
-    }
-
-    function exportUpdatedHTML() {
-      const currentHTML = document.documentElement.outerHTML;
-      const updatedHTML = "<!DOCTYPE html>\n" + currentHTML.replace(
-        /const DEFAULT_QUESTIONS = \[[\s\S]*?\];/,
-        `const DEFAULT_QUESTIONS = ${JSON.stringify(questions, null, 2)};`
-      );
-      navigator.clipboard.writeText(updatedHTML).then(() => {
-        alert("تم نسخ كود index.html المحدّث بجميع أسئلتك! اذهب الآن إلى GitHub والصقه في ملف index.html ليظهر لجميع الطلاب.");
-      });
     }
   </script>
 </body>
