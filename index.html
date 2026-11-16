@@ -123,7 +123,6 @@
 
         <!-- 2. شاشة الامتحان النشط -->
         <section id="exam-screen" class="hidden space-y-5">
-            <!-- شريط المؤقت والتقدم -->
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3 shadow-md">
                 <div>
                     <h3 id="active-exam-title" class="font-bold text-white text-sm sm:text-base"></h3>
@@ -141,7 +140,6 @@
                 </div>
             </div>
 
-            <!-- شريط أرقام الأسئلة -->
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3">
                 <div class="flex items-center justify-between text-xs text-slate-400 mb-2 px-1">
                     <span>التنقل السريع بين الأسئلة:</span>
@@ -150,7 +148,6 @@
                 <div id="question-nav-grid" class="flex flex-wrap gap-1.5"></div>
             </div>
 
-            <!-- بطاقة السؤال الحالي -->
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-7 shadow-xl">
                 <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-800">
                     <span class="px-3 py-1 rounded-lg bg-blue-500/10 text-blue-400 text-xs font-bold">سؤال <span id="q-number">1</span></span>
@@ -161,16 +158,13 @@
                 </div>
 
                 <div id="question-text" class="text-base sm:text-lg font-bold text-white leading-relaxed mb-5"></div>
-
                 <div id="options-container" class="space-y-3"></div>
 
-                <!-- صندوق الشرح العلمي (يظهر في وضع التدريب) -->
                 <div id="instant-explanation" class="hidden mt-5 p-4 rounded-xl bg-slate-950 border border-slate-700 text-sm">
                     <div id="instant-status" class="font-bold mb-1"></div>
                     <p id="instant-exp-text" class="text-slate-300 leading-relaxed"></p>
                 </div>
 
-                <!-- أزرار السابق والتالي -->
                 <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
                     <button onclick="prevQuestion()" id="prev-btn" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 disabled:opacity-40 text-white text-sm font-semibold transition">
                         → السابق
@@ -222,18 +216,34 @@
                 <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-800">
                     <div>
                         <span class="text-xs font-bold text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded">وضع المسؤول (Admin Mode)</span>
-                        <h2 class="text-xl font-extrabold text-white mt-1">إدارة بنوك الأسئلة ونشر المنصة</h2>
+                        <h2 class="text-xl font-extrabold text-white mt-1">إدارة بنوك الأسئلة والنشر الفوري</h2>
                     </div>
                     <button onclick="goHome()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-semibold">✕ إغلاق لوحة التحكم</button>
                 </div>
 
-                <!-- بطاقة التصدير والنشر -->
-                <div class="mt-5 p-4 rounded-xl bg-gradient-to-r from-orange-500/10 to-amber-500/10 border border-orange-500/30">
-                    <h3 class="font-bold text-orange-400 text-sm mb-1">🚀 خطوة النشر للطلاب (تحديث الموقع)</h3>
-                    <p class="text-xs text-slate-300 leading-relaxed mb-3">بعد الانتهاء من إضافة الأسئلة أو تعديل الإعدادات، اضغط على الزر أدناه لتحميل ملف <code class="text-white bg-slate-800 px-1 rounded">index.html</code> المحدّث، ثم ارفعه إلى مستودعك في GitHub.</p>
-                    <button onclick="exportPlatformHTML()" class="w-full py-3 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-bold text-sm shadow-lg transition">
-                        💾 تصدير المنصة كملف index.html جاهز للنشر
+                <!-- بطاقة النشر الفوري بنقرة واحدة -->
+                <div class="mt-5 p-4 rounded-xl bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border border-emerald-500/30 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-bold text-emerald-400 text-sm">🚀 النشر التلقائي بنقرة واحدة (One-Click Publish)</h3>
+                        <span id="token-status-badge" class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-400">غير مربوط</span>
+                    </div>
+                    <p class="text-xs text-slate-300 leading-relaxed">بعد إضافة أسئلتك أو تعديل الإعدادات، اضغط على الزر الأخضر أدناه ليتم تحديث موقعك المباشر لطلابك تلقائياً خلال ثوانٍ دون فتح GitHub:</p>
+                    
+                    <button id="publish-btn" onclick="publishDirectlyToGitHub()" class="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-lg shadow-emerald-900/30 transition flex items-center justify-center gap-2">
+                        <span>⚡ نشر التحديثات للطلاب مباشرة الآن</span>
                     </button>
+
+                    <div class="pt-2 border-t border-slate-800/80">
+                        <label class="block text-xs text-slate-400 mb-1">رمز الربط السري (GitHub Personal Access Token) - يُحفظ على هاتفك فقط:</label>
+                        <div class="flex gap-2">
+                            <input type="password" id="github-token-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" class="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white ltr-text text-left">
+                            <button onclick="saveGitHubToken()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 text-xs font-bold border border-slate-700 shrink-0">ربط وحفظ</button>
+                        </div>
+                    </div>
+
+                    <div class="text-center pt-1">
+                        <button onclick="exportPlatformHTML()" class="text-xs text-slate-400 hover:text-white underline">أو تحميل ملف index.html يدوياً كنسخة احتياطية</button>
+                    </div>
                 </div>
 
                 <!-- إعدادات الحماية وكلمات المرور -->
@@ -344,7 +354,6 @@
     <div id="toast" class="hidden fixed bottom-5 right-5 bg-emerald-600 text-white px-4 py-2.5 rounded-xl shadow-lg text-sm font-bold z-50"></div>
 
     <script id="platform-data-script">
-        // إعدادات الأمان وبنك الأسئلة المدمج
         let PLATFORM_CONFIG = {
             adminPassword: "7920",
             studentAccessCode: "MED2026"
@@ -399,6 +408,10 @@
     </script>
 
     <script>
+        const GITHUB_REPO_OWNER = "nassarmalek833-ctrl";
+        const GITHUB_REPO_NAME = "Malek-Medical-Student-";
+        const GITHUB_FILE_PATH = "index.html";
+
         let currentExam = null;
         let currentQIndex = 0;
         let userAnswers = [];
@@ -408,7 +421,6 @@
         let secondsLeft = 0;
         let isPaused = false;
 
-        // تهيئة الصفحة عند التحميل
         window.onload = function() {
             const savedData = localStorage.getItem('malek_lms_exams');
             const savedConfig = localStorage.getItem('malek_lms_config');
@@ -417,7 +429,109 @@
             
             toggleAccessCodeField();
             populateExamSelects();
+            updateTokenBadge();
         };
+
+        function updateTokenBadge() {
+            const token = localStorage.getItem('malek_gh_token');
+            const badge = document.getElementById('token-status-badge');
+            if (token && token.trim().length > 10) {
+                badge.textContent = "✓ مربوط وجاهز";
+                badge.className = "text-[11px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold";
+                document.getElementById('github-token-input').value = token;
+            } else {
+                badge.textContent = "غير مربوط";
+                badge.className = "text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-400";
+            }
+        }
+
+        function saveGitHubToken() {
+            const token = document.getElementById('github-token-input').value.trim();
+            if (!token) {
+                showToast("يرجى لصق رمز GitHub Token أولاً!", true);
+                return;
+            }
+            localStorage.setItem('malek_gh_token', token);
+            updateTokenBadge();
+            showToast("تم حفظ رمز الربط بنجاح على هاتفك!");
+        }
+
+        function buildUpdatedHTMLString() {
+            const docClone = document.documentElement.cloneNode(true);
+            const dataScript = docClone.querySelector('#platform-data-script');
+            dataScript.textContent = `\n        let PLATFORM_CONFIG = ${JSON.stringify(PLATFORM_CONFIG, null, 8)};\n\n        let EXAMS_DATA = ${JSON.stringify(EXAMS_DATA, null, 8)};\n    `;
+            // مسح أي قيمة حساسة من حقل التوكن قبل التصدير
+            const tokenInput = docClone.querySelector('#github-token-input');
+            if (tokenInput) tokenInput.removeAttribute('value');
+            return "<!DOCTYPE html>\n" + docClone.outerHTML;
+        }
+
+        async function publishDirectlyToGitHub() {
+            const token = localStorage.getItem('malek_gh_token');
+            if (!token) {
+                showToast("يرجى لصق رمز GitHub Token في الخانة أدناه والضغط على (ربط وحفظ) أولاً!", true);
+                return;
+            }
+
+            const btn = document.getElementById('publish-btn');
+            const originalHTML = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<span>⏳ جاري النشر إلى موقع الطلاب...</span>';
+
+            try {
+                const apiUrl = `https://api.github.com/repos/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}/contents/${GITHUB_FILE_PATH}`;
+                
+                // 1. جلب SHA الحالي للملف
+                const getRes = await fetch(apiUrl, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+
+                if (!getRes.ok) {
+                    throw new Error("تعذر الاتصال بـ GitHub. تأكد من صحة الرمز وصلاحياته.");
+                }
+
+                const fileData = await getRes.json();
+                const currentSha = fileData.sha;
+
+                // 2. تشفير المحتوى الجديد بصيغة Base64 مع دعم العربية
+                const updatedHTML = buildUpdatedHTMLString();
+                const utf8Bytes = new TextEncoder().encode(updatedHTML);
+                let binaryStr = '';
+                for (let i = 0; i < utf8Bytes.length; i++) {
+                    binaryStr += String.fromCharCode(utf8Bytes[i]);
+                }
+                const base64Content = btoa(binaryStr);
+
+                // 3. رفع التحديث مباشرة
+                const putRes = await fetch(apiUrl, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: 'Auto-update exams from Dr. Malek Admin Panel',
+                        content: base64Content,
+                        sha: currentSha
+                    })
+                });
+
+                if (!putRes.ok) {
+                    throw new Error("فشل رفع التحديث. تأكد أن الرمز يملك صلاحية التعديل (Contents: Read & Write).");
+                }
+
+                showToast("🎉 تم النشر بنجاح! ستظهر التحديثات لطلابك خلال 45 ثانية.");
+            } catch (err) {
+                showToast(err.message, true);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalHTML;
+            }
+        }
 
         function toggleAccessCodeField() {
             const wrapper = document.getElementById('access-code-wrapper');
@@ -431,9 +545,9 @@
         function showToast(msg, isError = false) {
             const toast = document.getElementById('toast');
             toast.textContent = msg;
-            toast.className = `fixed bottom-5 right-5 ${isError ? 'bg-rose-600' : 'bg-emerald-600'} text-white px-4 py-2.5 rounded-xl shadow-lg text-sm font-bold z-50`;
+            toast.className = `fixed bottom-5 right-5 left-5 sm:left-auto ${isError ? 'bg-rose-600' : 'bg-emerald-600'} text-white px-4 py-3 rounded-xl shadow-lg text-sm font-bold z-50 text-center`;
             toast.classList.remove('hidden');
-            setTimeout(() => toast.classList.add('hidden'), 3000);
+            setTimeout(() => toast.classList.add('hidden'), 4000);
         }
 
         function populateExamSelects() {
@@ -443,10 +557,8 @@
             adminSelect.innerHTML = '';
 
             EXAMS_DATA.forEach((ex, idx) => {
-                const opt1 = new Option(ex.title, idx);
-                const opt2 = new Option(ex.title, idx);
-                mainSelect.add(opt1);
-                adminSelect.add(opt2);
+                mainSelect.add(new Option(ex.title, idx));
+                adminSelect.add(new Option(ex.title, idx));
             });
             updateExamInfo();
         }
@@ -462,10 +574,7 @@
 
         function startExam() {
             const name = document.getElementById('student-name').value.trim();
-            if (!name) {
-                showToast("يرجى إدخال اسم الطالب أولاً!", true);
-                return;
-            }
+            if (!name) { showToast("يرجى إدخال اسم الطالب أولاً!", true); return; }
 
             if (PLATFORM_CONFIG.studentAccessCode && PLATFORM_CONFIG.studentAccessCode.trim() !== '') {
                 const enteredCode = document.getElementById('student-access-input').value.trim();
@@ -513,10 +622,7 @@
                 if (!isPaused) {
                     secondsLeft--;
                     updateTimerDisplay();
-                    if (secondsLeft <= 0) {
-                        clearInterval(timerInterval);
-                        submitExam();
-                    }
+                    if (secondsLeft <= 0) { clearInterval(timerInterval); submitExam(); }
                 }
             }, 1000);
         }
@@ -619,41 +725,27 @@
         }
 
         function prevQuestion() {
-            if (currentQIndex > 0) {
-                currentQIndex--;
-                renderQuestion();
-                renderQuestionNav();
-            }
+            if (currentQIndex > 0) { currentQIndex--; renderQuestion(); renderQuestionNav(); }
         }
 
         function nextQuestion() {
-            if (currentQIndex < currentExam.questions.length - 1) {
-                currentQIndex++;
-                renderQuestion();
-                renderQuestionNav();
-            } else {
-                confirmSubmitExam();
-            }
+            if (currentQIndex < currentExam.questions.length - 1) { currentQIndex++; renderQuestion(); renderQuestionNav(); }
+            else confirmSubmitExam();
         }
 
         function confirmSubmitExam() {
-            if (confirm("هل أنت متأكد من رغبتك في تسليم الإجابات وإنهاء الامتحان؟")) {
-                submitExam();
-            }
+            if (confirm("هل أنت متأكد من رغبتك في تسليم الإجابات وإنهاء الامتحان؟")) submitExam();
         }
 
         function submitExam() {
             clearInterval(timerInterval);
             let correctCount = 0;
-            currentExam.questions.forEach((q, i) => {
-                if (userAnswers[i] === q.correct) correctCount++;
-            });
+            currentExam.questions.forEach((q, i) => { if (userAnswers[i] === q.correct) correctCount++; });
 
             const total = currentExam.questions.length;
             const percent = Math.round((correctCount / total) * 100);
             const studentName = document.getElementById('student-name').value;
 
-            // حفظ في السجل المحلي
             const history = JSON.parse(localStorage.getItem('malek_lms_history') || '[]');
             history.unshift({ name: studentName, exam: currentExam.title, percent, date: new Date().toLocaleDateString('ar-EG') });
             localStorage.setItem('malek_lms_history', JSON.stringify(history.slice(0, 20)));
@@ -721,14 +813,11 @@
             document.getElementById('stats-modal').classList.remove('hidden');
         }
 
-        // وظائف لوحة المدير
         function openAdminAuth() {
             document.getElementById('admin-password-input').value = '';
             document.getElementById('admin-auth-modal').classList.remove('hidden');
         }
-        function closeAdminAuth() {
-            document.getElementById('admin-auth-modal').classList.add('hidden');
-        }
+        function closeAdminAuth() { document.getElementById('admin-auth-modal').classList.add('hidden'); }
         function verifyAdminPassword() {
             const pass = document.getElementById('admin-password-input').value;
             if (pass === PLATFORM_CONFIG.adminPassword) {
@@ -737,6 +826,7 @@
                 document.getElementById('student-code-setting').value = PLATFORM_CONFIG.studentAccessCode;
                 populateExamSelects();
                 renderAdminQuestionsList();
+                updateTokenBadge();
                 switchScreen('admin-screen');
                 showToast("مرحباً بك في لوحة تحكم المسؤول");
             } else {
@@ -747,14 +837,11 @@
         function saveSecuritySettings() {
             const newAdminPass = document.getElementById('admin-pass-setting').value.trim();
             const newStudentCode = document.getElementById('student-code-setting').value.trim();
-            if (!newAdminPass) {
-                showToast("لا يمكن ترك كلمة مرور المدير فارغة!", true);
-                return;
-            }
+            if (!newAdminPass) { showToast("لا يمكن ترك كلمة مرور المدير فارغة!", true); return; }
             PLATFORM_CONFIG.adminPassword = newAdminPass;
             PLATFORM_CONFIG.studentAccessCode = newStudentCode;
             localStorage.setItem('malek_lms_config', JSON.stringify(PLATFORM_CONFIG));
-            showToast("تم حفظ إعدادات الأمان! لا تنسَ تصدير الملف للنشر.");
+            showToast("تم حفظ إعدادات الأمان! اضغط (نشر التحديثات) لتطبيقها للطلاب.");
         }
 
         function createNewExam() {
@@ -795,7 +882,7 @@
             [0,1,2,3].forEach(i => document.getElementById(`opt-${i}`).value = '');
             document.getElementById('q-input-exp').value = '';
             renderAdminQuestionsList();
-            showToast("تمت إضافة السؤال بنجاح!");
+            showToast("تمت إضافة السؤال! اضغط (نشر التحديثات) عند الانتهاء.");
         }
 
         function renderAdminQuestionsList() {
@@ -835,17 +922,13 @@
         }
 
         function exportPlatformHTML() {
-            const docClone = document.documentElement.cloneNode(true);
-            const dataScript = docClone.querySelector('#platform-data-script');
-            dataScript.textContent = `\n        let PLATFORM_CONFIG = ${JSON.stringify(PLATFORM_CONFIG, null, 8)};\n\n        let EXAMS_DATA = ${JSON.stringify(EXAMS_DATA, null, 8)};\n    `;
-
-            const htmlContent = "<!DOCTYPE html>\n" + docClone.outerHTML;
+            const htmlContent = buildUpdatedHTMLString();
             const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
             const a = document.createElement("a");
             a.href = URL.createObjectURL(blob);
             a.download = "index.html";
             a.click();
-            showToast("تم تحميل ملف index.html المحدث! ارفعه على GitHub.");
+            showToast("تم تحميل نسخة احتياطية من ملف index.html");
         }
     </script>
 </body>
