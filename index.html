@@ -1,995 +1,508 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" class="dark"><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المنصة الطبية الذكية | Dr. Malek Medical LMS</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&amp;family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Cairo', 'Inter', 'sans-serif'],
-                        en: ['Inter', 'sans-serif']
-                    },
-                    colors: {
-                        darkbg: '#0b1120',
-                        cardbg: '#1e293b',
-                        accent: '#f97316',
-                        primary: '#3b82f6'
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { background-color: #0b1120; color: #f8fafc; font-family: 'Cairo', sans-serif; }
-        .ltr-text { direction: ltr; font-family: 'Inter', sans-serif; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-    </style>
-<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:Cairo, Inter, sans-serif;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0}.fixed{position:fixed}.sticky{position:sticky}.inset-0{inset:0px}.top-0{top:0px}.bottom-5{bottom:1.25rem}.right-5{right:1.25rem}.left-5{left:1.25rem}.z-40{z-index:40}.z-50{z-index:50}.mx-auto{margin-left:auto;margin-right:auto}.mb-1\.5{margin-bottom:0.375rem}.mb-2{margin-bottom:0.5rem}.mb-3{margin-bottom:0.75rem}.mb-6{margin-bottom:1.5rem}.mt-2{margin-top:0.5rem}.mb-1{margin-bottom:0.25rem}.mb-4{margin-bottom:1rem}.mb-5{margin-bottom:1.25rem}.mt-1{margin-top:0.25rem}.mt-5{margin-top:1.25rem}.mt-6{margin-top:1.5rem}.block{display:block}.inline-block{display:inline-block}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-10{height:2.5rem}.h-6{height:1.5rem}.max-h-64{max-height:16rem}.max-h-72{max-height:18rem}.min-h-screen{min-height:100vh}.w-10{width:2.5rem}.w-6{width:1.5rem}.w-full{width:100%}.max-w-4xl{max-width:56rem}.max-w-5xl{max-width:64rem}.max-w-md{max-width:28rem}.max-w-sm{max-width:24rem}.flex-1{flex:1 1 0%}.shrink-0{flex-shrink:0}.transform{transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.cursor-pointer{cursor:pointer}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.justify-around{justify-content:space-around}.gap-1\.5{gap:0.375rem}.gap-2{gap:0.5rem}.gap-3{gap:0.75rem}.gap-1{gap:0.25rem}.gap-2\.5{gap:0.625rem}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.space-y-6 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.5rem * var(--tw-space-y-reverse))}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.space-y-5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.25rem * var(--tw-space-y-reverse))}.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem * var(--tw-space-y-reverse))}.overflow-y-auto{overflow-y:auto}.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rounded-2xl{border-radius:1rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.rounded{border-radius:0.25rem}.border{border-width:1px}.border-b{border-bottom-width:1px}.border-t{border-top-width:1px}.border-blue-500\/20{border-color:rgb(59 130 246 / 0.2)}.border-slate-700{--tw-border-opacity:1;border-color:rgb(51 65 85 / var(--tw-border-opacity, 1))}.border-slate-800{--tw-border-opacity:1;border-color:rgb(30 41 59 / var(--tw-border-opacity, 1))}.border-emerald-500\/30{border-color:rgb(16 185 129 / 0.3)}.border-slate-800\/80{border-color:rgb(30 41 59 / 0.8)}.bg-blue-500\/10{background-color:rgb(59 130 246 / 0.1)}.bg-slate-800{--tw-bg-opacity:1;background-color:rgb(30 41 59 / var(--tw-bg-opacity, 1))}.bg-slate-900{--tw-bg-opacity:1;background-color:rgb(15 23 42 / var(--tw-bg-opacity, 1))}.bg-slate-900\/90{background-color:rgb(15 23 42 / 0.9)}.bg-slate-950{--tw-bg-opacity:1;background-color:rgb(2 6 23 / var(--tw-bg-opacity, 1))}.bg-slate-950\/70{background-color:rgb(2 6 23 / 0.7)}.bg-amber-500\/10{background-color:rgb(245 158 11 / 0.1)}.bg-blue-600{--tw-bg-opacity:1;background-color:rgb(37 99 235 / var(--tw-bg-opacity, 1))}.bg-emerald-600{--tw-bg-opacity:1;background-color:rgb(5 150 105 / var(--tw-bg-opacity, 1))}.bg-amber-600{--tw-bg-opacity:1;background-color:rgb(217 119 6 / var(--tw-bg-opacity, 1))}.bg-black\/80{background-color:rgb(0 0 0 / 0.8)}.bg-rose-600{--tw-bg-opacity:1;background-color:rgb(225 29 72 / var(--tw-bg-opacity, 1))}.bg-emerald-500\/20{background-color:rgb(16 185 129 / 0.2)}.bg-gradient-to-br{background-image:linear-gradient(to bottom right, var(--tw-gradient-stops))}.bg-gradient-to-r{background-image:linear-gradient(to right, var(--tw-gradient-stops))}.from-blue-600{--tw-gradient-from:#2563eb var(--tw-gradient-from-position);--tw-gradient-to:rgb(37 99 235 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-emerald-500\/10{--tw-gradient-from:rgb(16 185 129 / 0.1) var(--tw-gradient-from-position);--tw-gradient-to:rgb(16 185 129 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-orange-500{--tw-gradient-from:#f97316 var(--tw-gradient-from-position);--tw-gradient-to:rgb(249 115 22 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.to-indigo-700{--tw-gradient-to:#4338ca var(--tw-gradient-to-position)}.to-amber-600{--tw-gradient-to:#d97706 var(--tw-gradient-to-position)}.to-teal-500\/10{--tw-gradient-to:rgb(20 184 166 / 0.1) var(--tw-gradient-to-position)}.p-2{padding:0.5rem}.p-3\.5{padding:0.875rem}.p-6{padding:1.5rem}.p-3{padding:0.75rem}.p-4{padding:1rem}.p-5{padding:1.25rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.px-1{padding-left:0.25rem;padding-right:0.25rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-2\.5{padding-left:0.625rem;padding-right:0.625rem}.px-3\.5{padding-left:0.875rem;padding-right:0.875rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.py-0\.5{padding-top:0.125rem;padding-bottom:0.125rem}.py-1\.5{padding-top:0.375rem;padding-bottom:0.375rem}.py-2\.5{padding-top:0.625rem;padding-bottom:0.625rem}.py-3\.5{padding-top:0.875rem;padding-bottom:0.875rem}.pb-3{padding-bottom:0.75rem}.pb-4{padding-bottom:1rem}.pt-1{padding-top:0.25rem}.pt-2{padding-top:0.5rem}.pt-4{padding-top:1rem}.pt-5{padding-top:1.25rem}.pr-1{padding-right:0.25rem}.text-left{text-align:left}.text-center{text-align:center}.font-mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}.text-2xl{font-size:1.5rem;line-height:2rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xs{font-size:0.75rem;line-height:1rem}.text-\[11px\]{font-size:11px}.text-base{font-size:1rem;line-height:1.5rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.font-bold{font-weight:700}.font-extrabold{font-weight:800}.font-semibold{font-weight:600}.leading-tight{line-height:1.25}.leading-relaxed{line-height:1.625}.tracking-widest{letter-spacing:0.1em}.text-amber-400{--tw-text-opacity:1;color:rgb(251 191 36 / var(--tw-text-opacity, 1))}.text-blue-400{--tw-text-opacity:1;color:rgb(96 165 250 / var(--tw-text-opacity, 1))}.text-orange-400{--tw-text-opacity:1;color:rgb(251 146 60 / var(--tw-text-opacity, 1))}.text-slate-300{--tw-text-opacity:1;color:rgb(203 213 225 / var(--tw-text-opacity, 1))}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-emerald-400{--tw-text-opacity:1;color:rgb(52 211 153 / var(--tw-text-opacity, 1))}.text-rose-400{--tw-text-opacity:1;color:rgb(251 113 133 / var(--tw-text-opacity, 1))}.text-slate-200{--tw-text-opacity:1;color:rgb(226 232 240 / var(--tw-text-opacity, 1))}.underline{-webkit-text-decoration-line:underline;text-decoration-line:underline}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-xl{--tw-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-md{--tw-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-blue-900\/30{--tw-shadow-color:rgb(30 58 138 / 0.3);--tw-shadow:var(--tw-shadow-colored)}.shadow-emerald-900\/30{--tw-shadow-color:rgb(6 78 59 / 0.3);--tw-shadow:var(--tw-shadow-colored)}.shadow-orange-900\/30{--tw-shadow-color:rgb(124 45 18 / 0.3);--tw-shadow:var(--tw-shadow-colored)}.backdrop-blur-md{--tw-backdrop-blur:blur(12px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.backdrop-blur-sm{--tw-backdrop-blur:blur(4px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.hover\:bg-slate-700:hover{--tw-bg-opacity:1;background-color:rgb(51 65 85 / var(--tw-bg-opacity, 1))}.hover\:bg-blue-500:hover{--tw-bg-opacity:1;background-color:rgb(59 130 246 / var(--tw-bg-opacity, 1))}.hover\:bg-emerald-500:hover{--tw-bg-opacity:1;background-color:rgb(16 185 129 / var(--tw-bg-opacity, 1))}.hover\:bg-amber-500:hover{--tw-bg-opacity:1;background-color:rgb(245 158 11 / var(--tw-bg-opacity, 1))}.hover\:from-orange-600:hover{--tw-gradient-from:#ea580c var(--tw-gradient-from-position);--tw-gradient-to:rgb(234 88 12 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.hover\:to-amber-700:hover{--tw-gradient-to:#b45309 var(--tw-gradient-to-position)}.hover\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.hover\:text-rose-300:hover{--tw-text-opacity:1;color:rgb(253 164 175 / var(--tw-text-opacity, 1))}.hover\:underline:hover{-webkit-text-decoration-line:underline;text-decoration-line:underline}.focus\:border-blue-500:focus{--tw-border-opacity:1;border-color:rgb(59 130 246 / var(--tw-border-opacity, 1))}.focus\:border-orange-500:focus{--tw-border-opacity:1;border-color:rgb(249 115 22 / var(--tw-border-opacity, 1))}.focus\:border-amber-500:focus{--tw-border-opacity:1;border-color:rgb(245 158 11 / var(--tw-border-opacity, 1))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.active\:scale-\[0\.99\]:active{--tw-scale-x:0.99;--tw-scale-y:0.99;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.disabled\:opacity-40:disabled{opacity:0.4}.peer:checked ~ .peer-checked\:border-blue-500{--tw-border-opacity:1;border-color:rgb(59 130 246 / var(--tw-border-opacity, 1))}.peer:checked ~ .peer-checked\:border-orange-500{--tw-border-opacity:1;border-color:rgb(249 115 22 / var(--tw-border-opacity, 1))}.peer:checked ~ .peer-checked\:bg-blue-500\/10{background-color:rgb(59 130 246 / 0.1)}.peer:checked ~ .peer-checked\:bg-orange-500\/10{background-color:rgb(249 115 22 / 0.1)}@media (min-width: 640px){.sm\:left-auto{left:auto}.sm\:col-span-2{grid-column:span 2 / span 2}.sm\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.sm\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.sm\:p-8{padding:2rem}.sm\:p-7{padding:1.75rem}.sm\:text-3xl{font-size:1.875rem;line-height:2.25rem}.sm\:text-base{font-size:1rem;line-height:1.5rem}.sm\:text-lg{font-size:1.125rem;line-height:1.75rem}.sm\:text-sm{font-size:0.875rem;line-height:1.25rem}}</style></head>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>منصة مالك الطبية للاختبارات | Malek Medical LMS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Cairo', sans-serif; background-color: #0b1120; color: #f8fafc; }
+    .card { background-color: #1e293b; border: 1px solid #334155; }
+    .btn-primary { background-color: #ea580c; color: #fff; transition: 0.2s; }
+    .btn-primary:hover { background-color: #c2410c; }
+    .option-btn { transition: all 0.2s; border: 1px solid #334155; background-color: #0f172a; }
+    .option-btn:hover:not(:disabled) { border-color: #ea580c; background-color: #1e293b; }
+    .option-selected { border-color: #3b82f6 !important; background-color: #172554 !important; }
+    .option-correct { border-color: #22c55e !important; background-color: #052e16 !important; color: #bbf7d0; }
+    .option-wrong { border-color: #ef4444 !important; background-color: #450a0a !important; color: #fecaca; }
+  </style>
+</head>
 <body class="min-h-screen flex flex-col">
 
-    <!-- الشريط العلوي -->
-    <header class="bg-slate-900/90 border-b border-slate-800 sticky top-0 z-40 backdrop-blur-md">
-        <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center shadow-lg shadow-blue-900/30">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
-                </div>
-                <div>
-                    <h1 class="font-bold text-lg text-white leading-tight">المنصة الطبية للامتحانات</h1>
-                    <p class="text-xs text-slate-400">Dr. Malek | نظام التقييم الأكاديمي</p>
-                </div>
-            </div>
-            <div class="flex items-center gap-2">
-                <button onclick="showStatsModal()" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm transition" title="سجل الدرجات">
-                    📊
-                </button>
-                <button onclick="openAdminAuth()" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-amber-400 flex items-center gap-1.5 transition">
-                    <span>⚙️</span>
-                    <span>إدارة المنصة</span>
-                </button>
-            </div>
+  <!-- الشريط العلوي -->
+  <header class="bg-[#0f172a] border-b border-slate-800 sticky top-0 z-50">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-orange-600 flex items-center justify-center font-extrabold text-xl text-white">M</div>
+        <div>
+          <h1 class="font-bold text-lg text-white leading-tight">منصة مالك الطبية</h1>
+          <p class="text-xs text-slate-400">نظام التقييم والاختبارات الطبية</p>
         </div>
-    </header>
-
-    <!-- المحتوى الرئيسي -->
-    <main class="flex-1 max-w-4xl w-full mx-auto px-4 py-6">
-
-        <!-- 1. شاشة تسجيل الدخول والاختيار -->
-        <section id="welcome-screen" class="space-y-6 hidden">
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl">
-                <div class="text-center mb-6">
-                    <span class="inline-block px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold mb-3">بوابة الاختبارات الإلكترونية - الوضع المعتم</span>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white">أهلاً بك في نظام التقييم الطبي</h2>
-                    <p class="text-slate-400 text-sm mt-2">أدخل بياناتك، اختر نموذج الامتحان، وحدد نظام التصحيح للبدء فوراً.</p>
-                </div>
-
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-semibold text-slate-300 mb-1.5">الاسم الكامل للطالب / المتدرب:</label>
-                        <input type="text" id="student-name" placeholder="مثال: د. أحمد محمد..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition">
-                    </div>
-
-                    <div id="access-code-wrapper">
-                        <label class="block text-sm font-semibold text-slate-300 mb-1.5">رمز دخول الطلاب (Access Code):</label>
-                        <input type="text" id="student-access-input" placeholder="أدخل الرمز الخاص بالدفعة..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white ltr-text text-left focus:outline-none focus:border-orange-500 transition">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-semibold text-slate-300 mb-1.5">اختر المادة / نموذج الامتحان:</label>
-                        <select id="exam-selector" onchange="updateExamInfo()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition"><option value="0">الكيمياء الحيوية الطبية: الماء والحياة (Water &amp; Life)</option><option value="1">التشريح الطبي: الجهاز العضلي الهيكلي (Musculoskeletal System)</option></select>
-                    </div>
-
-                    <div id="exam-meta-box" class="bg-slate-950/70 border border-slate-800 rounded-xl p-3.5 flex flex-wrap items-center justify-around gap-3 text-sm">
-                        <span class="text-slate-300">📝 عدد الأسئلة: <strong id="meta-count" class="text-blue-400">3</strong> سؤال</span>
-                        <span class="text-slate-300">⏱️ المدة الزمنية: <strong id="meta-time" class="text-orange-400">30</strong> دقيقة</span>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-semibold text-slate-300 mb-2">نظام التقييم والتصحيح:</label>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <label class="cursor-pointer">
-                                <input type="radio" name="exam-mode" value="practice" checked="" class="peer sr-only">
-                                <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 peer-checked:border-blue-500 peer-checked:bg-blue-500/10 transition">
-                                    <div class="font-bold text-white text-sm mb-1">💡 وضع التدريب (تصحيح فوري)</div>
-                                    <p class="text-xs text-slate-400">يظهر لك الحل الصحيح والشرح العلمي فور اختيارك للإجابة في كل سؤال.</p>
-                                </div>
-                            </label>
-                            <label class="cursor-pointer">
-                                <input type="radio" name="exam-mode" value="real" class="peer sr-only">
-                                <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 peer-checked:border-orange-500 peer-checked:bg-orange-500/10 transition">
-                                    <div class="font-bold text-white text-sm mb-1">🎯 وضع الامتحان الحقيقي</div>
-                                    <p class="text-xs text-slate-400">محاكاة للاختبار الرسمي؛ تُعرض النتيجة والتصحيح الكامل بعد التسليم النهائي.</p>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-
-                    <button onclick="startExam()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white font-bold text-base shadow-lg shadow-orange-900/30 transition transform active:scale-[0.99] mt-2">
-                        ابدأ الامتحان الآن 🚀
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- 2. شاشة الامتحان النشط -->
-        <section id="exam-screen" class="hidden space-y-5">
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3 shadow-md">
-                <div>
-                    <h3 id="active-exam-title" class="font-bold text-white text-sm sm:text-base"></h3>
-                    <p class="text-xs text-slate-400">الطالب: <span id="active-student-name" class="text-slate-200 font-semibold"></span></p>
-                </div>
-                <div class="flex items-center gap-3">
-                    <div class="px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-800 text-sm font-mono font-bold text-orange-400 flex items-center gap-2">
-                        <span>⏱️</span>
-                        <span id="timer-display">30:00</span>
-                        <button onclick="toggleTimer()" id="pause-btn" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2 py-0.5 rounded">إيقاف</button>
-                    </div>
-                    <button onclick="confirmSubmitExam()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-bold transition">
-                        تسليم الإجابات ✓
-                    </button>
-                </div>
-            </div>
-
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3">
-                <div class="flex items-center justify-between text-xs text-slate-400 mb-2 px-1">
-                    <span>التنقل السريع بين الأسئلة:</span>
-                    <span>تم حل <strong id="answered-counter" class="text-blue-400">0</strong> من <strong id="total-counter">0</strong></span>
-                </div>
-                <div id="question-nav-grid" class="flex flex-wrap gap-1.5"></div>
-            </div>
-
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-7 shadow-xl">
-                <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-800">
-                    <span class="px-3 py-1 rounded-lg bg-blue-500/10 text-blue-400 text-xs font-bold">سؤال <span id="q-number">1</span></span>
-                    <button onclick="toggleFlag()" id="flag-btn" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold flex items-center gap-1 transition">
-                        <span>🚩</span>
-                        <span>تحديد للمراجعة</span>
-                    </button>
-                </div>
-
-                <div id="question-text" class="text-base sm:text-lg font-bold text-white leading-relaxed mb-5"></div>
-                <div id="options-container" class="space-y-3"></div>
-
-                <div id="instant-explanation" class="hidden mt-5 p-4 rounded-xl bg-slate-950 border border-slate-700 text-sm">
-                    <div id="instant-status" class="font-bold mb-1"></div>
-                    <p id="instant-exp-text" class="text-slate-300 leading-relaxed"></p>
-                </div>
-
-                <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
-                    <button onclick="prevQuestion()" id="prev-btn" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 disabled:opacity-40 text-white text-sm font-semibold transition">
-                        → السابق
-                    </button>
-                    <button onclick="nextQuestion()" id="next-btn" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition">
-                        التالي ←
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- 3. شاشة النتيجة والمراجعة التفصيلية -->
-        <section id="result-screen" class="hidden space-y-6">
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 text-center shadow-xl">
-                <div id="result-badge" class="inline-block px-4 py-1.5 rounded-full text-sm font-bold mb-3"></div>
-                <h2 class="text-2xl font-extrabold text-white mb-1">اكتمل التقييم بنجاح!</h2>
-                <p id="result-student-info" class="text-slate-400 text-sm mb-6"></p>
-
-                <div class="grid grid-cols-3 gap-3 max-w-md mx-auto mb-6">
-                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-3">
-                        <div class="text-xs text-slate-400">النسبة المئوية</div>
-                        <div id="score-percent" class="text-2xl font-extrabold text-blue-400 mt-1">0%</div>
-                    </div>
-                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-3">
-                        <div class="text-xs text-slate-400">إجابات صحيحة</div>
-                        <div id="score-correct" class="text-2xl font-extrabold text-emerald-400 mt-1">0</div>
-                    </div>
-                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-3">
-                        <div class="text-xs text-slate-400">إجابات خاطئة</div>
-                        <div id="score-wrong" class="text-2xl font-extrabold text-rose-400 mt-1">0</div>
-                    </div>
-                </div>
-
-                <div class="flex flex-wrap justify-center gap-3">
-                    <button onclick="retakeExam()" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold transition">🔄 إعادة المحاولة</button>
-                    <button onclick="goHome()" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-sm font-bold transition">🏠 القائمة الرئيسية</button>
-                </div>
-            </div>
-
-            <div class="space-y-4">
-                <h3 class="font-bold text-lg text-white px-1">📋 مراجعة الإجابات والتفسير العلمي:</h3>
-                <div id="review-list" class="space-y-4"></div>
-            </div>
-        </section>
-
-        <!-- 4. لوحة تحكم المدير (Admin Panel) -->
-        <section id="admin-screen" class="space-y-6">
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
-                <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-800">
-                    <div>
-                        <span class="text-xs font-bold text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded">وضع المسؤول (Admin Mode)</span>
-                        <h2 class="text-xl font-extrabold text-white mt-1">إدارة بنوك الأسئلة والنشر الفوري</h2>
-                    </div>
-                    <button onclick="goHome()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-semibold">✕ إغلاق لوحة التحكم</button>
-                </div>
-
-                <!-- بطاقة النشر الفوري بنقرة واحدة -->
-                <div class="mt-5 p-4 rounded-xl bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border border-emerald-500/30 space-y-3">
-                    <div class="flex items-center justify-between">
-                        <h3 class="font-bold text-emerald-400 text-sm">🚀 النشر التلقائي بنقرة واحدة (One-Click Publish)</h3>
-                        <span id="token-status-badge" class="text-[11px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold">✓ مربوط وجاهز</span>
-                    </div>
-                    <p class="text-xs text-slate-300 leading-relaxed">بعد إضافة أسئلتك أو تعديل الإعدادات، اضغط على الزر الأخضر أدناه ليتم تحديث موقعك المباشر لطلابك تلقائياً خلال ثوانٍ دون فتح GitHub:</p>
-                    
-                    <button id="publish-btn" onclick="publishDirectlyToGitHub()" class="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-lg shadow-emerald-900/30 transition flex items-center justify-center gap-2" disabled=""><span>⏳ جاري النشر إلى موقع الطلاب...</span></button>
-
-                    <div class="pt-2 border-t border-slate-800/80">
-                        <label class="block text-xs text-slate-400 mb-1">رمز الربط السري (GitHub Personal Access Token) - يُحفظ على هاتفك فقط:</label>
-                        <div class="flex gap-2">
-                            <input type="password" id="github-token-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" class="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white ltr-text text-left">
-                            <button onclick="saveGitHubToken()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 text-xs font-bold border border-slate-700 shrink-0">ربط وحفظ</button>
-                        </div>
-                    </div>
-
-                    <div class="text-center pt-1">
-                        <button onclick="exportPlatformHTML()" class="text-xs text-slate-400 hover:text-white underline">أو تحميل ملف index.html يدوياً كنسخة احتياطية</button>
-                    </div>
-                </div>
-
-                <!-- إعدادات الحماية وكلمات المرور -->
-                <div class="mt-6 pt-5 border-t border-slate-800 space-y-3">
-                    <h3 class="font-bold text-white text-base">🔐 إعدادات الأمان والدخول</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div>
-                            <label class="block text-xs text-slate-400 mb-1">كلمة مرور المدير (Admin Password):</label>
-                            <input type="text" id="admin-pass-setting" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white ltr-text text-left">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-slate-400 mb-1">رمز دخول الطلاب (اتركه فارغاً لفتحه للجميع):</label>
-                            <input type="text" id="student-code-setting" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white ltr-text text-left">
-                        </div>
-                    </div>
-                    <button onclick="saveSecuritySettings()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-emerald-400 text-xs font-bold border border-slate-700">✓ حفظ إعدادات الأمان</button>
-                </div>
-
-                <!-- إنشاء نموذج امتحان جديد -->
-                <div class="mt-6 pt-5 border-t border-slate-800 space-y-3">
-                    <h3 class="font-bold text-white text-base">➕ إنشاء نموذج امتحان جديد</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <div class="sm:col-span-2">
-                            <label class="block text-xs text-slate-400 mb-1">عنوان المادة / النموذج:</label>
-                            <input type="text" id="new-exam-title" placeholder="مثال: علم وظائف الأعضاء - القلب" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-slate-400 mb-1">مدة الامتحان (بالدقائق):</label>
-                            <input type="number" id="new-exam-duration" value="30" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white">
-                        </div>
-                    </div>
-                    <button onclick="createNewExam()" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold">إضافة النموذج للقائمة</button>
-                </div>
-
-                <!-- إضافة سؤال لنموذج حالي -->
-                <div class="mt-6 pt-5 border-t border-slate-800 space-y-3">
-                    <h3 class="font-bold text-white text-base">📝 إضافة سؤال جديد لنموذج</h3>
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1">اختر النموذج المستهدف:</label>
-                        <select id="admin-exam-select" onchange="renderAdminQuestionsList()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white"><option value="0">الكيمياء الحيوية الطبية: الماء والحياة (Water &amp; Life)</option><option value="1">التشريح الطبي: الجهاز العضلي الهيكلي (Musculoskeletal System)</option></select>
-                    </div>
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1">نص السؤال:</label>
-                        <textarea id="q-input-text" rows="2" placeholder="اكتب نص السؤال العلمي هنا..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white"></textarea>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                        <input type="text" id="opt-0" placeholder="الخيار (A)" class="bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white">
-                        <input type="text" id="opt-1" placeholder="الخيار (B)" class="bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white">
-                        <input type="text" id="opt-2" placeholder="الخيار (C)" class="bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white">
-                        <input type="text" id="opt-3" placeholder="الخيار (D)" class="bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white">
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <div>
-                            <label class="block text-xs text-slate-400 mb-1">الإجابة الصحيحة:</label>
-                            <select id="correct-opt-select" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-emerald-400 font-bold">
-                                <option value="0">الخيار (A)</option>
-                                <option value="1">الخيار (B)</option>
-                                <option value="2">الخيار (C)</option>
-                                <option value="3">الخيار (D)</option>
-                            </select>
-                        </div>
-                        <div class="sm:col-span-2">
-                            <label class="block text-xs text-slate-400 mb-1">التفسير العلمي للإجابة:</label>
-                            <input type="text" id="q-input-exp" placeholder="اشرح لماذا هذه الإجابة صحيحة..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white">
-                        </div>
-                    </div>
-                    <button onclick="addQuestionToExam()" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-bold">➕ حفظ السؤال في النموذج</button>
-                </div>
-
-                <!-- قائمة الأسئلة الحالية في النموذج -->
-                <div class="mt-6 pt-5 border-t border-slate-800">
-                    <div class="flex items-center justify-between mb-3">
-                        <h4 class="font-bold text-sm text-slate-300">الأسئلة المدرجة في النموذج المحدد:</h4>
-                        <button onclick="deleteSelectedExam()" class="text-xs text-rose-400 hover:underline">🗑️ حذف هذا النموذج بالكامل</button>
-                    </div>
-                    <div id="admin-questions-list" class="space-y-2 max-h-72 overflow-y-auto pr-1"><div class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between gap-2 text-xs">
-                    <span class="text-slate-200 truncate"><strong>1.</strong> Which two properties of water are of crucial importance to the structure and function of biomolecules?</span>
-                    <button onclick="deleteQuestion(0, 0)" class="text-rose-400 hover:text-rose-300 shrink-0 px-2 py-1">حذف</button>
-                </div><div class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between gap-2 text-xs">
-                    <span class="text-slate-200 truncate"><strong>2.</strong> Suppose oxygen and hydrogen had equal electronegativity. Which consequence for water would follow?</span>
-                    <button onclick="deleteQuestion(0, 1)" class="text-rose-400 hover:text-rose-300 shrink-0 px-2 py-1">حذف</button>
-                </div><div class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between gap-2 text-xs">
-                    <span class="text-slate-200 truncate"><strong>3.</strong> In which of the following molecules are the electrons of every covalent bond shared equally between the bonded atoms?</span>
-                    <button onclick="deleteQuestion(0, 2)" class="text-rose-400 hover:text-rose-300 shrink-0 px-2 py-1">حذف</button>
-                </div><div class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between gap-2 text-xs">
-                    <span class="text-slate-200 truncate"><strong>4.</strong> A hydrogen bond results from the attraction between a hydrogen atom covalently bonded to a very electronegative atom and another very electronegative atom. Which group lists atoms of this kind?</span>
-                    <button onclick="deleteQuestion(0, 3)" class="text-rose-400 hover:text-rose-300 shrink-0 px-2 py-1">حذف</button>
-                </div><div class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between gap-2 text-xs">
-                    <span class="text-slate-200 truncate"><strong>5.</strong> A central water molecule can be hydrogen-bonded to four neighbouring water molecules. Which feature of the central molecule makes this possible?</span>
-                    <button onclick="deleteQuestion(0, 4)" class="text-rose-400 hover:text-rose-300 shrink-0 px-2 py-1">حذف</button>
-                </div></div>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- نافذة كلمة مرور المدير -->
-    <div id="admin-auth-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-slate-900 border border-slate-700 rounded-2xl p-6 max-w-sm w-full space-y-4 shadow-2xl">
-            <h3 class="font-bold text-lg text-white">🔐 دخول لوحة الإدارة</h3>
-            <p class="text-xs text-slate-400">أدخل كلمة مرور المسؤول للمتابعة:</p>
-            <input type="password" id="admin-password-input" placeholder="••••" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white text-center text-lg tracking-widest focus:outline-none focus:border-amber-500">
-            <div class="flex gap-2">
-                <button onclick="verifyAdminPassword()" class="flex-1 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-sm">دخول</button>
-                <button onclick="closeAdminAuth()" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm">إلغاء</button>
-            </div>
-        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="studentHomeBtn" onclick="switchView('student')" class="px-3 py-1.5 rounded-lg text-sm font-semibold bg-blue-900/50 text-blue-300 border border-blue-800">
+          صفحة الطلاب
+        </button>
+        <button id="adminAccessBtn" onclick="openAdminLogin()" class="px-3 py-1.5 rounded-lg text-sm font-semibold bg-slate-800 text-slate-300 hover:text-white border border-slate-700">
+          🔒 دخول المدير
+        </button>
+      </div>
     </div>
+  </header>
 
-    <!-- نافذة سجل الدرجات -->
-    <div id="stats-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-700 rounded-2xl p-6 max-w-md w-full space-y-4 shadow-2xl">
-            <div class="flex items-center justify-between">
-                <h3 class="font-bold text-lg text-white">📊 سجل المحاولات السابقة</h3>
-                <button onclick="document.getElementById('stats-modal').classList.add('hidden')" class="text-slate-400 hover:text-white">✕</button>
-            </div>
-            <div id="history-list" class="space-y-2 max-h-64 overflow-y-auto text-sm"></div>
+  <!-- المحتوى الرئيسي -->
+  <main class="flex-1 max-w-5xl w-full mx-auto px-4 py-6">
+
+    <!-- 1. واجهة الطلاب الرئيسية (الافتراضية للجميع) -->
+    <section id="studentView">
+      <div id="examSetupCard" class="card rounded-2xl p-6 mb-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-700 pb-4 mb-5">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-orange-400 bg-orange-500/10 px-2.5 py-1 rounded">بوابة الاختبارات الإلكترونية</span>
+            <h2 class="text-2xl font-extrabold text-white mt-2">اختر نموذج الاختبار ونظام الحل</h2>
+          </div>
+          <div class="text-sm text-slate-300 bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-700">
+            إجمالي الأسئلة المتاحة: <span id="totalQuestionsBadge" class="font-bold text-orange-400">0</span>
+          </div>
         </div>
+
+        <div class="grid md:grid-cols-3 gap-4 mb-6">
+          <div>
+            <label class="block text-sm font-semibold text-slate-300 mb-2">اختر المادة / النموذج</label>
+            <select id="modelSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-orange-500"></select>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-300 mb-2">نظام الاختبار</label>
+            <select id="modeSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-orange-500">
+              <option value="practice">وضع التدريب (تصحيح وشرح فوري)</option>
+              <option value="exam">وضع الامتحان الحقيقي (النتيجة في النهاية)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-300 mb-2">مدة الاختبار (بالدقائق)</label>
+            <input id="durationInput" type="number" min="1" max="180" value="45" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-orange-500" />
+          </div>
+        </div>
+
+        <button onclick="startExam()" class="btn-primary w-full md:w-auto px-8 py-3 rounded-xl font-bold text-base shadow-lg">
+          بدء الاختبار الآن ←
+        </button>
+      </div>
+
+      <!-- منطقة أداء الاختبار -->
+      <div id="examRunner" class="hidden">
+        <div class="card rounded-2xl p-4 mb-4 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <span class="bg-blue-900/60 text-blue-300 border border-blue-700 px-3 py-1 rounded-lg text-sm font-bold" id="questionProgressText">سؤال 1 من 10</span>
+            <button onclick="toggleFlag()" id="flagBtn" class="px-3 py-1 rounded-lg text-sm border border-slate-600 text-slate-300 hover:bg-slate-800">
+              🚩 تعليم للمراجعة
+            </button>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="bg-slate-900 border border-slate-700 px-3 py-1.5 rounded-lg font-mono text-orange-400 font-bold" id="timerDisplay">45:00</div>
+            <button onclick="togglePause()" id="pauseBtn" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 border border-slate-700 text-slate-300">إيقاف مؤقت</button>
+            <button onclick="finishExam()" class="px-4 py-1.5 rounded-lg text-sm font-bold bg-emerald-600 hover:bg-emerald-700 text-white">تسليم الاختبار</button>
+          </div>
+        </div>
+
+        <!-- خريطة التنقل بين الأسئلة -->
+        <div id="navGrid" class="card rounded-xl p-3 mb-4 flex flex-wrap gap-1.5"></div>
+
+        <!-- بطاقة السؤال -->
+        <div class="card rounded-2xl p-6 mb-4">
+          <p id="questionCategoryBadge" class="text-xs text-orange-400 font-bold mb-2"></p>
+          <h3 id="questionText" class="text-xl font-bold text-white leading-relaxed mb-6"></h3>
+          <div id="optionsContainer" class="space-y-3"></div>
+
+          <div id="instantExplanationBox" class="hidden mt-6 p-4 rounded-xl bg-blue-950/60 border border-blue-800 text-slate-200">
+            <p class="font-bold text-blue-300 mb-1">💡 التفسير العلمي:</p>
+            <p id="instantExplanationText" class="text-sm leading-relaxed"></p>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <button onclick="prevQuestion()" id="prevBtn" class="px-5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white font-semibold disabled:opacity-40">السابق</button>
+          <button onclick="nextQuestion()" id="nextBtn" class="btn-primary px-6 py-2.5 rounded-xl font-bold">التالي</button>
+        </div>
+      </div>
+
+      <!-- شاشة النتيجة -->
+      <div id="resultScreen" class="hidden card rounded-2xl p-6">
+        <div class="text-center border-b border-slate-700 pb-6 mb-6">
+          <p class="text-sm text-slate-400 mb-1">انتهى الاختبار - التقييم النهائي</p>
+          <div id="scorePercentage" class="text-5xl font-extrabold text-orange-400 my-2">0%</div>
+          <div id="studentGradeLabel" class="inline-block px-4 py-1 rounded-full text-sm font-bold bg-blue-900/60 text-blue-300 border border-blue-700"></div>
+          <p id="scoreSummaryText" class="text-slate-300 mt-3 text-sm"></p>
+        </div>
+        <div id="reviewContainer" class="space-y-4 mb-6"></div>
+        <button onclick="resetToHome()" class="btn-primary w-full py-3 rounded-xl font-bold">العودة لقائمة الاختبارات</button>
+      </div>
+    </section>
+
+    <!-- 2. لوحة تحكم المدير (مخفية تماماً ومحمية بكلمة مرور) -->
+    <section id="adminView" class="hidden">
+      <div class="card rounded-2xl p-6 mb-6 border-orange-500/40">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-700 pb-4 mb-5">
+          <div>
+            <h2 class="text-xl font-extrabold text-orange-400">لوحة تحكم المدير (إدارة الأسئلة)</h2>
+            <p class="text-xs text-slate-400 mt-1">أضف الأسئلة هنا ثم اضغط "نسخ الكود المحدّث" لحفظها في GitHub ليراها جميع الطلاب.</p>
+          </div>
+          <button onclick="logoutAdmin()" class="px-4 py-2 rounded-xl bg-red-900/50 text-red-200 border border-red-700 text-sm font-bold">
+            تسجيل خروج المدير
+          </button>
+        </div>
+
+        <form onsubmit="addQuestion(event)" class="space-y-4">
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1">اسم النموذج / المادة</label>
+              <input id="qModel" required placeholder="مثال: Anatomy - Model 1" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-sm" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1">الإجابة الصحيحة</label>
+              <select id="qCorrect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-sm">
+                <option value="0">الخيار الأول (A)</option>
+                <option value="1">الخيار الثاني (B)</option>
+                <option value="2">الخيار الثالث (C)</option>
+                <option value="3">الخيار الرابع (D)</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">نص السؤال</label>
+            <textarea id="qText" required rows="2" placeholder="اكتب السؤال الطبي هنا..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-sm"></textarea>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-3">
+            <input id="opt0" required placeholder="الخيار A" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-sm" />
+            <input id="opt1" required placeholder="الخيار B" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-sm" />
+            <input id="opt2" required placeholder="الخيار C" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-sm" />
+            <input id="opt3" required placeholder="الخيار D" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-sm" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">التفسير العلمي للإجابة</label>
+            <textarea id="qExp" required rows="2" placeholder="اشرح لماذا هذه الإجابة صحيحة..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-sm"></textarea>
+          </div>
+
+          <div class="flex flex-wrap gap-3 pt-2">
+            <button type="submit" class="btn-primary px-6 py-2.5 rounded-xl font-bold text-sm">+ إضافة السؤال للقائمة</button>
+            <button type="button" onclick="exportUpdatedHTML()" class="px-6 py-2.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-700 text-white">
+              📋 نسخ الكود المحدّث للنشر على GitHub
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card rounded-2xl p-6">
+        <h3 class="font-bold text-lg text-white mb-4">الأسئلة الحالية في المنصة (<span id="adminQCount">0</span>)</h3>
+        <div id="adminQuestionsList" class="space-y-3"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- نافذة كلمة مرور المدير -->
+  <div id="passwordModal" class="hidden fixed inset-0 bg-black/75 flex items-center justify-center z-50 p-4">
+    <div class="card rounded-2xl p-6 max-w-sm w-full">
+      <h3 class="text-lg font-bold text-white mb-2">منطقة مخصصة للمدير فقط</h3>
+      <p class="text-xs text-slate-400 mb-4">أدخل كلمة المرور للوصول إلى لوحة إدارة الأسئلة:</p>
+      <input id="adminPassInput" type="password" placeholder="كلمة المرور" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-white mb-4" />
+      <div class="flex gap-2">
+        <button onclick="verifyAdminPassword()" class="btn-primary flex-1 py-2 rounded-xl font-bold text-sm">دخول</button>
+        <button onclick="closePasswordModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-sm">إلغاء</button>
+      </div>
     </div>
+  </div>
 
-    <!-- إشعار عائم -->
-    <div id="toast" class="fixed bottom-5 right-5 left-5 sm:left-auto bg-emerald-600 text-white px-4 py-3 rounded-xl shadow-lg text-sm font-bold z-50 text-center hidden">تمت إضافة السؤال! اضغط (نشر التحديثات) عند الانتهاء.</div>
+  <script>
+    // كلمة مرور المدير الافتراضية (يمكنك تغييرها من هنا)
+    const ADMIN_PASSWORD = "malek2026";
 
-    <script id="platform-data-script">
-        let PLATFORM_CONFIG = {
-        "adminPassword": "7920",
-        "studentAccessCode": "MED2026"
-};
+    // قاعدة بيانات الأسئلة المدمجة (تظهر لجميع الطلاب تلقائياً)
+    const DEFAULT_QUESTIONS = [
+      {
+        model: "General Medicine - Model 1",
+        text: "Which cranial nerve is primarily responsible for parasympathetic innervation to the thoracic and abdominal viscera?",
+        options: ["Glossopharyngeal nerve (CN IX)", "Vagus nerve (CN X)", "Accessory nerve (CN XI)", "Hypoglossal nerve (CN XII)"],
+        correct: 1,
+        explanation: "The Vagus nerve (CN X) provides extensive parasympathetic fibers to the heart, lungs, and digestive tract up to the splenic flexure."
+      },
+      {
+        model: "General Medicine - Model 1",
+        text: "What is the primary pacemaker of the normal human heart?",
+        options: ["Atrioventricular (AV) node", "Bundle of His", "Sinoatrial (SA) node", "Purkinje fibers"],
+        correct: 2,
+        explanation: "The SA node in the right atrium normally initiates cardiac impulses at 60–100 bpm due to its fastest spontaneous depolarization rate."
+      }
+    ];
 
-        let EXAMS_DATA = [
-        {
-                "id": "exam-water-life",
-                "title": "الكيمياء الحيوية الطبية: الماء والحياة (Water & Life)",
-                "duration": 30,
-                "questions": [
-                        {
-                                "q": "Which two properties of water are of crucial importance to the structure and function of biomolecules?",
-                                "options": [
-                                        "Its high density as a solid and its low heat of vaporization",
-                                        "Cohesion of its molecules and a slight tendency to ionize",
-                                        "Its nonpolar bonds and its ability to dissolve lipids readily",
-                                        "Its linear shape and the great strength of its hydrogen bonds"
-                                ],
-                                "correct": 1,
-                                "exp": "The attractive forces (cohesion) between water molecules and the slight tendency of water to ionize underlie the behaviour of biomolecules. Every other option names properties water does not have; for example, ice is less dense than the liquid and hydrogen bonds are relatively weak"
-                        },
-                        {
-                                "q": "Suppose oxygen and hydrogen had equal electronegativity. Which consequence for water would follow?",
-                                "options": [
-                                        "Its H-O-H bond angle would widen to exactly 180",
-                                        "Each of its hydrogen atoms would carry a δ- charge",
-                                        "Water would become a far better solvent for NaCl",
-                                        "Its molecules could no longer form hydrogen bonds"
-                                ],
-                                "correct": 3,
-                                "exp": "The partial charges exist only because oxygen is more electronegative and pulls the shared electrons toward itself. With equal sharing the O-H bonds would be nonpolar, leaving no δ+ and δ- regions to attract neighbouring molecules, so cohesion and the ability to hydrate ions would be lost"
-                        },
-                        {
-                                "q": "In which of the following molecules are the electrons of every covalent bond shared equally between the bonded atoms?",
-                                "options": [
-                                        "H2O",
-                                        "CO2",
-                                        "O2",
-                                        "NH3"
-                                ],
-                                "correct": 2,
-                                "exp": "In O2, as in N2, the two bonded atoms are identical, so electrons are shared equally and the bond is nonpolar. In CO2 each C=O bond is polar; the molecule is nonpolar only because the two dipoles cancel. The bonds of H2O and NH3 are polar"
-                        },
-                        {
-                                "q": "A hydrogen bond results from the attraction between a hydrogen atom covalently bonded to a very electronegative atom and another very electronegative atom. Which group lists atoms of this kind?",
-                                "options": [
-                                        "N, O and F",
-                                        "C, H and P",
-                                        "Na, K and Ca",
-                                        "C, Na and H"
-                                ],
-                                "correct": 0,
-                                "exp": "Hydrogen bonds form when H is covalently attached to a very electronegative atom such as N, O or F and is attracted to another such atom. Carbon is only slightly more electronegative than hydrogen, so options containing C cannot supply these atoms"
-                        },
-                        {
-                                "q": "A central water molecule can be hydrogen-bonded to four neighbouring water molecules. Which feature of the central molecule makes this possible?",
-                                "options": [
-                                        "Its oxygen shares electrons equally with both of its hydrogens",
-                                        "Its two hydrogens form covalent bonds with neighbouring oxygens",
-                                        "Its δ+ oxygen atom attracts δ- hydrogens on all four neighbours",
-                                        "Its δ- oxygen and two δ+ hydrogens each attract opposite charges"
-                                ],
-                                "correct": 3,
-                                "exp": "The molecule is polar: its δ- oxygen attracts the δ+ hydrogens of two neighbours, while each of its δ+ hydrogens attracts the δ- oxygen of another neighbour, giving four hydrogen bonds. Hydrogen bonds are electrostatic attractions, not covalent bonds"
-                        }
-                ]
-        },
-        {
-                "id": "exam-musculoskeletal",
-                "title": "التشريح الطبي: الجهاز العضلي الهيكلي (Musculoskeletal System)",
-                "duration": 25,
-                "questions": [
-                        {
-                                "q": "كم يبلغ العدد الإجمالي للعظام في الهيكل العظمي للإنسان البالغ؟",
-                                "options": [
-                                        "206 عظمة",
-                                        "215 عظمة",
-                                        "198 عظمة",
-                                        "230 عظمة"
-                                ],
-                                "correct": 0,
-                                "exp": "يتكون الهيكل العظمي للإنسان البالغ من 206 عظمة مقسمة إلى هيكل محوري (80 عظمة) وهيكل طرفي (126 عظمة)."
-                        },
-                        {
-                                "q": "ما هو النسيج الضام الذي يربط العضلات بالعظام لنقل القوة الحركية؟",
-                                "options": [
-                                        "الأربطة (Ligaments)",
-                                        "الأوتار (Tendons)",
-                                        "الغضاريف (Cartilage)",
-                                        "السائل الزلالي"
-                                ],
-                                "correct": 1,
-                                "exp": "الأوتار (Tendons) تربط العضلات بالعظام، بينما تربط الأربطة (Ligaments) العظام ببعضها عند المفاصل."
-                        }
-                ]
-        }
-];
-    </script>
+    let questions = JSON.parse(localStorage.getItem("malek_med_questions")) || [...DEFAULT_QUESTIONS];
+    let isAdminAuthenticated = false;
+    let activeQuestions = [];
+    let currentIdx = 0;
+    let userAnswers = {};
+    let flaggedSet = new Set();
+    let timerInterval = null;
+    let remainingSeconds = 2700;
+    let isPaused = false;
+    let currentMode = "practice";
 
-    <script>
-        const GITHUB_REPO_OWNER = "nassarmalek833-ctrl";
-        const GITHUB_REPO_NAME = "Malek-Medical-Student-";
-        const GITHUB_FILE_PATH = "index.html";
+    // التأكد عند فتح الرابط أنه يفتح على صفحة الطلاب دائماً
+    window.addEventListener("DOMContentLoaded", () => {
+      switchView("student");
+      populateModels();
+    });
 
-        let currentExam = null;
-        let currentQIndex = 0;
-        let userAnswers = [];
-        let flaggedQuestions = [];
-        let examMode = 'practice';
-        let timerInterval = null;
-        let secondsLeft = 0;
-        let isPaused = false;
+    function switchView(view) {
+      if (view === "admin" && !isAdminAuthenticated) {
+        openAdminLogin();
+        return;
+      }
+      document.getElementById("studentView").classList.toggle("hidden", view !== "student");
+      document.getElementById("adminView").classList.toggle("hidden", view !== "admin");
+      if (view === "admin") renderAdminList();
+      if (view === "student") populateModels();
+    }
 
-        window.onload = function() {
-            const savedData = localStorage.getItem('malek_lms_exams');
-            const savedConfig = localStorage.getItem('malek_lms_config');
-            if (savedData) EXAMS_DATA = JSON.parse(savedData);
-            if (savedConfig) PLATFORM_CONFIG = JSON.parse(savedConfig);
-            
-            toggleAccessCodeField();
-            populateExamSelects();
-            updateTokenBadge();
-        };
+    function openAdminLogin() {
+      if (isAdminAuthenticated) {
+        switchView("admin");
+        return;
+      }
+      document.getElementById("adminPassInput").value = "";
+      document.getElementById("passwordModal").classList.remove("hidden");
+    }
 
-        function updateTokenBadge() {
-            const token = localStorage.getItem('malek_gh_token');
-            const badge = document.getElementById('token-status-badge');
-            if (token && token.trim().length > 10) {
-                badge.textContent = "✓ مربوط وجاهز";
-                badge.className = "text-[11px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold";
-                document.getElementById('github-token-input').value = token;
-            } else {
-                badge.textContent = "غير مربوط";
-                badge.className = "text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-400";
-            }
-        }
+    function closePasswordModal() {
+      document.getElementById("passwordModal").classList.add("hidden");
+    }
 
-        function saveGitHubToken() {
-            const token = document.getElementById('github-token-input').value.trim();
-            if (!token) {
-                showToast("يرجى لصق رمز GitHub Token أولاً!", true);
-                return;
-            }
-            localStorage.setItem('malek_gh_token', token);
-            updateTokenBadge();
-            showToast("تم حفظ رمز الربط بنجاح على هاتفك!");
-        }
+    function verifyAdminPassword() {
+      const entered = document.getElementById("adminPassInput").value;
+      if (entered === ADMIN_PASSWORD) {
+        isAdminAuthenticated = true;
+        closePasswordModal();
+        switchView("admin");
+      } else {
+        alert("كلمة المرور غير صحيحة!");
+      }
+    }
 
-        function buildUpdatedHTMLString() {
-            const docClone = document.documentElement.cloneNode(true);
-            const dataScript = docClone.querySelector('#platform-data-script');
-            dataScript.textContent = `\n        let PLATFORM_CONFIG = ${JSON.stringify(PLATFORM_CONFIG, null, 8)};\n\n        let EXAMS_DATA = ${JSON.stringify(EXAMS_DATA, null, 8)};\n    `;
-            // مسح أي قيمة حساسة من حقل التوكن قبل التصدير
-            const tokenInput = docClone.querySelector('#github-token-input');
-            if (tokenInput) tokenInput.removeAttribute('value');
-            return "<!DOCTYPE html>\n" + docClone.outerHTML;
-        }
+    function logoutAdmin() {
+      isAdminAuthenticated = false;
+      switchView("student");
+    }
 
-        async function publishDirectlyToGitHub() {
-            const token = localStorage.getItem('malek_gh_token');
-            if (!token) {
-                showToast("يرجى لصق رمز GitHub Token في الخانة أدناه والضغط على (ربط وحفظ) أولاً!", true);
-                return;
-            }
+    function populateModels() {
+      const models = [...new Set(questions.map(q => q.model))];
+      const select = document.getElementById("modelSelect");
+      select.innerHTML = `<option value="ALL">جميع النماذج (${questions.length} سؤال)</option>` +
+        models.map(m => `<option value="${m}">${m}</option>`).join("");
+      document.getElementById("totalQuestionsBadge").textContent = questions.length;
+    }
 
-            const btn = document.getElementById('publish-btn');
-            const originalHTML = btn.innerHTML;
-            btn.disabled = true;
-            btn.innerHTML = '<span>⏳ جاري النشر إلى موقع الطلاب...</span>';
+    function startExam() {
+      const selectedModel = document.getElementById("modelSelect").value;
+      currentMode = document.getElementById("modeSelect").value;
+      const mins = parseInt(document.getElementById("durationInput").value) || 45;
 
-            try {
-                const apiUrl = `https://api.github.com/repos/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}/contents/${GITHUB_FILE_PATH}`;
-                
-                // 1. جلب SHA الحالي للملف
-                const getRes = await fetch(apiUrl, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
-                });
+      activeQuestions = selectedModel === "ALL" ? [...questions] : questions.filter(q => q.model === selectedModel);
+      if (activeQuestions.length === 0) {
+        alert("لا توجد أسئلة في هذا النموذج حالياً.");
+        return;
+      }
 
-                if (!getRes.ok) {
-                    throw new Error("تعذر الاتصال بـ GitHub. تأكد من صحة الرمز وصلاحياته.");
-                }
+      currentIdx = 0;
+      userAnswers = {};
+      flaggedSet.clear();
+      remainingSeconds = mins * 60;
+      isPaused = false;
 
-                const fileData = await getRes.json();
-                const currentSha = fileData.sha;
+      document.getElementById("examSetupCard").classList.add("hidden");
+      document.getElementById("resultScreen").classList.add("hidden");
+      document.getElementById("examRunner").classList.remove("hidden");
 
-                // 2. تشفير المحتوى الجديد بصيغة Base64 مع دعم العربية
-                const updatedHTML = buildUpdatedHTMLString();
-                const utf8Bytes = new TextEncoder().encode(updatedHTML);
-                let binaryStr = '';
-                for (let i = 0; i < utf8Bytes.length; i++) {
-                    binaryStr += String.fromCharCode(utf8Bytes[i]);
-                }
-                const base64Content = btoa(binaryStr);
+      startTimer();
+      renderQuestion();
+    }
 
-                // 3. رفع التحديث مباشرة
-                const putRes = await fetch(apiUrl, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Accept': 'application/vnd.github.v3+json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        message: 'Auto-update exams from Dr. Malek Admin Panel',
-                        content: base64Content,
-                        sha: currentSha
-                    })
-                });
-
-                if (!putRes.ok) {
-                    throw new Error("فشل رفع التحديث. تأكد أن الرمز يملك صلاحية التعديل (Contents: Read & Write).");
-                }
-
-                showToast("🎉 تم النشر بنجاح! ستظهر التحديثات لطلابك خلال 45 ثانية.");
-            } catch (err) {
-                showToast(err.message, true);
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = originalHTML;
-            }
-        }
-
-        function toggleAccessCodeField() {
-            const wrapper = document.getElementById('access-code-wrapper');
-            if (!PLATFORM_CONFIG.studentAccessCode || PLATFORM_CONFIG.studentAccessCode.trim() === '') {
-                wrapper.classList.add('hidden');
-            } else {
-                wrapper.classList.remove('hidden');
-            }
-        }
-
-        function showToast(msg, isError = false) {
-            const toast = document.getElementById('toast');
-            toast.textContent = msg;
-            toast.className = `fixed bottom-5 right-5 left-5 sm:left-auto ${isError ? 'bg-rose-600' : 'bg-emerald-600'} text-white px-4 py-3 rounded-xl shadow-lg text-sm font-bold z-50 text-center`;
-            toast.classList.remove('hidden');
-            setTimeout(() => toast.classList.add('hidden'), 4000);
-        }
-
-        function populateExamSelects() {
-            const mainSelect = document.getElementById('exam-selector');
-            const adminSelect = document.getElementById('admin-exam-select');
-            mainSelect.innerHTML = '';
-            adminSelect.innerHTML = '';
-
-            EXAMS_DATA.forEach((ex, idx) => {
-                mainSelect.add(new Option(ex.title, idx));
-                adminSelect.add(new Option(ex.title, idx));
-            });
-            updateExamInfo();
-        }
-
-        function updateExamInfo() {
-            const idx = document.getElementById('exam-selector').value;
-            const ex = EXAMS_DATA[idx];
-            if (ex) {
-                document.getElementById('meta-count').textContent = ex.questions.length;
-                document.getElementById('meta-time').textContent = ex.duration;
-            }
-        }
-
-        function startExam() {
-            const name = document.getElementById('student-name').value.trim();
-            if (!name) { showToast("يرجى إدخال اسم الطالب أولاً!", true); return; }
-
-            if (PLATFORM_CONFIG.studentAccessCode && PLATFORM_CONFIG.studentAccessCode.trim() !== '') {
-                const enteredCode = document.getElementById('student-access-input').value.trim();
-                if (enteredCode !== PLATFORM_CONFIG.studentAccessCode.trim()) {
-                    showToast("رمز دخول الطلاب غير صحيح! تواصل مع د. مالك.", true);
-                    return;
-                }
-            }
-
-            const idx = document.getElementById('exam-selector').value;
-            currentExam = EXAMS_DATA[idx];
-            if (!currentExam || currentExam.questions.length === 0) {
-                showToast("هذا النموذج لا يحتوي على أسئلة بعد!", true);
-                return;
-            }
-
-            examMode = document.querySelector('input[name="exam-mode"]:checked').value;
-            currentQIndex = 0;
-            userAnswers = new Array(currentExam.questions.length).fill(null);
-            flaggedQuestions = new Array(currentExam.questions.length).fill(false);
-            secondsLeft = currentExam.duration * 60;
-            isPaused = false;
-
-            document.getElementById('active-exam-title').textContent = currentExam.title;
-            document.getElementById('active-student-name').textContent = name;
-            document.getElementById('total-counter').textContent = currentExam.questions.length;
-
-            switchScreen('exam-screen');
-            renderQuestionNav();
-            renderQuestion();
-            startTimer();
-        }
-
-        function switchScreen(screenId) {
-            ['welcome-screen', 'exam-screen', 'result-screen', 'admin-screen'].forEach(id => {
-                document.getElementById(id).classList.add('hidden');
-            });
-            document.getElementById(screenId).classList.remove('hidden');
-        }
-
-        function startTimer() {
+    function startTimer() {
+      clearInterval(timerInterval);
+      updateTimerUI();
+      timerInterval = setInterval(() => {
+        if (!isPaused) {
+          remainingSeconds--;
+          updateTimerUI();
+          if (remainingSeconds <= 0) {
             clearInterval(timerInterval);
-            updateTimerDisplay();
-            timerInterval = setInterval(() => {
-                if (!isPaused) {
-                    secondsLeft--;
-                    updateTimerDisplay();
-                    if (secondsLeft <= 0) { clearInterval(timerInterval); submitExam(); }
-                }
-            }, 1000);
+            finishExam();
+          }
         }
+      }, 1000);
+    }
 
-        function updateTimerDisplay() {
-            const m = Math.floor(secondsLeft / 60).toString().padStart(2, '0');
-            const s = (secondsLeft % 60).toString().padStart(2, '0');
-            document.getElementById('timer-display').textContent = `${m}:${s}`;
+    function updateTimerUI() {
+      const m = String(Math.floor(remainingSeconds / 60)).padStart(2, "0");
+      const s = String(remainingSeconds % 60).padStart(2, "0");
+      document.getElementById("timerDisplay").textContent = `${m}:${s}`;
+    }
+
+    function togglePause() {
+      isPaused = !isPaused;
+      document.getElementById("pauseBtn").textContent = isPaused ? "استئناف" : "إيقاف مؤقت";
+    }
+
+    function renderQuestion() {
+      const q = activeQuestions[currentIdx];
+      document.getElementById("questionProgressText").textContent = `سؤال ${currentIdx + 1} من ${activeQuestions.length}`;
+      document.getElementById("questionCategoryBadge").textContent = q.model;
+      document.getElementById("questionText").textContent = q.text;
+
+      const flagBtn = document.getElementById("flagBtn");
+      flagBtn.classList.toggle("bg-amber-600", flaggedSet.has(currentIdx));
+      flagBtn.classList.toggle("text-white", flaggedSet.has(currentIdx));
+
+      const letters = ["A", "B", "C", "D"];
+      const container = document.getElementById("optionsContainer");
+      const chosen = userAnswers[currentIdx];
+      const showInstant = currentMode === "practice" && chosen !== undefined;
+
+      container.innerHTML = q.options.map((opt, idx) => {
+        let cls = "option-btn w-full text-right p-4 rounded-xl flex items-center gap-3 font-semibold ";
+        if (showInstant) {
+          if (idx === q.correct) cls += "option-correct";
+          else if (idx === chosen) cls += "option-wrong";
+        } else if (chosen === idx) {
+          cls += "option-selected";
         }
+        return `
+          <button onclick="selectOption(${idx})" ${showInstant ? "disabled" : ""} class="${cls}">
+            <span class="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-sm font-bold text-orange-400 shrink-0">${letters[idx]}</span>
+            <span>${opt}</span>
+          </button>
+        `;
+      }).join("");
 
-        function toggleTimer() {
-            isPaused = !isPaused;
-            document.getElementById('pause-btn').textContent = isPaused ? 'استئناف' : 'إيقاف';
-        }
+      const expBox = document.getElementById("instantExplanationBox");
+      if (showInstant) {
+        document.getElementById("instantExplanationText").textContent = q.explanation;
+        expBox.classList.remove("hidden");
+      } else {
+        expBox.classList.add("hidden");
+      }
 
-        function renderQuestionNav() {
-            const grid = document.getElementById('question-nav-grid');
-            grid.innerHTML = '';
-            let answeredCount = 0;
+      document.getElementById("prevBtn").disabled = currentIdx === 0;
+      document.getElementById("nextBtn").textContent = currentIdx === activeQuestions.length - 1 ? "إنهاء وعرض النتيجة" : "التالي";
+      renderNavGrid();
+    }
 
-            currentExam.questions.forEach((_, i) => {
-                if (userAnswers[i] !== null) answeredCount++;
-                const btn = document.createElement('button');
-                btn.textContent = i + 1;
-                let style = "w-8 h-8 rounded-lg text-xs font-bold border transition ";
-                if (i === currentQIndex) style += "ring-2 ring-orange-500 ";
-                if (flaggedQuestions[i]) style += "bg-amber-500/20 border-amber-500 text-amber-300";
-                else if (userAnswers[i] !== null) style += "bg-blue-600 border-blue-500 text-white";
-                else style += "bg-slate-950 border-slate-800 text-slate-400 hover:bg-slate-800";
+    function renderNavGrid() {
+      const grid = document.getElementById("navGrid");
+      grid.innerHTML = activeQuestions.map((_, i) => {
+        let bg = "bg-slate-800 text-slate-300 border-slate-700";
+        if (flaggedSet.has(i)) bg = "bg-amber-600 text-white border-amber-500";
+        else if (userAnswers[i] !== undefined) bg = "bg-blue-700 text-white border-blue-500";
+        if (i === currentIdx) bg += " ring-2 ring-orange-400";
+        return `<button onclick="jumpTo(${i})" class="w-8 h-8 rounded-lg border text-xs font-bold ${bg}">${i + 1}</button>`;
+      }).join("");
+    }
 
-                btn.className = style;
-                btn.onclick = () => { currentQIndex = i; renderQuestion(); renderQuestionNav(); };
-                grid.appendChild(btn);
-            });
-            document.getElementById('answered-counter').textContent = answeredCount;
-        }
+    function selectOption(idx) {
+      userAnswers[currentIdx] = idx;
+      renderQuestion();
+    }
 
-        function renderQuestion() {
-            const qObj = currentExam.questions[currentQIndex];
-            document.getElementById('q-number').textContent = `${currentQIndex + 1} / ${currentExam.questions.length}`;
-            document.getElementById('question-text').textContent = qObj.q;
+    function toggleFlag() {
+      if (flaggedSet.has(currentIdx)) flaggedSet.delete(currentIdx);
+      else flaggedSet.add(currentIdx);
+      renderQuestion();
+    }
 
-            const flagBtn = document.getElementById('flag-btn');
-            flagBtn.className = flaggedQuestions[currentQIndex]
-                ? "px-3 py-1 rounded-lg bg-amber-500/20 border border-amber-500 text-amber-300 text-xs font-semibold flex items-center gap-1"
-                : "px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold flex items-center gap-1";
+    function jumpTo(i) { currentIdx = i; renderQuestion(); }
+    function prevQuestion() { if (currentIdx > 0) { currentIdx--; renderQuestion(); } }
+    function nextQuestion() {
+      if (currentIdx < activeQuestions.length - 1) { currentIdx++; renderQuestion(); }
+      else finishExam();
+    }
 
-            const container = document.getElementById('options-container');
-            container.innerHTML = '';
-            const letters = ['A', 'B', 'C', 'D'];
+    function finishExam() {
+      clearInterval(timerInterval);
+      document.getElementById("examRunner").classList.add("hidden");
+      document.getElementById("resultScreen").classList.remove("hidden");
 
-            qObj.options.forEach((optText, idx) => {
-                const btn = document.createElement('button');
-                const isSelected = userAnswers[currentQIndex] === idx;
-                let btnStyle = "w-full text-right p-4 rounded-xl border text-sm sm:text-base font-medium flex items-center gap-3 transition ";
+      let correctCount = 0;
+      activeQuestions.forEach((q, i) => { if (userAnswers[i] === q.correct) correctCount++; });
+      const pct = Math.round((correctCount / activeQuestions.length) * 100);
 
-                if (examMode === 'practice' && userAnswers[currentQIndex] !== null) {
-                    if (idx === qObj.correct) btnStyle += "bg-emerald-500/20 border-emerald-500 text-emerald-200";
-                    else if (isSelected) btnStyle += "bg-rose-500/20 border-rose-500 text-rose-200";
-                    else btnStyle += "bg-slate-950 border-slate-800 text-slate-400 opacity-70";
-                } else {
-                    btnStyle += isSelected
-                        ? "bg-blue-600/20 border-blue-500 text-white"
-                        : "bg-slate-950 border-slate-800 hover:border-slate-600 text-slate-200";
-                }
+      document.getElementById("scorePercentage").textContent = `${pct}%`;
+      document.getElementById("scoreSummaryText").textContent = `أجبت بشكل صحيح على ${correctCount} من أصل ${activeQuestions.length} سؤال`;
+      document.getElementById("studentGradeLabel").textContent =
+        pct >= 90 ? "ممتاز (Excellent)" : pct >= 80 ? "جيد جداً (Very Good)" : pct >= 65 ? "جيد (Good)" : "بحاجة لمراجعة (Needs Improvement)";
 
-                btn.className = btnStyle;
-                btn.innerHTML = `<span class="w-7 h-7 rounded-lg bg-slate-800 flex items-center justify-center text-xs font-bold shrink-0">${letters[idx]}</span><span>${optText}</span>`;
-                btn.onclick = () => selectOption(idx);
-                container.appendChild(btn);
-            });
+      const letters = ["A", "B", "C", "D"];
+      document.getElementById("reviewContainer").innerHTML = activeQuestions.map((q, i) => {
+        const chosen = userAnswers[i];
+        const isRight = chosen === q.correct;
+        return `
+          <div class="p-4 rounded-xl border ${isRight ? "border-emerald-700 bg-emerald-950/30" : "border-red-800 bg-red-950/30"}">
+            <p class="font-bold text-white mb-2">${i + 1}. ${q.text}</p>
+            <p class="text-xs text-slate-300">إجابتك: <span class="font-bold">${chosen !== undefined ? letters[chosen] + " - " + q.options[chosen] : "لم تتم الإجابة"}</span></p>
+            <p class="text-xs text-emerald-400 mt-1">الإجابة الصحيحة: <span class="font-bold">${letters[q.correct]} - ${q.options[q.correct]}</span></p>
+            <p class="text-xs text-blue-300 mt-2 bg-slate-900/80 p-2.5 rounded-lg">💡 ${q.explanation}</p>
+          </div>
+        `;
+      }).join("");
+    }
 
-            const expBox = document.getElementById('instant-explanation');
-            if (examMode === 'practice' && userAnswers[currentQIndex] !== null) {
-                const isCorrect = userAnswers[currentQIndex] === qObj.correct;
-                expBox.classList.remove('hidden');
-                document.getElementById('instant-status').innerHTML = isCorrect
-                    ? '<span class="text-emerald-400">✓ إجابة صحيحة!</span>'
-                    : `<span class="text-rose-400">✕ إجابة خاطئة. الإجابة الصحيحة هي (${letters[qObj.correct]})</span>`;
-                document.getElementById('instant-exp-text').textContent = qObj.exp || "لا يوجد شرح إضافي.";
-            } else {
-                expBox.classList.add('hidden');
-            }
+    function resetToHome() {
+      document.getElementById("resultScreen").classList.add("hidden");
+      document.getElementById("examSetupCard").classList.remove("hidden");
+    }
 
-            document.getElementById('prev-btn').disabled = currentQIndex === 0;
-            document.getElementById('next-btn').textContent = currentQIndex === currentExam.questions.length - 1 ? 'إنهاء وتسليم ✓' : 'التالي ←';
-        }
+    // وظائف المدير
+    function addQuestion(e) {
+      e.preventDefault();
+      const newQ = {
+        model: document.getElementById("qModel").value.trim(),
+        text: document.getElementById("qText").value.trim(),
+        options: [
+          document.getElementById("opt0").value.trim(),
+          document.getElementById("opt1").value.trim(),
+          document.getElementById("opt2").value.trim(),
+          document.getElementById("opt3").value.trim()
+        ],
+        correct: parseInt(document.getElementById("qCorrect").value),
+        explanation: document.getElementById("qExp").value.trim()
+      };
+      questions.push(newQ);
+      localStorage.setItem("malek_med_questions", JSON.stringify(questions));
+      e.target.reset();
+      renderAdminList();
+      alert("تمت إضافة السؤال بنجاح!");
+    }
 
-        function selectOption(idx) {
-            if (examMode === 'practice' && userAnswers[currentQIndex] !== null) return;
-            userAnswers[currentQIndex] = idx;
-            renderQuestion();
-            renderQuestionNav();
-        }
+    function deleteQuestion(idx) {
+      questions.splice(idx, 1);
+      localStorage.setItem("malek_med_questions", JSON.stringify(questions));
+      renderAdminList();
+    }
 
-        function toggleFlag() {
-            flaggedQuestions[currentQIndex] = !flaggedQuestions[currentQIndex];
-            renderQuestion();
-            renderQuestionNav();
-        }
+    function renderAdminList() {
+      document.getElementById("adminQCount").textContent = questions.length;
+      document.getElementById("adminQuestionsList").innerHTML = questions.map((q, i) => `
+        <div class="p-3 rounded-xl bg-slate-900 border border-slate-700 flex items-start justify-between gap-3">
+          <div>
+            <span class="text-xs text-orange-400 font-bold">${q.model}</span>
+            <p class="text-sm font-semibold text-white mt-1">${i + 1}. ${q.text}</p>
+          </div>
+          <button onclick="deleteQuestion(${i})" class="text-xs px-2.5 py-1 rounded bg-red-900/60 text-red-200 hover:bg-red-800 shrink-0">حذف</button>
+        </div>
+      `).join("");
+    }
 
-        function prevQuestion() {
-            if (currentQIndex > 0) { currentQIndex--; renderQuestion(); renderQuestionNav(); }
-        }
-
-        function nextQuestion() {
-            if (currentQIndex < currentExam.questions.length - 1) { currentQIndex++; renderQuestion(); renderQuestionNav(); }
-            else confirmSubmitExam();
-        }
-
-        function confirmSubmitExam() {
-            if (confirm("هل أنت متأكد من رغبتك في تسليم الإجابات وإنهاء الامتحان؟")) submitExam();
-        }
-
-        function submitExam() {
-            clearInterval(timerInterval);
-            let correctCount = 0;
-            currentExam.questions.forEach((q, i) => { if (userAnswers[i] === q.correct) correctCount++; });
-
-            const total = currentExam.questions.length;
-            const percent = Math.round((correctCount / total) * 100);
-            const studentName = document.getElementById('student-name').value;
-
-            const history = JSON.parse(localStorage.getItem('malek_lms_history') || '[]');
-            history.unshift({ name: studentName, exam: currentExam.title, percent, date: new Date().toLocaleDateString('ar-EG') });
-            localStorage.setItem('malek_lms_history', JSON.stringify(history.slice(0, 20)));
-
-            const badge = document.getElementById('result-badge');
-            if (percent >= 85) { badge.textContent = "تقدير: ممتاز 🌟"; badge.className = "inline-block px-4 py-1.5 rounded-full text-sm font-bold mb-3 bg-emerald-500/20 text-emerald-400"; }
-            else if (percent >= 70) { badge.textContent = "تقدير: جيد جداً 👍"; badge.className = "inline-block px-4 py-1.5 rounded-full text-sm font-bold mb-3 bg-blue-500/20 text-blue-400"; }
-            else if (percent >= 50) { badge.textContent = "تقدير: مقبول ✔️"; badge.className = "inline-block px-4 py-1.5 rounded-full text-sm font-bold mb-3 bg-amber-500/20 text-amber-400"; }
-            else { badge.textContent = "يحتاج إلى مراجعة 📚"; badge.className = "inline-block px-4 py-1.5 rounded-full text-sm font-bold mb-3 bg-rose-500/20 text-rose-400"; }
-
-            document.getElementById('result-student-info').textContent = `الطالب: ${studentName} | النموذج: ${currentExam.title}`;
-            document.getElementById('score-percent').textContent = `${percent}%`;
-            document.getElementById('score-correct').textContent = correctCount;
-            document.getElementById('score-wrong').textContent = total - correctCount;
-
-            const reviewList = document.getElementById('review-list');
-            reviewList.innerHTML = '';
-            const letters = ['A', 'B', 'C', 'D'];
-
-            currentExam.questions.forEach((q, i) => {
-                const isRight = userAnswers[i] === q.correct;
-                const userAnsText = userAnswers[i] !== null ? `(${letters[userAnswers[i]]}) ${q.options[userAnswers[i]]}` : "لم يتم الإجابة";
-                const rightAnsText = `(${letters[q.correct]}) ${q.options[q.correct]}`;
-
-                const card = document.createElement('div');
-                card.className = `p-5 rounded-2xl bg-slate-900 border ${isRight ? 'border-emerald-500/40' : 'border-rose-500/40'}`;
-                card.innerHTML = `
-                    <div class="flex items-center justify-between text-xs mb-2">
-                        <span class="font-bold text-slate-400">سؤال ${i + 1}</span>
-                        <span class="font-bold ${isRight ? 'text-emerald-400' : 'text-rose-400'}">${isRight ? '✓ إجابة صحيحة' : '✕ إجابة خاطئة'}</span>
-                    </div>
-                    <p class="font-bold text-white text-sm mb-3">${q.q}</p>
-                    <div class="text-xs space-y-1 mb-3">
-                        <p class="text-slate-300">إجابتك: <span class="${isRight ? 'text-emerald-400' : 'text-rose-400'} font-semibold">${userAnsText}</span></p>
-                        ${!isRight ? `<p class="text-emerald-400 font-semibold">الإجابة الصحيحة: ${rightAnsText}</p>` : ''}
-                    </div>
-                    <div class="p-3 rounded-xl bg-slate-950 text-xs text-slate-300 leading-relaxed">
-                        <strong class="text-blue-400">التفسير العلمي:</strong> ${q.exp || 'لا يوجد تفسير مرفق.'}
-                    </div>
-                `;
-                reviewList.appendChild(card);
-            });
-
-            switchScreen('result-screen');
-        }
-
-        function retakeExam() { startExam(); }
-        function goHome() { clearInterval(timerInterval); switchScreen('welcome-screen'); populateExamSelects(); toggleAccessCodeField(); }
-
-        function showStatsModal() {
-            const history = JSON.parse(localStorage.getItem('malek_lms_history') || '[]');
-            const list = document.getElementById('history-list');
-            list.innerHTML = history.length === 0 ? '<p class="text-slate-400 text-center py-4">لا توجد محاولات مسجلة بعد.</p>' : '';
-            history.forEach(item => {
-                list.innerHTML += `
-                    <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between">
-                        <div>
-                            <div class="font-bold text-white">${item.name}</div>
-                            <div class="text-xs text-slate-400">${item.exam} • ${item.date}</div>
-                        </div>
-                        <span class="font-extrabold text-blue-400">${item.percent}%</span>
-                    </div>
-                `;
-            });
-            document.getElementById('stats-modal').classList.remove('hidden');
-        }
-
-        function openAdminAuth() {
-            document.getElementById('admin-password-input').value = '';
-            document.getElementById('admin-auth-modal').classList.remove('hidden');
-        }
-        function closeAdminAuth() { document.getElementById('admin-auth-modal').classList.add('hidden'); }
-        function verifyAdminPassword() {
-            const pass = document.getElementById('admin-password-input').value;
-            if (pass === PLATFORM_CONFIG.adminPassword) {
-                closeAdminAuth();
-                document.getElementById('admin-pass-setting').value = PLATFORM_CONFIG.adminPassword;
-                document.getElementById('student-code-setting').value = PLATFORM_CONFIG.studentAccessCode;
-                populateExamSelects();
-                renderAdminQuestionsList();
-                updateTokenBadge();
-                switchScreen('admin-screen');
-                showToast("مرحباً بك في لوحة تحكم المسؤول");
-            } else {
-                showToast("كلمة المرور غير صحيحة!", true);
-            }
-        }
-
-        function saveSecuritySettings() {
-            const newAdminPass = document.getElementById('admin-pass-setting').value.trim();
-            const newStudentCode = document.getElementById('student-code-setting').value.trim();
-            if (!newAdminPass) { showToast("لا يمكن ترك كلمة مرور المدير فارغة!", true); return; }
-            PLATFORM_CONFIG.adminPassword = newAdminPass;
-            PLATFORM_CONFIG.studentAccessCode = newStudentCode;
-            localStorage.setItem('malek_lms_config', JSON.stringify(PLATFORM_CONFIG));
-            showToast("تم حفظ إعدادات الأمان! اضغط (نشر التحديثات) لتطبيقها للطلاب.");
-        }
-
-        function createNewExam() {
-            const title = document.getElementById('new-exam-title').value.trim();
-            const duration = parseInt(document.getElementById('new-exam-duration').value) || 30;
-            if (!title) { showToast("يرجى كتابة عنوان النموذج!", true); return; }
-
-            EXAMS_DATA.push({ id: 'exam-' + Date.now(), title, duration, questions: [] });
-            localStorage.setItem('malek_lms_exams', JSON.stringify(EXAMS_DATA));
-            document.getElementById('new-exam-title').value = '';
-            populateExamSelects();
-            document.getElementById('admin-exam-select').value = EXAMS_DATA.length - 1;
-            renderAdminQuestionsList();
-            showToast("تم إنشاء النموذج بنجاح!");
-        }
-
-        function addQuestionToExam() {
-            const examIdx = document.getElementById('admin-exam-select').value;
-            const qText = document.getElementById('q-input-text').value.trim();
-            const opts = [
-                document.getElementById('opt-0').value.trim(),
-                document.getElementById('opt-1').value.trim(),
-                document.getElementById('opt-2').value.trim(),
-                document.getElementById('opt-3').value.trim()
-            ];
-            const correct = parseInt(document.getElementById('correct-opt-select').value);
-            const exp = document.getElementById('q-input-exp').value.trim();
-
-            if (!qText || opts.some(o => !o)) {
-                showToast("يرجى ملء نص السؤال وجميع الخيارات الأربعة!", true);
-                return;
-            }
-
-            EXAMS_DATA[examIdx].questions.push({ q: qText, options: opts, correct, exp });
-            localStorage.setItem('malek_lms_exams', JSON.stringify(EXAMS_DATA));
-
-            document.getElementById('q-input-text').value = '';
-            [0,1,2,3].forEach(i => document.getElementById(`opt-${i}`).value = '');
-            document.getElementById('q-input-exp').value = '';
-            renderAdminQuestionsList();
-            showToast("تمت إضافة السؤال! اضغط (نشر التحديثات) عند الانتهاء.");
-        }
-
-        function renderAdminQuestionsList() {
-            const examIdx = document.getElementById('admin-exam-select').value;
-            const list = document.getElementById('admin-questions-list');
-            list.innerHTML = '';
-            if (!EXAMS_DATA[examIdx]) return;
-
-            EXAMS_DATA[examIdx].questions.forEach((q, i) => {
-                const div = document.createElement('div');
-                div.className = "p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between gap-2 text-xs";
-                div.innerHTML = `
-                    <span class="text-slate-200 truncate"><strong>${i+1}.</strong> ${q.q}</span>
-                    <button onclick="deleteQuestion(${examIdx}, ${i})" class="text-rose-400 hover:text-rose-300 shrink-0 px-2 py-1">حذف</button>
-                `;
-                list.appendChild(div);
-            });
-        }
-
-        function deleteQuestion(examIdx, qIdx) {
-            EXAMS_DATA[examIdx].questions.splice(qIdx, 1);
-            localStorage.setItem('malek_lms_exams', JSON.stringify(EXAMS_DATA));
-            renderAdminQuestionsList();
-            showToast("تم حذف السؤال");
-        }
-
-        function deleteSelectedExam() {
-            if (EXAMS_DATA.length <= 1) { showToast("يجب الإبقاء على نموذج واحد على الأقل!", true); return; }
-            const examIdx = document.getElementById('admin-exam-select').value;
-            if (confirm("هل أنت متأكد من حذف هذا النموذج بالكامل؟")) {
-                EXAMS_DATA.splice(examIdx, 1);
-                localStorage.setItem('malek_lms_exams', JSON.stringify(EXAMS_DATA));
-                populateExamSelects();
-                renderAdminQuestionsList();
-                showToast("تم حذف النموذج");
-            }
-        }
-
-        function exportPlatformHTML() {
-            const htmlContent = buildUpdatedHTMLString();
-            const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
-            const a = document.createElement("a");
-            a.href = URL.createObjectURL(blob);
-            a.download = "index.html";
-            a.click();
-            showToast("تم تحميل نسخة احتياطية من ملف index.html");
-        }
-    </script>
-
-
-</body></html>
+    function exportUpdatedHTML() {
+      const currentHTML = document.documentElement.outerHTML;
+      const updatedHTML = "<!DOCTYPE html>\n" + currentHTML.replace(
+        /const DEFAULT_QUESTIONS = \[[\s\S]*?\];/,
+        `const DEFAULT_QUESTIONS = ${JSON.stringify(questions, null, 2)};`
+      );
+      navigator.clipboard.writeText(updatedHTML).then(() => {
+        alert("تم نسخ كود index.html المحدّث بجميع أسئلتك! اذهب الآن إلى GitHub والصقه في ملف index.html ليظهر لجميع الطلاب.");
+      });
+    }
+  </script>
+</body>
+</html>
