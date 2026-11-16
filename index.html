@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة الامتحانات الطبية الذكية | Medical LMS</title>
+    
+    <!-- تحميل خطوط Google: Cairo للعربية و Inter للمصطلحات الطبية والرموز الكيميائية -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- تحميل مكتبة Tailwind CSS للتصميم المتجاوب والاحترافي -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Cairo', 'Inter', 'sans-serif'],
+                        latin: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        slateDark: '#0f172a',
+                        cardDark: '#1e293b',
+                        cardHover: '#283548',
+                        medCyan: '#0ea5e9',
+                        medOrange: '#f97316',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* تنسيقات مخصصة لضمان عرض المصطلحات الإنجليزية والمعادلات الكيميائية بدقة داخل النص العربي */
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-family: 'Cairo', sans-serif;
+            overflow-x: hidden;
+        }
+        .ltr-term {
+            direction: ltr;
+            display: inline-block;
+            unicode-bidi: isolate;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            color: #38bdf8;
+        }
+        /* شريط تمرير مخصص للوضع الليلي */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+        /* تأثيرات الانتقال الناعمة */
+        .fade-in {
+            animation: fadeIn 0.35s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[#0f172a] text-slate-100 selection:bg-orange-500 selection:text-white">
+
+    <!-- ================= الشريط العلوي (Navbar) ================= -->
+    <header class="sticky top-0 z-40 bg-[#1e293b]/95 backdrop-blur-md border-b border-slate-700/80 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- شعار المنصة -->
+            <div class="flex items-center gap-3 cursor-pointer" onclick="goHome()">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-orange-500 flex items-center justify-center shadow-md shadow-sky-500/20">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-lg sm:text-xl font-extrabold tracking-tight bg-gradient-to-l from-sky-400 to-orange-400 bg-clip-text text-transparent">
+                        المنصة الطبية للامتحانات
+                    </h1>
+                    <p class="text-[11px] text-slate-400 hidden sm:block">نظام المحاكاة والتقييم الأكاديمي الذكي</p>
+                </div>
+            </div>
+
+            <!-- أزرار التحكم العلوية -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <button onclick="openHistoryModal()" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs sm:text-sm font-semibold border border-slate-700 transition flex items-center gap-1.5">
+                    <span>📊</span>
+                    <span class="hidden sm:inline">سجل درجاتي</span>
+                </button>
+                <button onclick="openAdminAuth()" class="px-3 py-2 rounded-xl bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 border border-orange-500/30 text-xs sm:text-sm font-bold transition flex items-center gap-1.5">
+                    <span>⚙️</span>
+                    <span>إدارة المنصة</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= منطقة التنبيهات العائمة (Custom Toast) ================= -->
+    <div id="toastContainer" class="fixed bottom-5 left-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- ================= المحتوى الرئيسي (Main Views) ================= -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+
+        <!-- 1. شاشة الترحيب واختيار الامتحان (Welcome View) -->
+        <section id="welcomeView" class="fade-in max-w-3xl mx-auto">
+            <div class="bg-[#1e293b] border border-slate-700/80 rounded-2xl p-6 sm:p-8 shadow-2xl">
+                <div class="text-center mb-8">
+                    <span class="inline-block px-3 py-1 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20 text-xs font-bold mb-3">
+                        بوابة الاختبارات الإلكترونية - الوضع المعتم
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white mb-2">أهلاً بك في نظام التقييم الطبي</h2>
+                    <p class="text-slate-400 text-sm sm:text-base">أدخل اسمك، اختر نموذج الامتحان، وحدد نظام التصحيح للبدء فوراً.</p>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- اسم الطالب -->
+                    <div>
+                        <label for="studentNameInput" class="block text-sm font-bold text-slate-300 mb-2">الاسم الكامل للطالب / المتدرب:</label>
+                        <input type="text" id="studentNameInput" placeholder="مثال: د. أحمد محمد..." 
+                            class="w-full px-4 py-3.5 rounded-xl bg-[#0f172a] border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 transition">
+                    </div>
+
+                    <!-- اختيار نموذج الامتحان -->
+                    <div>
+                        <label for="examModelSelect" class="block text-sm font-bold text-slate-300 mb-2">اختر المادة / نموذج الامتحان:</label>
+                        <select id="examModelSelect" onchange="updateModelPreview()"
+                            class="w-full px-4 py-3.5 rounded-xl bg-[#0f172a] border border-slate-700 text-white focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 transition">
+                        </select>
+                        <!-- بطاقة معلومات النموذج المختار -->
+                        <div id="modelInfoCard" class="mt-3 p-4 rounded-xl bg-[#0f172a]/70 border border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm">
+                            <div class="flex items-center gap-2 text-slate-300">
+                                <span class="text-sky-400 font-bold">📝 عدد الأسئلة:</span>
+                                <span id="previewQCount" class="font-bold text-white">0</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-slate-300">
+                                <span class="text-orange-400 font-bold">⏱️ المدة الزمنية:</span>
+                                <span id="previewTime" class="font-bold text-white">45 دقيقة</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- اختيار وضع الامتحان (تدريب أم رسمي) -->
+                    <div>
+                        <label class="block text-sm font-bold text-slate-300 mb-2">نظام التقييم والتصحيح:</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <!-- وضع التدريب -->
+                            <label class="cursor-pointer relative">
+                                <input type="radio" name="examMode" value="practice" checked class="peer sr-only">
+                                <div class="p-4 rounded-xl bg-[#0f172a] border-2 border-slate-700 peer-checked:border-sky-500 peer-checked:bg-sky-500/10 transition h-full">
+                                    <div class="flex items-center justify-between mb-1">
+                                        <span class="font-bold text-sky-400 text-sm sm:text-base">💡 وضع التدريب (تصحيح فوري)</span>
+                                    </div>
+                                    <p class="text-xs text-slate-400 leading-relaxed">يظهر لك الحل الصحيح والشرح العلمي فور اختيارك للإجابة في كل سؤال.</p>
+                                </div>
+                            </label>
+
+                            <!-- وضع الامتحان الرسمي -->
+                            <label class="cursor-pointer relative">
+                                <input type="radio" name="examMode" value="official" class="peer sr-only">
+                                <div class="p-4 rounded-xl bg-[#0f172a] border-2 border-slate-700 peer-checked:border-orange-500 peer-checked:bg-orange-500/10 transition h-full">
+                                    <div class="flex items-center justify-between mb-1">
+                                        <span class="font-bold text-orange-400 text-sm sm:text-base">🎓 وضع الامتحان الرسمي</span>
+                                    </div>
+                                    <p class="text-xs text-slate-400 leading-relaxed">يحاكي الامتحان الجامعي الحقيقي؛ تُحجب الإجابات وتظهر النتيجة النهائية بعد التسليم.</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- زر البدء -->
+                    <button onclick="startExam()" class="w-full py-4 rounded-xl bg-gradient-to-l from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-extrabold text-base sm:text-lg shadow-lg shadow-sky-500/25 transition transform active:scale-[0.99] flex items-center justify-center gap-2">
+                        <span>ابدأ الامتحان الآن</span>
+                        <span>🚀</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. شاشة أداء الامتحان التفاعلية (Exam View) -->
+        <section id="examView" class="hidden fade-in">
+            <!-- شريط المعلومات العلوي للامتحان -->
+            <div class="bg-[#1e293b] border border-slate-700 rounded-2xl p-4 mb-6 flex flex-wrap items-center justify-between gap-4 shadow-lg">
+                <div>
+                    <span id="activeExamBadge" class="text-xs font-bold px-2.5 py-1 rounded-md bg-sky-500/20 text-sky-400 mb-1 inline-block">وضع التدريب</span>
+                    <h2 id="activeExamTitle" class="text-base sm:text-lg font-extrabold text-white">اسم المادة</h2>
+                    <p class="text-xs text-slate-400">الطالب: <span id="activeStudentName" class="text-slate-200 font-semibold"></span></p>
+                </div>
+
+                <!-- المؤقت الزمني التفاعلي -->
+                <div class="flex items-center gap-3 bg-[#0f172a] px-4 py-2.5 rounded-xl border border-slate-700">
+                    <div class="text-center">
+                        <span class="block text-[10px] text-slate-400">الوقت المتبقي</span>
+                        <span id="timerDisplay" class="font-latin text-xl sm:text-2xl font-bold text-orange-400 tracking-wider">45:00</span>
+                    </div>
+                    <button id="pauseTimerBtn" onclick="toggleTimer()" title="إيقاف مؤقت / استئناف" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
+                        ⏸️
+                    </button>
+                </div>
+            </div>
+
+            <!-- التخطيط الشبكي: بطاقة السؤال (يمين) + خريطة التنقل بين الأسئلة (يسار) -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                
+                <!-- عمود السؤال الرئيسي (8 أعمدة) -->
+                <div class="lg:col-span-8 bg-[#1e293b] border border-slate-700 rounded-2xl p-5 sm:p-8 shadow-xl">
+                    <!-- رأس بطاقة السؤال -->
+                    <div class="flex items-center justify-between pb-4 mb-6 border-b border-slate-700/80">
+                        <span class="text-sm sm:text-base font-bold text-sky-400">
+                            السؤال <span id="currentQNumber" class="text-white text-lg">1</span> من <span id="totalQNumber">5</span>
+                        </span>
+                        <button id="flagBtn" onclick="toggleFlagQuestion()" class="px-3 py-1.5 rounded-lg border border-slate-600 text-slate-300 hover:bg-slate-700 text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition">
+                            <span>🚩</span>
+                            <span id="flagBtnText">تحديد للمراجعة</span>
+                        </button>
+                    </div>
+
+                    <!-- نص السؤال -->
+                    <div id="questionText" class="text-base sm:text-xl font-bold text-white leading-relaxed mb-6">
+                        نص السؤال يظهر هنا...
+                    </div>
+
+                    <!-- قائمة الخيارات (A, B, C, D) -->
+                    <div id="optionsContainer" class="space-y-3 mb-6">
+                        <!-- يتم توليد الخيارات عبر JS -->
+                    </div>
+
+                    <!-- صندوق الشرح العلمي الفوري (يظهر في وضع التدريب بعد الإجابة) -->
+                    <div id="instantFeedbackBox" class="hidden p-4 sm:p-5 rounded-xl bg-slate-900/90 border border-sky-500/40 mb-6 fade-in">
+                        <div class="flex items-center gap-2 font-bold text-sky-400 mb-2 text-sm sm:text-base">
+                            <span>🔬</span>
+                            <span>التفسير العلمي للإجابة:</span>
+                        </div>
+                        <p id="instantExplanationText" class="text-slate-300 text-xs sm:text-sm leading-relaxed"></p>
+                    </div>
+
+                    <!-- أزرار التنقل السفلية -->
+                    <div class="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-slate-700/80">
+                        <button id="prevBtn" onclick="navigateQuestion(-1)" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold text-sm transition">
+                            ➡️ السؤال السابق
+                        </button>
+                        
+                        <button id="nextBtn" onclick="navigateQuestion(1)" class="px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-sm transition">
+                            السؤال التالي ⬅️
+                        </button>
+                    </div>
+                </div>
+
+                <!-- عمود لوحة التنقل بين الأسئلة (Moodle Navigation Grid - 4 أعمدة) -->
+                <div class="lg:col-span-4 bg-[#1e293b] border border-slate-700 rounded-2xl p-5 shadow-xl sticky top-24">
+                    <h3 class="text-sm font-extrabold text-slate-200 mb-3 flex items-center justify-between">
+                        <span>🧭 خريطة الأسئلة</span>
+                        <span id="progressCounter" class="text-xs font-bold text-sky-400">0 / 0 مجاب</span>
+                    </h3>
+
+                    <!-- شبكة أرقام الأسئلة -->
+                    <div id="questionNavGrid" class="grid grid-cols-5 gap-2 mb-5">
+                        <!-- يتم توليد المربعات عبر JS -->
+                    </div>
+
+                    <!-- دليل الألوان -->
+                    <div class="grid grid-cols-2 gap-2 text-[11px] text-slate-400 mb-6 bg-[#0f172a] p-3 rounded-xl border border-slate-800">
+                        <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-emerald-500/20 border border-emerald-500 inline-block"></span> تم حله</div>
+                        <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-slate-800 border border-slate-600 inline-block"></span> لم يُحل</div>
+                        <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-amber-500/20 border border-amber-500 inline-block"></span> للمراجعة 🚩</div>
+                        <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded ring-2 ring-sky-400 bg-slate-700 inline-block"></span> السؤال الحالي</div>
+                    </div>
+
+                    <!-- زر تسليم الامتحان -->
+                    <button onclick="confirmSubmitExam()" class="w-full py-3.5 rounded-xl bg-gradient-to-l from-orange-500 to-amber-600 hover:from-orange-400 hover:to-amber-500 text-white font-extrabold text-sm sm:text-base shadow-lg shadow-orange-500/20 transition">
+                        إنهاء وتسليم الامتحان ✔️
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 3. شاشة النتيجة ومراجعة الإجابات (Results Dashboard) -->
+        <section id="resultsView" class="hidden fade-in max-w-4xl mx-auto">
+            <!-- بطاقة ملخص النتيجة -->
+            <div class="bg-[#1e293b] border border-slate-700 rounded-2xl p-6 sm:p-8 text-center shadow-2xl mb-8">
+                <div id="resultBadgeIcon" class="w-20 h-20 mx-auto rounded-full bg-sky-500/10 border-2 border-sky-500 flex items-center justify-center text-4xl mb-4">
+                    🏆
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white mb-1">تم تسليم الامتحان بنجاح!</h2>
+                <p class="text-slate-400 text-sm mb-6">تقرير الأداء الأكاديمي للطالب: <span id="resStudentName" class="text-sky-400 font-bold"></span></p>
+
+                <!-- إحصائيات النتيجة -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-6">
+                    <div class="bg-[#0f172a] p-4 rounded-xl border border-slate-800">
+                        <span class="block text-xs text-slate-400 mb-1">النسبة المئوية</span>
+                        <span id="resPercentage" class="font-latin text-2xl sm:text-3xl font-extrabold text-sky-400">0%</span>
+                    </div>
+                    <div class="bg-[#0f172a] p-4 rounded-xl border border-slate-800">
+                        <span class="block text-xs text-slate-400 mb-1">التقدير العام</span>
+                        <span id="resGradeText" class="text-lg sm:text-xl font-extrabold text-orange-400">ممتاز</span>
+                    </div>
+                    <div class="bg-[#0f172a] p-4 rounded-xl border border-slate-800">
+                        <span class="block text-xs text-slate-400 mb-1">إجابات صحيحة</span>
+                        <span id="resCorrectCount" class="font-latin text-2xl font-bold text-emerald-400">0</span>
+                    </div>
+                    <div class="bg-[#0f172a] p-4 rounded-xl border border-slate-800">
+                        <span class="block text-xs text-slate-400 mb-1">إجابات خاطئة</span>
+                        <span id="resWrongCount" class="font-latin text-2xl font-bold text-rose-400">0</span>
+                    </div>
+                </div>
+
+                <!-- أزرار الإجراءات بعد النتيجة -->
+                <div class="flex flex-wrap justify-center gap-3">
+                    <button onclick="retakeCurrentExam()" class="px-6 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-sm transition">
+                        🔄 إعادة نفس الامتحان
+                    </button>
+                    <button onclick="goHome()" class="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-sm border border-slate-700 transition">
+                        🏠 العودة للرئيسية
+                    </button>
+                </div>
+            </div>
+
+            <!-- نموذج الإجابة التفصيلي (Detailed Answer Key) -->
+            <div class="space-y-4">
+                <h3 class="text-xl font-extrabold text-white flex items-center gap-2 mb-4">
+                    <span>📋</span>
+                    <span>المراجعة التفصيلية ونموذج الإجابة والشرح العلمي</span>
+                </h3>
+                <div id="detailedReviewContainer" class="space-y-4">
+                    <!-- يتم توليد بطاقات المراجعة عبر JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. لوحة تحكم المسؤول (Admin Panel View) -->
+        <section id="adminView" class="hidden fade-in">
+            <div class="bg-[#1e293b] border border-orange-500/40 rounded-2xl p-6 sm:p-8 shadow-2xl">
+                <!-- ترويسة لوحة التحكم -->
+                <div class="flex flex-wrap items-center justify-between gap-4 pb-6 mb-6 border-b border-slate-700">
+                    <div>
+                        <span class="px-2.5 py-1 rounded-md bg-orange-500/20 text-orange-400 text-xs font-bold">وضع المسؤول (Admin Mode)</span>
+                        <h2 class="text-2xl font-extrabold text-white mt-1">إدارة بنوك الأسئلة ونشر المنصة</h2>
+                        <p class="text-xs sm:text-sm text-slate-400">أضف نماذج امتحانات جديدة أو عدّل الأسئلة، ثم اضغط على زر التصدير للحصول على ملف جاهز للرفع على GitHub.</p>
+                    </div>
+                    <button onclick="goHome()" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-bold border border-slate-600 transition">
+                        ✖️ إغلاق لوحة التحكم
+                    </button>
+                </div>
+
+                <!-- قسم التصدير السحري لـ GitHub Pages -->
+                <div class="p-5 rounded-2xl bg-gradient-to-l from-orange-500/15 to-sky-500/15 border border-orange-500/40 mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div>
+                        <h3 class="text-base sm:text-lg font-extrabold text-orange-400 flex items-center gap-2">
+                            <span>🚀</span>
+                            <span>خطوة النشر للطلاب (تحديث الموقع)</span>
+                        </h3>
+                        <p class="text-xs sm:text-sm text-slate-300 mt-1 leading-relaxed">
+                            بعد الانتهاء من إضافة أو تعديل الأسئلة، اضغط على الزر المقابل لتحميل نسخة محدثة من ملف <code class="ltr-term bg-slate-900 px-1.5 py-0.5 rounded">index.html</code> مدمجة بجميع أسئلتك الجديدة، ثم ارفعها مباشرة إلى مستودعك في GitHub.
+                        </p>
+                    </div>
+                    <button onclick="exportStandaloneHTML()" class="w-full md:w-auto shrink-0 px-6 py-4 rounded-xl bg-gradient-to-l from-orange-500 to-amber-600 hover:from-orange-400 hover:to-amber-500 text-white font-extrabold text-sm sm:text-base shadow-lg shadow-orange-500/30 transition flex items-center justify-center gap-2">
+                        <span>💾</span>
+                        <span>تصدير المنصة كملف index.html جاهز للنشر</span>
+                    </button>
+                </div>
+
+                <!-- تقسيم الإدارة: إدارة النماذج + إدارة الأسئلة -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    
+                    <!-- القسم الأيمن: إنشاء واختيار نموذج امتحان (4 أعمدة) -->
+                    <div class="lg:col-span-4 space-y-6">
+                        <!-- إضافة نموذج جديد -->
+                        <div class="bg-[#0f172a] p-5 rounded-xl border border-slate-800">
+                            <h4 class="font-extrabold text-sky-400 mb-4 text-base">➕ إنشاء نموذج امتحان جديد</h4>
+                            <div class="space-y-3">
+                                <div>
+                                    <label class="block text-xs text-slate-400 mb-1">عنوان المادة / النموذج:</label>
+                                    <input type="text" id="newModelTitle" placeholder="مثال: علم وظائف الأعضاء - القلب" class="w-full px-3 py-2.5 rounded-lg bg-[#1e293b] border border-slate-700 text-white text-sm focus:border-sky-500 focus:outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-slate-400 mb-1">مدة الامتحان (بالدقائق):</label>
+                                    <input type="number" id="newModelDuration" value="45" min="5" max="180" class="w-full px-3 py-2.5 rounded-lg bg-[#1e293b] border border-slate-700 text-white text-sm focus:border-sky-500 focus:outline-none">
+                                </div>
+                                <button onclick="createNewModel()" class="w-full py-2.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-bold text-sm transition">
+                                    إضافة النموذج للقائمة
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- قائمة النماذج الحالية -->
+                        <div class="bg-[#0f172a] p-5 rounded-xl border border-slate-800">
+                            <h4 class="font-extrabold text-slate-200 mb-3 text-base">📚 النماذج المتوفرة حالياً</h4>
+                            <div id="adminModelsList" class="space-y-2">
+                                <!-- يتم توليد النماذج عبر JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- القسم الأيسر: إضافة وتعديل أسئلة النموذج المختار (8 أعمدة) -->
+                    <div class="lg:col-span-8 space-y-6">
+                        <div class="bg-[#0f172a] p-5 sm:p-6 rounded-xl border border-slate-800">
+                            <div class="flex flex-wrap items-center justify-between gap-2 mb-4 pb-3 border-b border-slate-800">
+                                <h4 id="adminFormHeader" class="font-extrabold text-orange-400 text-base sm:text-lg">
+                                    ✍️ إضافة سؤال جديد إلى: <span id="selectedAdminModelName" class="text-white"></span>
+                                </h4>
+                                <button id="cancelEditBtn" onclick="resetQuestionForm()" class="hidden text-xs px-3 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700">
+                                    إلغاء التعديل
+                                </button>
+                            </div>
+
+                            <input type="hidden" id="editQuestionIndex" value="-1">
+
+                            <div class="space-y-4">
+                                <!-- نص السؤال -->
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-300 mb-1">نص السؤال (يمكنك كتابة مصطلحات إنجليزية ومعادلات بحرية):</label>
+                                    <textarea id="qTextInput" rows="3" placeholder="اكتب نص السؤال هنا..." class="w-full px-3.5 py-2.5 rounded-xl bg-[#1e293b] border border-slate-700 text-white text-sm focus:border-sky-500 focus:outline-none"></textarea>
+                                </div>
+
+                                <!-- الخيارات الأربعة -->
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="block text-xs text-slate-400 mb-1">الخيار الأول (A):</label>
+                                        <input type="text" id="opt0Input" placeholder="الإجابة A" class="w-full px-3 py-2 rounded-lg bg-[#1e293b] border border-slate-700 text-white text-sm focus:border-sky-500 focus:outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs text-slate-400 mb-1">الخيار الثاني (B):</label>
+                                        <input type="text" id="opt1Input" placeholder="الإجابة B" class="w-full px-3 py-2 rounded-lg bg-[#1e293b] border border-slate-700 text-white text-sm focus:border-sky-500 focus:outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs text-slate-400 mb-1">الخيار الثالث (C):</label>
+                                        <input type="text" id="opt2Input" placeholder="الإجابة C" class="w-full px-3 py-2 rounded-lg bg-[#1e293b] border border-slate-700 text-white text-sm focus:border-sky-500 focus:outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs text-slate-400 mb-1">الخيار الرابع (D):</label>
+                                        <input type="text" id="opt3Input" placeholder="الإجابة D" class="w-full px-3 py-2 rounded-lg bg-[#1e293b] border border-slate-700 text-white text-sm focus:border-sky-500 focus:outline-none">
+                                    </div>
+                                </div>
+
+                                <!-- الإجابة الصحيحة والشرح العلمي -->
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                    <div>
+                                        <label class="block text-xs font-bold text-emerald-400 mb-1">الإجابة الصحيحة:</label>
+                                        <select id="correctOptSelect" class="w-full px-3 py-2.5 rounded-lg bg-[#1e293b] border border-slate-700 text-white text-sm focus:border-emerald-500 focus:outline-none">
+                                            <option value="0">الخيار الأول (A)</option>
+                                            <option value="1">الخيار الثاني (B)</option>
+                                            <option value="2">الخيار الثالث (C)</option>
+                                            <option value="3">الخيار الرابع (D)</option>
+                                        </select>
+                                    </div>
+                                    <div class="sm:col-span-2">
+                                        <label class="block text-xs font-bold text-sky-400 mb-1">التفسير العلمي (يظهر للطالب في المراجعة):</label>
+                                        <input type="text" id="qExplanationInput" placeholder="اشرح لماذا هذه الإجابة هي الصحيحة..." class="w-full px-3 py-2.5 rounded-lg bg-[#1e293b] border border-slate-700 text-white text-sm focus:border-sky-500 focus:outline-none">
+                                    </div>
+                                </div>
+
+                                <button id="saveQuestionBtn" onclick="saveQuestion()" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-sm transition">
+                                    ➕ حفظ السؤال في النموذج
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- قائمة الأسئلة الموجودة داخل النموذج المختار -->
+                        <div class="bg-[#0f172a] p-5 rounded-xl border border-slate-800">
+                            <h4 class="font-extrabold text-slate-200 mb-4 text-base flex items-center justify-between">
+                                <span>📋 أسئلة النموذج الحالي</span>
+                                <span id="adminModelQCount" class="text-xs px-2.5 py-1 rounded bg-slate-800 text-sky-400">0 سؤال</span>
+                            </h4>
+                            <div id="adminQuestionsList" class="space-y-3 max-h-[500px] overflow-y-auto pr-1">
+                                <!-- يتم توليد الأسئلة عبر JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ================= النوافذ المنبثقة (Modals) ================= -->
+
+    <!-- نافذة كلمة مرور المسؤول -->
+    <div id="adminAuthModal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-[#1e293b] border border-slate-700 rounded-2xl max-w-md w-full p-6 shadow-2xl fade-in">
+            <h3 class="text-xl font-extrabold text-white mb-2 flex items-center gap-2">
+                <span>🔐</span>
+                <span>دخول لوحة تحكم المسؤول</span>
+            </h3>
+            <p class="text-xs text-slate-400 mb-4">أدخل رمز المرور الخاص بالمحاضر لإدارة الامتحانات (الرمز الافتراضي: <span class="font-latin text-orange-400 font-bold">1234</span>).</p>
+            <input type="password" id="adminPasswordInput" placeholder="أدخل الرمز السري..." onkeydown="if(event.key==='Enter') verifyAdminPassword()"
+                class="w-full px-4 py-3 rounded-xl bg-[#0f172a] border border-slate-700 text-white mb-4 focus:outline-none focus:border-orange-500">
+            <div class="flex justify-end gap-2">
+                <button onclick="closeModal('adminAuthModal')" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-sm font-bold">إلغاء</button>
+                <button onclick="verifyAdminPassword()" class="px-5 py-2 rounded-xl bg-orange-500 hover:bg-orange-400 text-white text-sm font-bold">دخول</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة تأكيد تسليم الامتحان -->
+    <div id="submitConfirmModal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-[#1e293b] border border-slate-700 rounded-2xl max-w-md w-full p-6 shadow-2xl fade-in">
+            <h3 class="text-xl font-extrabold text-white mb-2">⚠️ تأكيد تسليم الامتحان</h3>
+            <p id="submitConfirmText" class="text-sm text-slate-300 mb-6 leading-relaxed">هل أنت متأكد من رغبتك في إنهاء الامتحان وعرض النتيجة النهائية؟</p>
+            <div class="flex justify-end gap-3">
+                <button onclick="closeModal('submitConfirmModal')" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-bold">تراجع وإكمال الحل</button>
+                <button onclick="finalizeExam()" class="px-5 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-400 text-white text-sm font-bold">نعم، اعتمد النتيجة</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة سجل الدرجات السابق (History Modal) -->
+    <div id="historyModal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-[#1e293b] border border-slate-700 rounded-2xl max-w-2xl w-full p-6 shadow-2xl fade-in max-h-[85vh] flex flex-col">
+            <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-700">
+                <h3 class="text-xl font-extrabold text-white flex items-center gap-2">
+                    <span>📊</span>
+                    <span>سجل محاولاتك السابقة</span>
+                </h3>
+                <button onclick="closeModal('historyModal')" class="text-slate-400 hover:text-white text-xl font-bold">✖</button>
+            </div>
+            <div id="historyListContainer" class="space-y-3 overflow-y-auto flex-grow pr-1">
+                <!-- يتم توليد السجل عبر JS -->
+            </div>
+            <div class="pt-4 mt-4 border-t border-slate-700 flex justify-between items-center">
+                <button onclick="clearExamHistory()" class="text-xs text-rose-400 hover:underline">مسح السجل بالكامل</button>
+                <button onclick="closeModal('historyModal')" class="px-5 py-2 rounded-xl bg-slate-800 text-white text-sm font-bold">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= تذييل الصفحة (Footer) ================= -->
+    <footer class="border-t border-slate-800/80 py-5 text-center text-xs text-slate-500">
+        <p>منصة الامتحانات الطبية الذكية • مصممة للعمل بكفاءة عالية في الوضع الليلي وعلى جميع الأجهزة</p>
+    </footer>
+
+    <!-- ================= المنطق البرمجي للمنصة (JavaScript) ================= -->
+    <script>
+        // ============================================================================
+        // 1. إعدادات النظام وكلمة مرور المسؤول (يمكنك تغيير كلمة المرور من هنا)
+        // ============================================================================
+        const ADMIN_PASSWORD = "1234"; 
+
+        // ============================================================================
+        // 2. قاعدة بيانات الامتحانات الافتراضية (تُحدّث تلقائياً عند التصدير للنشر)
+        // ============================================================================
+        /* START_EXAM_DATA */
+        const DEFAULT_EXAM_DATA = [
+            {
+                id: "model_water_life",
+                title: "الكيمياء الحيوية الطبية: الماء والحياة (Water & Life)",
+                duration: 30,
+                questions: [
+                    {
+                        text: "ما هو السبب الكيميائي الرئيسي لارتفاع الحرارة النوعية للماء (Specific Heat) وقدرته على تنظيم درجة حرارة جسم الإنسان؟",
+                        options: [
+                            "وجود روابط تساهمية غير قطبية بين ذرتي الهيدروجين والأكسجين",
+                            "شبكة الروابط الهيدروجينية (Hydrogen Bonds) المتعددة بين جزيئات H2O التي تتطلب طاقة حرارية عالية لكسرها",
+                            "انخفاض الوزن الجزيئي للماء مقارنة ببقية السوائل الحيوية",
+                            "تحول الماء السائل إلى بخار عند درجات حرارة منخفضة جداً"
+                        ],
+                        correct: 1,
+                        explanation: "تحتاج جزيئات الماء (H2O) إلى امتصاص كمية كبيرة من الطاقة الحرارية لكسر الروابط الهيدروجينية المتماسكة بينها قبل أن ترتفع درجة حرارتها، مما يحمي الخلايا من التقلبات الحرارية المفاجئة."
+                    },
+                    {
+                        text: "أي من الأنظمة الدارئة (Buffers) التالية يُعد خط الدفاع الأول والأهم للحفاظ على الرقم الهيدروجيني للدم (Blood pH = 7.35 - 7.45)؟",
+                        options: [
+                            "نظام الفوسفات الدارئ (Phosphate Buffer System)",
+                            "نظام البيكربونات وحمض الكربونيك (HCO3- / H2CO3)",
+                            "نظام الهيموغلوبين المختزل فقط",
+                            "الأحماض الأمينية الحرة في البلازما"
+                        ],
+                        correct: 1,
+                        explanation: "نظام البيكربونات (HCO3- / H2CO3) هو النظام الدارئ الرئيسي في السائل خارج الخلوي والدم، ويتميز بارتباطه المباشر بتنظيم التنفس (CO2) والكلى."
+                    },
+                    {
+                        text: "عند ذوبان ملح كلوريد الصوديوم (NaCl) في الماء، كيف تتوجه جزيئات الماء حول أيون الصوديوم الموجب (Na+)؟",
+                        options: [
+                            "تتجه ذرات الهيدروجين ذات الشحنة الجزئية الموجبة نحو أيون Na+",
+                            "تتجه ذرات الأكسجين ذات الشحنة الجزئية السالبة نحو أيون Na+ مكونة غلاف تميه (Hydration Shell)",
+                            "تتكون روابط تساهمية مباشرة بين Na+ والأكسجين",
+                            "لا يتفاعل الماء مع الأيونات الموجبة إطلاقاً"
+                        ],
+                        correct: 1,
+                        explanation: "بسبب القطبية العالية لجزيء الماء، تحمل ذرة الأكسجين شحنة جزئية سالبة فتنجذب كهربائياً نحو الكاتيونات الموجبة مثل Na+ لتحيط بها وتمنع إعادة ارتباطها."
+                    },
+                    {
+                        text: "وفقاً لمعادلة هندرسون-هاسلبالخ (Henderson-Hasselbalch)، متى تتساوى قيمة الـ pH للمحلول مع ثابت تفكك الحمض (pKa)؟",
+                        options: [
+                            "عندما يكون تركيز الحمض الضعيف [HA] أكبر بعشرة أضعاف من القاعدة المرافقة [A-]",
+                            "عندما يتساوى تركيز القاعدة المرافقة [A-] مع تركيز الحمض الضعيف [HA]",
+                            "عندما يصل المحلول إلى درجة الغليان",
+                            "عندما يكون تركيز أيونات الهيدروجين [H+] مساوياً للصفر"
+                        ],
+                        correct: 1,
+                        explanation: "حسب المعادلة pH = pKa + log([A-]/[HA])، فعندما يتساوى [A-] مع [HA] يصبح حاصل القسمة 1، ولوغاريتم الواحد يساوي صفراً، وبالتالي pH = pKa."
+                    },
+                    {
+                        text: "تُصنف الجزيئات التي تمتلك جزءاً محباً للماء (Hydrophilic) وآخر كارهاً للماء (Hydrophobic) مثل الفوسفوليبيدات في الأغشية الخلوية باسم:",
+                        options: [
+                            "جزيئات مترددة (Amphoteric)",
+                            "جزيئات مزدوجة الألفة (Amphipathic)",
+                            "جزيئات غير قطبية بالكامل (Non-polar)",
+                            "إلكتروليتات قوية (Strong Electrolytes)"
+                        ],
+                        correct: 1,
+                        explanation: "المركبات الأمفيباثية (Amphipathic) تحتوي على رأس قطبي محب للماء وذيل هيدروكربوني كاره للماء، وهو الأساس الفيزيائي لتكوين الطبقة الدهنية المزدوجة للغشاء الخلوي."
+                    }
+                ]
+            },
+            {
+                id: "model_carbohydrates",
+                title: "الكيمياء الحيوية الطبية: الكربوهيدرات (Carbohydrates)",
+                duration: 35,
+                questions: [
+                    {
+                        text: "ما هو المركب الناتج عند أكسدة مجموعة الألدهيد (C1) في جزيء الجلوكوز (D-Glucose) بواسطة إنزيم Glucose Oxidase؟",
+                        options: [
+                            "حمض الجلوكونيك / جلوكونات (D-Gluconate - C6H12O7)",
+                            "السوربيتول (D-Sorbitol)",
+                            "حمض الجلوكورونيك (D-Glucuronate)",
+                            "الفركتوز (D-Fructose)"
+                        ],
+                        correct: 0,
+                        explanation: "أكسدة ذرة الكربون رقم 1 (مجموعة الألدهيد) في D-Glucose تحولها إلى مجموعة كربوكسيل لينتج حمض الجلوكونيك (D-Gluconate)، وهو التفاعل المستخدم في شرائط قياس سكر الدم."
+                    },
+                    {
+                        text: "أي نوع من الروابط الجليكوسيدية (Glycosidic Bonds) يربط وحدات الجلوكوز في السلسلة المستقيمة للغليكوجين (Glycogen)؟",
+                        options: [
+                            "روابط بيتا (β-1,4) جليكوسيدية",
+                            "روابط ألفا (α-1,4) جليكوسيدية، مع تفرعات من نوع (α-1,6)",
+                            "روابط ألفا (α-1,2) جليكوسيدية فقط",
+                            "روابط ببتيدية (Peptide Bonds)"
+                        ],
+                        correct: 1,
+                        explanation: "يتكون الغليكوجين من سلاسل طويلة من الجلوكوز مرتبطة بروابط (α-1,4)، وتحدث التفرعات كل 8 إلى 12 وحدة عبر روابط (α-1,6) لزيادة سرعة التحلل عند الحاجة للطاقة."
+                    },
+                    {
+                        text: "لماذا يعجز الجهاز الهضمي للإنسان عن هضم السليلوز (Cellulose) الموجود في جدران الخلايا النباتية؟",
+                        options: [
+                            "لأن السليلوز يتكون من سكر الجالاكتوز السام",
+                            "لعدم امتلاك الإنسان إنزيمات قادرة على كسر الروابط الجليكوسيدية من نوع (β-1,4)",
+                            "لأن السليلوز يذوب في حمض المعدة ويتحول إلى دهون",
+                            "لأن وزنه الجزيئي صغير جداً فلا تتعرف عليه الإنزيمات"
+                        ],
+                        correct: 1,
+                        explanation: "تحتوي الإنزيمات الهاضمة البشرية (مثل Amylase) على تخصص فراغي لكسر روابط (α-1,4) فقط، ولا تستطيع تحليل روابط (β-1,4) الموجودة في السليلوز."
+                    },
+                    {
+                        text: "ما العلاقة الفراغية (Isomerism) بين سكر D-Glucose وسكر D-Galactose؟",
+                        options: [
+                            "متصاوغات مرآتية (Enantiomers)",
+                            "إبيميرات عند ذرة الكربون رقم 4 (C4 Epimers)",
+                            "إبيميرات عند ذرة الكربون رقم 2 (C2 Epimers)",
+                            "متصاوغات وظيفية (Aldose-Ketose Isomers)"
+                        ],
+                        correct: 1,
+                        explanation: "يختلف D-Galactose عن D-Glucose في اتجاه مجموعة الهيدروكسيل (-OH) حول ذرة الكربون الرابعة (C4) فقط، لذا يُعرفان بأنهما C4 Epimers."
+                    },
+                    {
+                        text: "أي من السكريات الثنائية التالية يُعد سكراً غير مختزل (Non-reducing Sugar) لارتباط ذرتي الكربون الأنوميريتين معاً؟",
+                        options: [
+                            "المالتوز (Maltose)",
+                            "اللاكتوز (Lactose)",
+                            "السكروز (Sucrose)",
+                            "السيلوبيوز (Cellobiose)"
+                        ],
+                        correct: 2,
+                        explanation: "في السكروز (Glucose + Fructose)، ترتبط ذرة الكربون الأنوميرية C1 في الجلوكوز مع C2 في الفركتوز برابطة (α1-β2)، فلا تبقى أي مجموعة أنوميرية حرة للاختزال."
+                    }
+                ]
+            }
+        ];
+        /* END_EXAM_DATA */
+
+        // ============================================================================
+        // 3. إدارة حالة التطبيق (Application State)
+        // ============================================================================
+        let examModels = [];
+        let activeModel = null;
+        let currentMode = 'practice'; // 'practice' | 'official'
+        let studentName = '';
+        let currentQIndex = 0;
+        let userAnswers = []; // تخزين رقم الخيار المختار لكل سؤال (null إذا لم يُحل)
+        let flaggedQuestions = []; // مصفوفة منطقية للأسئلة المحددة للمراجعة
+        let timerInterval = null;
+        let remainingSeconds = 0;
+        let isTimerPaused = false;
+        let selectedAdminModelIndex = 0;
+
+        // تهيئة البيانات عند تحميل الصفحة
+        window.onload = function() {
+            loadExamData();
+            populateModelDropdown();
+            renderAdminPanel();
+        };
+
+        // تحميل البيانات من الذاكرة المحلية أو الاعتماد على البيانات المدمجة في الملف
+        function loadExamData() {
+            const savedData = localStorage.getItem('med_lms_exam_models_v1');
+            if (savedData) {
+                try {
+                    const parsed = JSON.parse(savedData);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        examModels = parsed;
+                        return;
+                    }
+                } catch (e) {
+                    console.error("خطأ في قراءة البيانات المحفوظة:", e);
+                }
+            }
+            examModels = JSON.parse(JSON.stringify(DEFAULT_EXAM_DATA));
+        }
+
+        // حفظ التعديلات في متصفح المسؤول
+        function saveExamDataToLocal() {
+            localStorage.setItem('med_lms_exam_models_v1', JSON.stringify(examModels));
+            populateModelDropdown();
+        }
+
+        // دالة تنسيق النص تلقائياً لإبراز المصطلحات الإنجليزية والمعادلات الكيميائية بشكل أنيق
+        function formatMedicalText(text) {
+            if (!text) return '';
+            // حماية النص من أكواد HTML الضارة أولاً
+            const escaped = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            // إحاطة الكلمات الإنجليزية والأرقام والرموز الكيميائية بوسم ltr-term
+            return escaped.replace(/([A-Za-z][A-Za-z0-9\-\+\=\/\(\)\.\,\s]*[A-Za-z0-9\)\+\-])|([A-Za-z]{2,})/g, function(match) {
+                if (match.trim().length === 0) return match;
+                return `<span class="ltr-term">${match}</span>`;
+            });
+        }
+
+        // إظهار إشعار أنيق بدلاً من alert
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            const colors = {
+                info: 'bg-slate-800 border-sky-500 text-sky-300',
+                success: 'bg-emerald-950/90 border-emerald-500 text-emerald-300',
+                error: 'bg-rose-950/90 border-rose-500 text-rose-300',
+                warning: 'bg-amber-950/90 border-amber-500 text-amber-300'
+            };
+            toast.className = `pointer-events-auto px-4 py-3 rounded-xl border ${colors[type] || colors.info} shadow-xl text-xs sm:text-sm font-bold flex items-center gap-2 fade-in`;
+            toast.innerHTML = `<span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3200);
+        }
+
+        // ============================================================================
+        // 4. منطق شاشة الترحيب وبدء الامتحان
+        // ============================================================================
+        function populateModelDropdown() {
+            const select = document.getElementById('examModelSelect');
+            select.innerHTML = '';
+            examModels.forEach((model, idx) => {
+                const option = document.createElement('option');
+                option.value = idx;
+                option.textContent = `${model.title} (${model.questions.length} أسئلة)`;
+                select.appendChild(option);
+            });
+            updateModelPreview();
+        }
+
+        function updateModelPreview() {
+            const idx = document.getElementById('examModelSelect').value;
+            const model = examModels[idx];
+            if (model) {
+                document.getElementById('previewQCount').textContent = `${model.questions.length} سؤال`;
+                document.getElementById('previewTime').textContent = `${model.duration} دقيقة`;
+            }
+        }
+
+        function startExam() {
+            const nameInput = document.getElementById('studentNameInput').value.trim();
+            if (!nameInput) {
+                showToast("⚠️ يرجى إدخال اسمك الكامل قبل بدء الامتحان", "warning");
+                document.getElementById('studentNameInput').focus();
+                return;
+            }
+
+            const modelIdx = document.getElementById('examModelSelect').value;
+            activeModel = examModels[modelIdx];
+
+            if (!activeModel || activeModel.questions.length === 0) {
+                showToast("⚠️ هذا النموذج لا يحتوي على أسئلة حالياً!", "error");
+                return;
+            }
+
+            studentName = nameInput;
+            currentMode = document.querySelector('input[name="examMode"]:checked').value;
+            currentQIndex = 0;
+            userAnswers = new Array(activeModel.questions.length).fill(null);
+            flaggedQuestions = new Array(activeModel.questions.length).fill(false);
+
+            // إعداد واجهة الامتحان
+            document.getElementById('activeExamTitle').textContent = activeModel.title;
+            document.getElementById('activeStudentName').textContent = studentName;
+            document.getElementById('totalQNumber').textContent = activeModel.questions.length;
+
+            const badge = document.getElementById('activeExamBadge');
+            if (currentMode === 'practice') {
+                badge.textContent = '💡 وضع التدريب (تصحيح فوري)';
+                badge.className = 'text-xs font-bold px-2.5 py-1 rounded-md bg-sky-500/20 text-sky-400 mb-1 inline-block';
+            } else {
+                badge.textContent = '🎓 وضع الامتحان الرسمي';
+                badge.className = 'text-xs font-bold px-2.5 py-1 rounded-md bg-orange-500/20 text-orange-400 mb-1 inline-block';
+            }
+
+            // تشغيل المؤقت
+            remainingSeconds = activeModel.duration * 60;
+            isTimerPaused = false;
+            document.getElementById('pauseTimerBtn').textContent = '⏸️';
+            startTimer();
+
+            // التبديل إلى شاشة الامتحان
+            switchView('examView');
+            renderQuestion();
+            renderNavGrid();
+        }
+
+        function switchView(viewId) {
+            ['welcomeView', 'examView', 'resultsView', 'adminView'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById(viewId).classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function goHome() {
+            clearInterval(timerInterval);
+            switchView('welcomeView');
+            populateModelDropdown();
+        }
+
+        // ============================================================================
+        // 5. المؤقت الزمني وخريطة الأسئلة والتفاعل
+        // ============================================================================
+        function startTimer() {
+            clearInterval(timerInterval);
+            updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                if (!isTimerPaused) {
+                    remainingSeconds--;
+                    updateTimerDisplay();
+                    if (remainingSeconds <= 0) {
+                        clearInterval(timerInterval);
+                        showToast("⏰ انتهى وقت الامتحان! جاري اعتماد إجاباتك...", "warning");
+                        finalizeExam();
+                    }
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(remainingSeconds / 60);
+            const secs = remainingSeconds % 60;
+            const display = document.getElementById('timerDisplay');
+            display.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            
+            if (remainingSeconds <= 60) {
+                display.classList.add('text-rose-500', 'animate-pulse');
+                display.classList.remove('text-orange-400');
+            } else {
+                display.classList.remove('text-rose-500', 'animate-pulse');
+                display.classList.add('text-orange-400');
+            }
+        }
+
+        function toggleTimer() {
+            isTimerPaused = !isTimerPaused;
+            const btn = document.getElementById('pauseTimerBtn');
+            btn.textContent = isTimerPaused ? '▶️' : '⏸️';
+            showToast(isTimerPaused ? "تم إيقاف المؤقت مؤقتاً" : "تم استئناف المؤقت", "info");
+        }
+
+        function renderQuestion() {
+            const q = activeModel.questions[currentQIndex];
+            const selectedAns = userAnswers[currentQIndex];
+            const isFlagged = flaggedQuestions[currentQIndex];
+
+            document.getElementById('currentQNumber').textContent = currentQIndex + 1;
+            document.getElementById('questionText').innerHTML = formatMedicalText(q.text);
+
+            // تحديث زر المراجعة (Flag)
+            const flagBtn = document.getElementById('flagBtn');
+            const flagText = document.getElementById('flagBtnText');
+            if (isFlagged) {
+                flagBtn.className = "px-3 py-1.5 rounded-lg border border-amber-500 bg-amber-500/20 text-amber-300 text-xs sm:text-sm font-bold flex items-center gap-1.5 transition";
+                flagText.textContent = "محدد للمراجعة";
+            } else {
+                flagBtn.className = "px-3 py-1.5 rounded-lg border border-slate-600 text-slate-300 hover:bg-slate-700 text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition";
+                flagText.textContent = "تحديد للمراجعة";
+            }
+
+            // توليد الخيارات
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            const letters = ['A', 'B', 'C', 'D'];
+
+            q.options.forEach((optText, idx) => {
+                const btn = document.createElement('button');
+                let cardStyle = "bg-[#0f172a] border-slate-700 hover:border-sky-500/60 hover:bg-slate-800/80 text-slate-200";
+                let badgeStyle = "bg-slate-800 text-slate-400 border-slate-600";
+                let statusIcon = "";
+
+                if (selectedAns !== null) {
+                    if (currentMode === 'practice') {
+                        // في وضع التدريب: نُظهر الصح والخطأ فوراً
+                        if (idx === q.correct) {
+                            cardStyle = "bg-emerald-950/50 border-emerald-500 text-emerald-100";
+                            badgeStyle = "bg-emerald-500 text-slate-950 border-emerald-400";
+                            statusIcon = "✅";
+                        } else if (idx === selectedAns && idx !== q.correct) {
+                            cardStyle = "bg-rose-950/50 border-rose-500 text-rose-100";
+                            badgeStyle = "bg-rose-500 text-white border-rose-400";
+                            statusIcon = "❌";
+                        } else {
+                            cardStyle = "bg-[#0f172a]/60 border-slate-800 text-slate-500";
+                        }
+                    } else {
+                        // في الوضع الرسمي: نُبرز اختيار الطالب فقط دون كشف الإجابة الصحيحة
+                        if (idx === selectedAns) {
+                            cardStyle = "bg-sky-500/15 border-sky-500 text-white shadow-md shadow-sky-500/10";
+                            badgeStyle = "bg-sky-500 text-slate-950 border-sky-400";
+                            statusIcon = "🔵";
+                        }
+                    }
+                }
+
+                btn.className = `w-full text-right p-4 rounded-xl border-2 transition flex items-center justify-between gap-3 ${cardStyle}`;
+                btn.onclick = () => selectOption(idx);
+
+                btn.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="w-8 h-8 shrink-0 rounded-lg border font-latin font-bold text-sm flex items-center justify-center ${badgeStyle}">
+                            ${letters[idx]}
+                        </span>
+                        <span class="text-sm sm:text-base font-semibold leading-snug">${formatMedicalText(optText)}</span>
+                    </div>
+                    <span class="text-base shrink-0">${statusIcon}</span>
+                `;
+                container.appendChild(btn);
+            });
+
+            // إظهار أو إخفاء صندوق التفسير العلمي الفوري في وضع التدريب
+            const feedbackBox = document.getElementById('instantFeedbackBox');
+            if (currentMode === 'practice' && selectedAns !== null) {
+                feedbackBox.classList.remove('hidden');
+                document.getElementById('instantExplanationText').innerHTML = formatMedicalText(q.explanation || "لا يوجد شرح إضافي لهذا السؤال.");
+            } else {
+                feedbackBox.classList.add('hidden');
+            }
+
+            // تحديث حالة أزرار السابق والتالي
+            document.getElementById('prevBtn').disabled = (currentQIndex === 0);
+            const nextBtn = document.getElementById('nextBtn');
+            if (currentQIndex === activeModel.questions.length - 1) {
+                nextBtn.textContent = "إنهاء الامتحان ✔️";
+                nextBtn.className = "px-5 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-400 text-white font-bold text-sm transition";
+                nextBtn.onclick = confirmSubmitExam;
+            } else {
+                nextBtn.textContent = "السؤال التالي ⬅️";
+                nextBtn.className = "px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-sm transition";
+                nextBtn.onclick = () => navigateQuestion(1);
+            }
+
+            renderNavGrid();
+        }
+
+        function selectOption(optionIdx) {
+            // في وضع التدريب، نمنع تغيير الإجابة بعد كشف الحل لضمان المصداقية
+            if (currentMode === 'practice' && userAnswers[currentQIndex] !== null) {
+                return;
+            }
+            userAnswers[currentQIndex] = optionIdx;
+            renderQuestion();
+        }
+
+        function navigateQuestion(step) {
+            const newIdx = currentQIndex + step;
+            if (newIdx >= 0 && newIdx < activeModel.questions.length) {
+                currentQIndex = newIdx;
+                renderQuestion();
+            }
+        }
+
+        function toggleFlagQuestion() {
+            flaggedQuestions[currentQIndex] = !flaggedQuestions[currentQIndex];
+            renderQuestion();
+        }
+
+        function renderNavGrid() {
+            const grid = document.getElementById('questionNavGrid');
+            grid.innerHTML = '';
+            let answeredCount = 0;
+
+            activeModel.questions.forEach((_, idx) => {
+                const isAnswered = userAnswers[idx] !== null;
+                if (isAnswered) answeredCount++;
+                const isFlagged = flaggedQuestions[idx];
+                const isCurrent = (idx === currentQIndex);
+
+                const btn = document.createElement('button');
+                let style = "bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700";
+
+                if (isFlagged) {
+                    style = "bg-amber-500/20 border-amber-500 text-amber-300";
+                } else if (isAnswered) {
+                    style = "bg-emerald-500/20 border-emerald-500 text-emerald-300";
+                }
+
+                if (isCurrent) {
+                    style += " ring-2 ring-sky-400 font-extrabold";
+                }
+
+                btn.className = `h-10 rounded-lg border font-latin text-xs sm:text-sm font-bold flex items-center justify-center relative transition ${style}`;
+                btn.innerHTML = `${idx + 1}${isFlagged ? '<span class="absolute -top-1 -right-1 text-[10px]">🚩</span>' : ''}`;
+                btn.onclick = () => {
+                    currentQIndex = idx;
+                    renderQuestion();
+                };
+                grid.appendChild(btn);
+            });
+
+            document.getElementById('progressCounter').textContent = `${answeredCount} / ${activeModel.questions.length} مجاب`;
+        }
+
+        // ============================================================================
+        // 6. التسليم والتصحيح التلقائي وعرض النتيجة
+        // ============================================================================
+        function confirmSubmitExam() {
+            const unanswered = userAnswers.filter(a => a === null).length;
+            const textEl = document.getElementById('submitConfirmText');
+            if (unanswered > 0) {
+                textEl.innerHTML = `تنبيه: لا يزال لديك <span class="text-orange-400 font-bold">${unanswered}</span> سؤال لم تقم بالإجابة عنه. هل تريد تسليم الامتحان على أي حال؟`;
+            } else {
+                textEl.textContent = "لقد أجبت على جميع الأسئلة! هل أنت متأكد من رغبتك في تسليم الامتحان وعرض النتيجة؟";
+            }
+            document.getElementById('submitConfirmModal').classList.remove('hidden');
+        }
+
+        function finalizeExam() {
+            closeModal('submitConfirmModal');
+            clearInterval(timerInterval);
+
+            let correctCount = 0;
+            const total = activeModel.questions.length;
+
+            activeModel.questions.forEach((q, idx) => {
+                if (userAnswers[idx] === q.correct) {
+                    correctCount++;
+                }
+            });
+
+            const wrongCount = total - correctCount;
+            const percentage = Math.round((correctCount / total) * 100);
+
+            // تحديد التقدير
+            let gradeText = "يحتاج إلى مراجعة";
+            let badgeIcon = "📚";
+            if (percentage >= 90) { gradeText = "ممتاز (امتياز)"; badgeIcon = "🏆"; }
+            else if (percentage >= 80) { gradeText = "جيد جداً"; badgeIcon = "🌟"; }
+            else if (percentage >= 65) { gradeText = "جيد"; badgeIcon = "👍"; }
+            else if (percentage >= 50) { gradeText = "مقبول"; badgeIcon = "✔️"; }
+
+            // تحديث واجهة النتيجة
+            document.getElementById('resStudentName').textContent = studentName;
+            document.getElementById('resPercentage').textContent = `${percentage}%`;
+            document.getElementById('resGradeText').textContent = gradeText;
+            document.getElementById('resCorrectCount').textContent = correctCount;
+            document.getElementById('resWrongCount').textContent = wrongCount;
+            document.getElementById('resultBadgeIcon').textContent = badgeIcon;
+
+            // حفظ النتيجة في سجل الطالب
+            saveToExamHistory({
+                studentName,
+                examTitle: activeModel.title,
+                score: `${correctCount}/${total}`,
+                percentage,
+                gradeText,
+                date: new Date().toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+            });
+
+            // بناء المراجعة التفصيلية
+            renderDetailedReview();
+            switchView('resultsView');
+        }
+
+        function renderDetailedReview() {
+            const container = document.getElementById('detailedReviewContainer');
+            container.innerHTML = '';
+            const letters = ['A', 'B', 'C', 'D'];
+
+            activeModel.questions.forEach((q, idx) => {
+                const userAns = userAnswers[idx];
+                const isCorrect = (userAns === q.correct);
+                const borderClass = isCorrect ? 'border-emerald-500/40' : 'border-rose-500/40';
+                const statusBadge = isCorrect 
+                    ? '<span class="px-2.5 py-1 rounded-md bg-emerald-500/20 text-emerald-400 text-xs font-bold">✅ إجابة صحيحة</span>'
+                    : '<span class="px-2.5 py-1 rounded-md bg-rose-500/20 text-rose-400 text-xs font-bold">❌ إجابة خاطئة</span>';
+
+                const card = document.createElement('div');
+                card.className = `bg-[#1e293b] border ${borderClass} rounded-2xl p-5 sm:p-6 shadow-md`;
+
+                let optionsHtml = '';
+                q.options.forEach((opt, optIdx) => {
+                    let optClass = "bg-[#0f172a] border-slate-800 text-slate-400";
+                    let tag = "";
+
+                    if (optIdx === q.correct) {
+                        optClass = "bg-emerald-950/60 border-emerald-500 text-emerald-200 font-bold";
+                        tag = '<span class="text-xs text-emerald-400 font-bold">← الإجابة الصحيحة</span>';
+                    } else if (optIdx === userAns && !isCorrect) {
+                        optClass = "bg-rose-950/60 border-rose-500 text-rose-200";
+                        tag = '<span class="text-xs text-rose-400 font-bold">← اختيارك</span>';
+                    }
+
+                    optionsHtml += `
+                        <div class="p-3 rounded-xl border ${optClass} flex items-center justify-between gap-2 text-xs sm:text-sm">
+                            <div><span class="font-latin font-bold ml-2">[${letters[optIdx]}]</span> ${formatMedicalText(opt)}</div>
+                            ${tag}
+                        </div>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between gap-2 mb-3">
+                        <span class="text-xs font-bold text-slate-400">السؤال رقم ${idx + 1}</span>
+                        ${statusBadge}
+                    </div>
+                    <p class="text-sm sm:text-base font-bold text-white mb-4 leading-relaxed">${formatMedicalText(q.text)}</p>
+                    <div class="space-y-2 mb-4">${optionsHtml}</div>
+                    <div class="p-3.5 rounded-xl bg-slate-900/90 border border-sky-500/30 text-xs sm:text-sm text-slate-300">
+                        <strong class="text-sky-400">🔬 التفسير العلمي:</strong> ${formatMedicalText(q.explanation || "لا يوجد شرح إضافي.")}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function retakeCurrentExam() {
+            currentQIndex = 0;
+            userAnswers = new Array(activeModel.questions.length).fill(null);
+            flaggedQuestions = new Array(activeModel.questions.length).fill(false);
+            remainingSeconds = activeModel.duration * 60;
+            isTimerPaused = false;
+            startTimer();
+            switchView('examView');
+            renderQuestion();
+        }
+
+        // ============================================================================
+        // 7. سجل الدرجات (Exam History)
+        // ============================================================================
+        function saveToExamHistory(record) {
+            const history = JSON.parse(localStorage.getItem('med_lms_history_v1') || '[]');
+            history.unshift(record);
+            localStorage.setItem('med_lms_history_v1', JSON.stringify(history.slice(0, 30)));
+        }
+
+        function openHistoryModal() {
+            const history = JSON.parse(localStorage.getItem('med_lms_history_v1') || '[]');
+            const container = document.getElementById('historyListContainer');
+            container.innerHTML = '';
+
+            if (history.length === 0) {
+                container.innerHTML = '<p class="text-center text-slate-400 py-8 text-sm">لا توجد محاولات مسجلة حتى الآن.</p>';
+            } else {
+                history.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'p-4 rounded-xl bg-[#0f172a] border border-slate-800 flex flex-wrap items-center justify-between gap-3';
+                    div.innerHTML = `
+                        <div>
+                            <h4 class="font-bold text-white text-sm">${item.examTitle}</h4>
+                            <p class="text-xs text-slate-400 mt-0.5">الطالب: <span class="text-slate-200">${item.studentName}</span> • ${item.date}</p>
+                        </div>
+                        <div class="text-left">
+                            <span class="font-latin text-lg font-extrabold text-sky-400">${item.percentage}%</span>
+                            <span class="block text-[11px] text-orange-400 font-bold">${item.gradeText} (${item.score})</span>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+            document.getElementById('historyModal').classList.remove('hidden');
+        }
+
+        function clearExamHistory() {
+            localStorage.removeItem('med_lms_history_v1');
+            openHistoryModal();
+            showToast("تم مسح سجل الدرجات", "info");
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        // ============================================================================
+        // 8. لوحة تحكم المسؤول وتصدير المنصة كملف HTML مستقل
+        // ============================================================================
+        function openAdminAuth() {
+            document.getElementById('adminPasswordInput').value = '';
+            document.getElementById('adminAuthModal').classList.remove('hidden');
+            setTimeout(() => document.getElementById('adminPasswordInput').focus(), 100);
+        }
+
+        function verifyAdminPassword() {
+            const pass = document.getElementById('adminPasswordInput').value;
+            if (pass === ADMIN_PASSWORD) {
+                closeModal('adminAuthModal');
+                selectedAdminModelIndex = 0;
+                renderAdminPanel();
+                switchView('adminView');
+                showToast("مرحباً بك في لوحة تحكم المسؤول", "success");
+            } else {
+                showToast("❌ كلمة المرور غير صحيحة!", "error");
+            }
+        }
+
+        function renderAdminPanel() {
+            const modelsList = document.getElementById('adminModelsList');
+            modelsList.innerHTML = '';
+
+            if (selectedAdminModelIndex >= examModels.length) {
+                selectedAdminModelIndex = Math.max(0, examModels.length - 1);
+            }
+
+            examModels.forEach((model, idx) => {
+                const isSelected = (idx === selectedAdminModelIndex);
+                const item = document.createElement('div');
+                item.className = `p-3 rounded-xl border cursor-pointer transition flex items-center justify-between gap-2 ${
+                    isSelected ? 'bg-sky-500/15 border-sky-500 text-white' : 'bg-[#1e293b] border-slate-700 text-slate-300 hover:border-slate-500'
+                }`;
+                item.onclick = () => {
+                    selectedAdminModelIndex = idx;
+                    resetQuestionForm();
+                    renderAdminPanel();
+                };
+
+                item.innerHTML = `
+                    <div class="truncate">
+                        <div class="font-bold text-xs sm:text-sm truncate">${model.title}</div>
+                        <div class="text-[11px] text-slate-400">${model.questions.length} سؤال • ${model.duration} دقيقة</div>
+                    </div>
+                    ${examModels.length > 1 ? `
+                        <button onclick="event.stopPropagation(); deleteModel(${idx})" title="حذف النموذج" class="p-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/30 text-rose-400 text-xs">
+                            🗑️
+                        </button>
+                    ` : ''}
+                `;
+                modelsList.appendChild(item);
+            });
+
+            // عرض أسئلة النموذج المختار
+            const activeAdminModel = examModels[selectedAdminModelIndex];
+            if (!activeAdminModel) return;
+
+            document.getElementById('selectedAdminModelName').textContent = activeAdminModel.title;
+            document.getElementById('adminModelQCount').textContent = `${activeAdminModel.questions.length} سؤال`;
+
+            const qList = document.getElementById('adminQuestionsList');
+            qList.innerHTML = '';
+            const letters = ['A', 'B', 'C', 'D'];
+
+            if (activeAdminModel.questions.length === 0) {
+                qList.innerHTML = '<p class="text-center text-slate-500 py-6 text-xs">لا توجد أسئلة في هذا النموذج بعد. استخدم النموذج أعلاه لإضافة أول سؤال!</p>';
+                return;
+            }
+
+            activeAdminModel.questions.forEach((q, qIdx) => {
+                const qCard = document.createElement('div');
+                qCard.className = 'p-4 rounded-xl bg-[#1e293b] border border-slate-700 flex flex-col gap-2';
+                qCard.innerHTML = `
+                    <div class="flex items-start justify-between gap-2">
+                        <span class="text-xs font-bold text-sky-400">سؤال #${qIdx + 1}</span>
+                        <div class="flex items-center gap-1.5 shrink-0">
+                            <button onclick="editQuestion(${qIdx})" class="px-2.5 py-1 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-xs font-bold">✏️ تعديل</button>
+                            <button onclick="deleteQuestion(${qIdx})" class="px-2.5 py-1 rounded bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 text-xs font-bold">🗑️ حذف</button>
+                        </div>
+                    </div>
+                    <p class="text-xs sm:text-sm font-bold text-white leading-relaxed">${formatMedicalText(q.text)}</p>
+                    <div class="text-xs text-emerald-400 font-semibold">
+                        ✔️ الإجابة الصحيحة [${letters[q.correct]}]: ${formatMedicalText(q.options[q.correct])}
+                    </div>
+                `;
+                qList.appendChild(qCard);
+            });
+        }
+
+        function createNewModel() {
+            const title = document.getElementById('newModelTitle').value.trim();
+            const duration = parseInt(document.getElementById('newModelDuration').value) || 45;
+
+            if (!title) {
+                showToast("⚠️ يرجى كتابة عنوان لنموذج الامتحان", "warning");
+                return;
+            }
+
+            examModels.push({
+                id: 'model_' + Date.now(),
+                title: title,
+                duration: duration,
+                questions: []
+            });
+
+            document.getElementById('newModelTitle').value = '';
+            selectedAdminModelIndex = examModels.length - 1;
+            saveExamDataToLocal();
+            renderAdminPanel();
+            showToast("✅ تم إنشاء نموذج الامتحان الجديد بنجاح", "success");
+        }
+
+        function deleteModel(idx) {
+            if (examModels.length <= 1) return;
+            examModels.splice(idx, 1);
+            selectedAdminModelIndex = 0;
+            saveExamDataToLocal();
+            renderAdminPanel();
+            showToast("تم حذف النموذج", "info");
+        }
+
+        function saveQuestion() {
+            const qText = document.getElementById('qTextInput').value.trim();
+            const opt0 = document.getElementById('opt0Input').value.trim();
+            const opt1 = document.getElementById('opt1Input').value.trim();
+            const opt2 = document.getElementById('opt2Input').value.trim();
+            const opt3 = document.getElementById('opt3Input').value.trim();
+            const correct = parseInt(document.getElementById('correctOptSelect').value);
+            const explanation = document.getElementById('qExplanationInput').value.trim();
+            const editIdx = parseInt(document.getElementById('editQuestionIndex').value);
+
+            if (!qText || !opt0 || !opt1 || !opt2 || !opt3) {
+                showToast("⚠️ يرجى تعبئة نص السؤال وجميع الخيارات الأربعة", "warning");
+                return;
+            }
+
+            const questionObj = {
+                text: qText,
+                options: [opt0, opt1, opt2, opt3],
+                correct: correct,
+                explanation: explanation || "إجابة معتمدة وفق المنهج الطبي."
+            };
+
+            if (editIdx >= 0) {
+                examModels[selectedAdminModelIndex].questions[editIdx] = questionObj;
+                showToast("✅ تم تحديث السؤال بنجاح", "success");
+            } else {
+                examModels[selectedAdminModelIndex].questions.push(questionObj);
+                showToast("✅ تم إضافة السؤال إلى النموذج", "success");
+            }
+
+            resetQuestionForm();
+            saveExamDataToLocal();
+            renderAdminPanel();
+        }
+
+        function editQuestion(qIdx) {
+            const q = examModels[selectedAdminModelIndex].questions[qIdx];
+            document.getElementById('editQuestionIndex').value = qIdx;
+            document.getElementById('qTextInput').value = q.text;
+            document.getElementById('opt0Input').value = q.options[0];
+            document.getElementById('opt1Input').value = q.options[1];
+            document.getElementById('opt2Input').value = q.options[2];
+            document.getElementById('opt3Input').value = q.options[3];
+            document.getElementById('correctOptSelect').value = q.correct;
+            document.getElementById('qExplanationInput').value = q.explanation || '';
+
+            document.getElementById('saveQuestionBtn').textContent = "💾 حفظ التعديلات على السؤال";
+            document.getElementById('cancelEditBtn').classList.remove('hidden');
+            document.getElementById('qTextInput').focus();
+        }
+
+        function resetQuestionForm() {
+            document.getElementById('editQuestionIndex').value = "-1";
+            document.getElementById('qTextInput').value = '';
+            document.getElementById('opt0Input').value = '';
+            document.getElementById('opt1Input').value = '';
+            document.getElementById('opt2Input').value = '';
+            document.getElementById('opt3Input').value = '';
+            document.getElementById('correctOptSelect').value = '0';
+            document.getElementById('qExplanationInput').value = '';
+            document.getElementById('saveQuestionBtn').textContent = "➕ حفظ السؤال في النموذج";
+            document.getElementById('cancelEditBtn').classList.add('hidden');
+        }
+
+        function deleteQuestion(qIdx) {
+            examModels[selectedAdminModelIndex].questions.splice(qIdx, 1);
+            resetQuestionForm();
+            saveExamDataToLocal();
+            renderAdminPanel();
+            showToast("تم حذف السؤال", "info");
+        }
+
+        // ============================================================================
+        // 9. ميزة التصدير الذكية: توليد ملف index.html محدث بالبيانات الجديدة للرفع
+        // ============================================================================
+        function exportStandaloneHTML() {
+            try {
+                // قراءة الكود المصدري الكامل للصفحة الحالية
+                let fullHTML = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+
+                // تجهيز مصفوفة البيانات المحدثة بصيغة JSON نظيفة
+                const updatedDataString = `/* START_EXAM_DATA */\n        const DEFAULT_EXAM_DATA = ${JSON.stringify(examModels, null, 12)};\n        /* END_EXAM_DATA */`;
+
+                // استبدال كتلة البيانات القديمة بالجديدة داخل الكود المصدري
+                const dataRegex = /\/\* START_EXAM_DATA \*\/[\s\S]*?\/\* END_EXAM_DATA \*\//;
+                if (!dataRegex.test(fullHTML)) {
+                    showToast("❌ حدث خطأ أثناء تجهيز الملف للتصدير", "error");
+                    return;
+                }
+
+                // إعادة إخفاء لوحة التحكم وإظهار الشاشة الرئيسية في الملف المُصدَّر
+                fullHTML = fullHTML.replace(dataRegex, updatedDataString);
+
+                // إنشاء ملف للتحميل باسم index.html
+                const blob = new Blob([fullHTML], { type: 'text/html;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'index.html';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                showToast("🎉 تم تحميل ملف index.html المحدث! ارفعه الآن على GitHub", "success");
+            } catch (err) {
+                console.error(err);
+                showToast("❌ تعذر تصدير الملف", "error");
+            }
+        }
+    </script>
+</body>
+</html>
