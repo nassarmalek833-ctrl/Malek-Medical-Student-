@@ -20,18 +20,21 @@
 </head>
 <body class="min-h-screen flex flex-col">
 
-  <!-- الشريط العلوي (خاص بالطلاب فقط - لا يظهر أي زر للمدير) -->
-  <header class="bg-[#0f172a] border-b border-slate-800 sticky top-0 z-50">
+  <!-- الشريط العلوي (نظيف تماماً للطلاب) -->
+  <header class="bg-[#0f172a] border-b border-slate-800 sticky top-0 z-40">
     <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-lg bg-orange-600 flex items-center justify-center font-extrabold text-xl text-white">M</div>
+        <!-- الضغط 5 مرات متتالية على حرف M يفتح نافذة دخول المدير -->
+        <button id="secretLogoBtn" type="button" onclick="handleSecretTap()" class="w-10 h-10 rounded-lg bg-orange-600 flex items-center justify-center font-extrabold text-xl text-white select-none active:scale-95 transition">
+          M
+        </button>
         <div>
           <h1 class="font-bold text-lg text-white leading-tight">منصة مالك الطبية</h1>
           <p class="text-xs text-slate-400">نظام التقييم والاختبارات الطبية</p>
         </div>
       </div>
-      <div class="flex items-center gap-2">
-        <button id="studentHomeBtn" onclick="goToStudentCleanURL()" class="px-3 py-1.5 rounded-lg text-sm font-semibold bg-blue-900/50 text-blue-300 border border-blue-800">
+      <div>
+        <button type="button" onclick="resetAllToStudentLogin()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 border border-slate-700 hover:text-white">
           الرئيسية
         </button>
       </div>
@@ -41,15 +44,15 @@
   <!-- المحتوى الرئيسي -->
   <main class="flex-1 max-w-5xl w-full mx-auto px-4 py-6">
 
-    <!-- 0. شاشة كلمة مرور الطلاب -->
+    <!-- 1. شاشة تسجيل دخول الطلاب (تظهر أولاً عند فتح الرابط) -->
     <section id="studentLoginScreen" class="max-w-md mx-auto mt-8">
       <div class="card rounded-2xl p-6 text-center shadow-xl border-slate-700">
         <div class="w-14 h-14 rounded-2xl bg-orange-600/20 border border-orange-500/40 text-orange-400 flex items-center justify-center mx-auto mb-4 text-2xl font-extrabold">
           🔒
         </div>
         <h2 class="text-xl font-extrabold text-white mb-1">بوابة دخول الطلاب</h2>
-        <p class="text-xs text-slate-400 mb-5">أدخل كلمة المرور الخاصة بالطلاب لفتح الاختبارات الطبية</p>
-        <form onsubmit="verifyStudentPassword(event)" class="space-y-3 text-right">
+        <p class="text-xs text-slate-400 mb-5">أدخل كلمة المرور الخاصة بالطلاب للوصول إلى الاختبارات</p>
+        <form onsubmit="checkStudentLogin(event)" class="space-y-4 text-right">
           <div>
             <label class="block text-xs font-bold text-slate-300 mb-1">كلمة مرور الطلاب</label>
             <input id="studentPassInput" type="password" required placeholder="أدخل كلمة المرور..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white text-center tracking-widest focus:outline-none focus:border-orange-500" />
@@ -61,7 +64,7 @@
       </div>
     </section>
 
-    <!-- 1. واجهة الطلاب الرئيسية -->
+    <!-- 2. واجهة الاختبارات للطلاب -->
     <section id="studentView" class="hidden">
       <div id="examSetupCard" class="card rounded-2xl p-6 mb-6">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-700 pb-4 mb-5">
@@ -92,24 +95,24 @@
           </div>
         </div>
 
-        <button onclick="startExam()" class="btn-primary w-full md:w-auto px-8 py-3 rounded-xl font-bold text-base shadow-lg">
+        <button type="button" onclick="startExam()" class="btn-primary w-full md:w-auto px-8 py-3 rounded-xl font-bold text-base shadow-lg">
           بدء الاختبار الآن ←
         </button>
       </div>
 
-      <!-- منطقة أداء الاختبار -->
+      <!-- شاشة حل الأسئلة -->
       <div id="examRunner" class="hidden">
         <div class="card rounded-2xl p-4 mb-4 flex flex-wrap items-center justify-between gap-3">
           <div class="flex items-center gap-3">
             <span class="bg-blue-900/60 text-blue-300 border border-blue-700 px-3 py-1 rounded-lg text-sm font-bold" id="questionProgressText">سؤال 1 من 10</span>
-            <button onclick="toggleFlag()" id="flagBtn" class="px-3 py-1 rounded-lg text-sm border border-slate-600 text-slate-300 hover:bg-slate-800">
+            <button type="button" onclick="toggleFlag()" id="flagBtn" class="px-3 py-1 rounded-lg text-sm border border-slate-600 text-slate-300 hover:bg-slate-800">
               🚩 تعليم للمراجعة
             </button>
           </div>
           <div class="flex items-center gap-3">
             <div class="bg-slate-900 border border-slate-700 px-3 py-1.5 rounded-lg font-mono text-orange-400 font-bold" id="timerDisplay">45:00</div>
-            <button onclick="togglePause()" id="pauseBtn" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 border border-slate-700 text-slate-300">إيقاف مؤقت</button>
-            <button onclick="finishExam()" class="px-4 py-1.5 rounded-lg text-sm font-bold bg-emerald-600 hover:bg-emerald-700 text-white">تسليم الاختبار</button>
+            <button type="button" onclick="togglePause()" id="pauseBtn" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 border border-slate-700 text-slate-300">إيقاف مؤقت</button>
+            <button type="button" onclick="finishExam()" class="px-4 py-1.5 rounded-lg text-sm font-bold bg-emerald-600 hover:bg-emerald-700 text-white">تسليم الاختبار</button>
           </div>
         </div>
 
@@ -127,8 +130,8 @@
         </div>
 
         <div class="flex items-center justify-between">
-          <button onclick="prevQuestion()" id="prevBtn" class="px-5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white font-semibold disabled:opacity-40">السابق</button>
-          <button onclick="nextQuestion()" id="nextBtn" class="btn-primary px-6 py-2.5 rounded-xl font-bold">التالي</button>
+          <button type="button" onclick="prevQuestion()" id="prevBtn" class="px-5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white font-semibold disabled:opacity-40">السابق</button>
+          <button type="button" onclick="nextQuestion()" id="nextBtn" class="btn-primary px-6 py-2.5 rounded-xl font-bold">التالي</button>
         </div>
       </div>
 
@@ -141,13 +144,13 @@
           <p id="scoreSummaryText" class="text-slate-300 mt-3 text-sm"></p>
         </div>
         <div id="reviewContainer" class="space-y-4 mb-6"></div>
-        <button onclick="resetToHome()" class="btn-primary w-full py-3 rounded-xl font-bold">العودة لقائمة الاختبارات</button>
+        <button type="button" onclick="resetToHome()" class="btn-primary w-full py-3 rounded-xl font-bold">العودة لقائمة الاختبارات</button>
       </div>
     </section>
 
-    <!-- 2. لوحة تحكم المدير (تفتح عبر ?admin=1 وكلمة مرور المدير) -->
+    <!-- 3. لوحة تحكم المدير (تُفتح بالضغط 5 مرات على حرف M + كلمة مرور المدير) -->
     <section id="adminView" class="hidden">
-      <!-- شريط النشر السريع وروابط المشاركة -->
+      <!-- إعدادات النشر ورمز الطلاب -->
       <div class="card rounded-2xl p-5 mb-6 border-blue-500/40 bg-slate-900/70 space-y-4">
         <div class="flex flex-wrap items-center justify-between gap-2">
           <div>
@@ -155,11 +158,8 @@
             <p class="text-xs text-slate-400">انشر أسئلتك للطلاب مباشرة دون الرجوع لموقع GitHub.</p>
           </div>
           <div class="flex flex-wrap gap-2">
-            <button onclick="copyStudentLink()" class="px-3 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold">
+            <button type="button" onclick="copyStudentShareMessage()" class="px-3 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold">
               🔗 نسخ رابط الطلاب + كلمة السر
-            </button>
-            <button onclick="copyInstantSyncLink()" class="px-3 py-1.5 rounded-lg bg-indigo-700 hover:bg-indigo-600 text-white text-xs font-bold">
-              ⚡ نسخ رابط التحديث الفوري (بدون مفتاح)
             </button>
           </div>
         </div>
@@ -169,27 +169,27 @@
             <label class="block text-xs font-bold text-slate-300 mb-1">مفتاح GitHub Token (للنشر الدائم بضغطة زر)</label>
             <div class="flex gap-2">
               <input id="ghTokenInput" type="password" placeholder="ghp_..." class="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white text-xs" />
-              <button onclick="saveGithubToken()" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs font-bold text-white">
+              <button type="button" onclick="saveGithubToken()" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs font-bold text-white">
                 حفظ
               </button>
             </div>
           </div>
           <div>
-            <label class="block text-xs font-bold text-slate-300 mb-1">كلمة مرور الطلاب (تُحدّث عند النشر)</label>
+            <label class="block text-xs font-bold text-slate-300 mb-1">كلمة مرور الطلاب (تُحفظ عند النشر)</label>
             <input id="adminStudentPassEdit" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-orange-400 font-bold text-xs" />
           </div>
         </div>
       </div>
 
-      <!-- نموذج تنزيل / إضافة الأسئلة -->
+      <!-- نموذج إضافة الأسئلة -->
       <div class="card rounded-2xl p-6 mb-6 border-orange-500/40">
         <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-700 pb-4 mb-5">
           <div>
             <h2 class="text-xl font-extrabold text-orange-400">لوحة تحكم المدير (إضافة وتنزيل الأسئلة)</h2>
             <p class="text-xs text-slate-400 mt-1">أضف الأسئلة هنا ثم اضغط "نشر التعديلات للطلاب فوراً".</p>
           </div>
-          <button onclick="logoutAdmin()" class="px-4 py-2 rounded-xl bg-red-900/50 text-red-200 border border-red-700 text-sm font-bold">
-            خروج لصفحة الطلاب
+          <button type="button" onclick="logoutAdmin()" class="px-4 py-2 rounded-xl bg-red-900/50 text-red-200 border border-red-700 text-sm font-bold">
+            تسجيل خروج المدير
           </button>
         </div>
 
@@ -246,14 +246,14 @@
   </main>
 
   <!-- نافذة كلمة مرور المدير -->
-  <div id="passwordModal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+  <div id="adminModal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
     <div class="card rounded-2xl p-6 max-w-sm w-full">
-      <h3 class="text-lg font-bold text-white mb-2">منطقة مخصصة للمدير فقط</h3>
-      <p class="text-xs text-slate-400 mb-4">أدخل كلمة مرور المدير للوصول إلى لوحة إدارة الأسئلة:</p>
+      <h3 class="text-lg font-bold text-white mb-2">دخول المدير</h3>
+      <p class="text-xs text-slate-400 mb-4">أدخل كلمة مرور المدير لفتح لوحة التحكم:</p>
       <input id="adminPassInput" type="password" placeholder="كلمة مرور المدير" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-white mb-4" />
       <div class="flex gap-2">
-        <button onclick="verifyAdminPassword()" class="btn-primary flex-1 py-2 rounded-xl font-bold text-sm">دخول</button>
-        <button onclick="goToStudentCleanURL()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-sm">العودة للطلاب</button>
+        <button type="button" onclick="checkAdminLogin()" class="btn-primary flex-1 py-2 rounded-xl font-bold text-sm">دخول</button>
+        <button type="button" onclick="closeAdminModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-sm">إلغاء</button>
       </div>
     </div>
   </div>
@@ -285,7 +285,6 @@
     ];
 
     let questions = [...DEFAULT_QUESTIONS];
-    let isAdminAuthenticated = false;
     let activeQuestions = [];
     let currentIdx = 0;
     let userAnswers = {};
@@ -295,72 +294,40 @@
     let isPaused = false;
     let currentMode = "practice";
 
-    // التوجيه والتحميل عند فتح المنصة
-    window.addEventListener("DOMContentLoaded", () => {
-      const params = new URLSearchParams(window.location.search);
-      const isAdminRoute = params.get("admin") === "1";
-      const syncPayload = params.get("sync");
+    // عداد النقرات السرية لفتح لوحة المدير
+    let tapCount = 0;
+    let tapTimer = null;
 
-      // استلام التحديث الفوري للطلاب إن وجد في الرابط
-      if (syncPayload) {
-        try {
-          const decoded = JSON.parse(decodeURIComponent(escape(atob(syncPayload))));
-          if (decoded.q) localStorage.setItem("malek_student_synced_q", JSON.stringify(decoded.q));
-          if (decoded.p) localStorage.setItem("malek_student_synced_p", decoded.p);
-          window.history.replaceState({}, document.title, window.location.origin + window.location.pathname);
-        } catch (e) {}
+    function handleSecretTap() {
+      tapCount++;
+      clearTimeout(tapTimer);
+      if (tapCount >= 5) {
+        tapCount = 0;
+        openAdminModal();
+      } else {
+        tapTimer = setTimeout(() => { tapCount = 0; }, 2000);
       }
+    }
 
-      if (isAdminRoute) {
-        document.getElementById("studentLoginScreen").classList.add("hidden");
+    function openAdminModal() {
+      document.getElementById("adminPassInput").value = "";
+      document.getElementById("adminModal").classList.remove("hidden");
+    }
+
+    function closeAdminModal() {
+      document.getElementById("adminModal").classList.add("hidden");
+    }
+
+    function checkAdminLogin() {
+      const pass = document.getElementById("adminPassInput").value.trim();
+      if (pass === ADMIN_PASSWORD) {
+        closeAdminModal();
         const savedDraft = localStorage.getItem("malek_admin_draft_questions");
         if (savedDraft) questions = JSON.parse(savedDraft);
         const savedToken = localStorage.getItem("malek_gh_token");
         if (savedToken) document.getElementById("ghTokenInput").value = savedToken;
         document.getElementById("adminStudentPassEdit").value = STUDENT_PASSWORD;
-        document.getElementById("passwordModal").classList.remove("hidden");
-      } else {
-        const syncedQ = localStorage.getItem("malek_student_synced_q");
-        const syncedP = localStorage.getItem("malek_student_synced_p");
-        questions = syncedQ ? JSON.parse(syncedQ) : [...DEFAULT_QUESTIONS];
-        if (syncedP) STUDENT_PASSWORD = syncedP;
 
-        if (sessionStorage.getItem("malek_student_unlocked") === STUDENT_PASSWORD) {
-          unlockStudentPortal();
-        } else {
-          document.getElementById("studentLoginScreen").classList.remove("hidden");
-          document.getElementById("studentView").classList.add("hidden");
-        }
-      }
-    });
-
-    function verifyStudentPassword(e) {
-      e.preventDefault();
-      const entered = document.getElementById("studentPassInput").value.trim();
-      if (entered === STUDENT_PASSWORD) {
-        sessionStorage.setItem("malek_student_unlocked", STUDENT_PASSWORD);
-        unlockStudentPortal();
-      } else {
-        alert("كلمة مرور الطلاب غير صحيحة! حاول مرة أخرى.");
-      }
-    }
-
-    function unlockStudentPortal() {
-      document.getElementById("studentLoginScreen").classList.add("hidden");
-      document.getElementById("adminView").classList.add("hidden");
-      document.getElementById("studentView").classList.remove("hidden");
-      populateModels();
-    }
-
-    function goToStudentCleanURL() {
-      window.location.href = window.location.origin + window.location.pathname;
-    }
-
-    function verifyAdminPassword() {
-      const entered = document.getElementById("adminPassInput").value;
-      if (entered === ADMIN_PASSWORD) {
-        isAdminAuthenticated = true;
-        document.getElementById("passwordModal").classList.add("hidden");
         document.getElementById("studentLoginScreen").classList.add("hidden");
         document.getElementById("studentView").classList.add("hidden");
         document.getElementById("adminView").classList.remove("hidden");
@@ -371,26 +338,40 @@
     }
 
     function logoutAdmin() {
-      isAdminAuthenticated = false;
-      goToStudentCleanURL();
+      questions = [...DEFAULT_QUESTIONS];
+      document.getElementById("adminView").classList.add("hidden");
+      document.getElementById("studentView").classList.add("hidden");
+      document.getElementById("studentLoginScreen").classList.remove("hidden");
     }
 
-    function copyStudentLink() {
+    // تسجيل دخول الطلاب
+    function checkStudentLogin(e) {
+      e.preventDefault();
+      const pass = document.getElementById("studentPassInput").value.trim();
+      if (pass === STUDENT_PASSWORD) {
+        questions = [...DEFAULT_QUESTIONS];
+        document.getElementById("studentLoginScreen").classList.add("hidden");
+        document.getElementById("adminView").classList.add("hidden");
+        document.getElementById("studentView").classList.remove("hidden");
+        populateModels();
+      } else {
+        alert("كلمة مرور الطلاب غير صحيحة! حاول مرة أخرى.");
+      }
+    }
+
+    function resetAllToStudentLogin() {
+      clearInterval(timerInterval);
+      document.getElementById("adminView").classList.add("hidden");
+      document.getElementById("studentView").classList.add("hidden");
+      document.getElementById("studentLoginScreen").classList.remove("hidden");
+    }
+
+    function copyStudentShareMessage() {
       const cleanUrl = window.location.origin + window.location.pathname;
       const currentStudentPass = document.getElementById("adminStudentPassEdit").value.trim() || STUDENT_PASSWORD;
-      const shareText = `رابط منصة مالك الطبية للاختبارات:\n${cleanUrl}\nكلمة مرور الطلاب: ${currentStudentPass}`;
-      navigator.clipboard.writeText(shareText).then(() => {
-        alert("تم نسخ رابط الطلاب مع كلمة المرور:\n\n" + shareText);
-      });
-    }
-
-    function copyInstantSyncLink() {
-      const currentStudentPass = document.getElementById("adminStudentPassEdit").value.trim() || STUDENT_PASSWORD;
-      const payload = btoa(unescape(encodeURIComponent(JSON.stringify({ q: questions, p: currentStudentPass }))));
-      const syncUrl = `${window.location.origin}${window.location.pathname}?sync=${payload}`;
-      const shareText = `رابط الاختبارات المحدّث (منصة مالك الطبية):\n${syncUrl}\nكلمة مرور الطلاب: ${currentStudentPass}`;
-      navigator.clipboard.writeText(shareText).then(() => {
-        alert("تم نسخ الرابط المحدّث بالأسئلة الجديدة! أي طالب يفتحه ستظهر له الأسئلة فوراً دون الحاجة لـ GitHub.");
+      const text = `منصة مالك الطبية للاختبارات:\n${cleanUrl}\nكلمة مرور الطلاب: ${currentStudentPass}`;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("تم نسخ الرابط مع كلمة مرور الطلاب:\n\n" + text);
       });
     }
 
@@ -401,11 +382,10 @@
       alert("تم حفظ المفتاح في متصفحك بنجاح!");
     }
 
-    // النشر المباشر إلى GitHub API من المنصة
     async function publishDirectlyToGitHub() {
       const token = localStorage.getItem("malek_gh_token") || document.getElementById("ghTokenInput").value.trim();
       if (!token) {
-        alert("يرجى إدخال مفتاح GitHub Token أولاً، أو استخدم زر 'نسخ رابط التحديث الفوري' لمشاركة الأسئلة مباشرة بدون مفتاح.");
+        alert("يرجى لصق مفتاح GitHub Token في الخانة بالأعلى أولاً ثم الضغط على حفظ.");
         return;
       }
 
@@ -454,7 +434,7 @@
           })
         });
 
-        if (!putRes.ok) throw new Error("فشل رفع التحديثات.");
+        if (!putRes.ok) throw new Error("فشل رفع التحديثات إلى GitHub.");
 
         STUDENT_PASSWORD = newStudentPass;
         localStorage.removeItem("malek_admin_draft_questions");
@@ -554,7 +534,7 @@
           cls += "option-selected";
         }
         return `
-          <button onclick="selectOption(${idx})" ${showInstant ? "disabled" : ""} class="${cls}">
+          <button type="button" onclick="selectOption(${idx})" ${showInstant ? "disabled" : ""} class="${cls}">
             <span class="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-sm font-bold text-orange-400 shrink-0">${letters[idx]}</span>
             <span>${opt}</span>
           </button>
@@ -581,7 +561,7 @@
         if (flaggedSet.has(i)) bg = "bg-amber-600 text-white border-amber-500";
         else if (userAnswers[i] !== undefined) bg = "bg-blue-700 text-white border-blue-500";
         if (i === currentIdx) bg += " ring-2 ring-orange-400";
-        return `<button onclick="jumpTo(${i})" class="w-8 h-8 rounded-lg border text-xs font-bold ${bg}">${i + 1}</button>`;
+        return `<button type="button" onclick="jumpTo(${i})" class="w-8 h-8 rounded-lg border text-xs font-bold ${bg}">${i + 1}</button>`;
       }).join("");
     }
 
@@ -656,7 +636,7 @@
       localStorage.setItem("malek_admin_draft_questions", JSON.stringify(questions));
       e.target.reset();
       renderAdminList();
-      alert("تمت إضافة السؤال للقائمة! اضغط 'نشر التعديلات للطلاب فوراً' أو انسخ رابط التحديث الفوري.");
+      alert("تمت إضافة السؤال للقائمة! اضغط الآن على 'نشر التعديلات للطلاب فوراً'.");
     }
 
     function deleteQuestion(idx) {
@@ -673,7 +653,7 @@
             <span class="text-xs text-orange-400 font-bold">${q.model}</span>
             <p class="text-sm font-semibold text-white mt-1">${i + 1}. ${q.text}</p>
           </div>
-          <button onclick="deleteQuestion(${i})" class="text-xs px-2.5 py-1 rounded bg-red-900/60 text-red-200 hover:bg-red-800 shrink-0">حذف</button>
+          <button type="button" onclick="deleteQuestion(${i})" class="text-xs px-2.5 py-1 rounded bg-red-900/60 text-red-200 hover:bg-red-800 shrink-0">حذف</button>
         </div>
       `).join("");
     }
